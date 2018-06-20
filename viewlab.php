@@ -19,7 +19,7 @@
 <body>
                   <div class="wrapper">
        <?php include "navbar.php" ;?>
-    <div class="container" id="container">
+    <div class="container-fluid row" id="container">
     <div class="page-header">
     <h1>LABS</h1>
     </div>

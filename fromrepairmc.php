@@ -93,7 +93,7 @@
 <body>
                      <div class="wrapper">
          <?php include "navbar.php" ;?>
-    <div class="container" id="container">
+    <div class="container-fluid row" id="container">
     <div class="page-header">
     <h1>REPAIR MACHINE</h1>
     </div>
@@ -105,7 +105,7 @@
     }
     ?>
 
-    <form method="POST" action="fromrepairmc.php">
+    <form method="POST" action="fromrepairmc.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>

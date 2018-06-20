@@ -61,7 +61,7 @@
 <body>
     <div class="wrapper">
     <?php include "navbar.php" ;?>
-        <div class="container row" id="content">
+        <div class="container-fluid row" id="content">
         <div class="page-header">
         <h1>ADD LAB</h1>
         </div>

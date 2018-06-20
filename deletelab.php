@@ -62,7 +62,7 @@
             <div class="wrapper">
             <!-- Sidebar Holder -->
                 <?php include "navbar.php" ;?>
-    <div class="container" id="content">
+    <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>DELETE LAB</h1>
     </div>
@@ -74,7 +74,7 @@
     }
     ?>
 
-    <form method="POST" action="deletelab.php">
+    <form method="POST" action="deletelab.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Lab Name </span>
