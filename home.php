@@ -67,6 +67,11 @@
             <a href="viewmchistory.php" class="btn btn-info">View Computer History</a>
         </p>
         </div>
+        <div>
+             <p>
+            <a href="complaint_form.php" class="btn btn-info">Register Complaint</a>
+        </p>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

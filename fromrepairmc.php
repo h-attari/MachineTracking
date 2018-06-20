@@ -11,9 +11,9 @@
         return;
     }
 
-    if(isset($_POST['mac_addr']) )
+    if(isset($_POST['mac_addr']))
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['date']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 || strlen($_POST['lab']) < 1 )
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: fromrepairmc.php');
@@ -21,6 +21,7 @@
         }
         else
         {
+            $_POST['date']=date('y-m-d',strtotime($_POST['date']));
             $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
             $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,18 +33,11 @@
             }
             $mid = $row['machine_id'];
 
-            $stmt = $pdo->prepare('SELECT * FROM lab WHERE name = :lab');
-            $stmt->execute(array(':lab' => $_POST['lab']));
+            $stmt = $pdo->prepare('SELECT * FROM complaint_book WHERE machine_id = :mac_addr AND remarks IS NULL');
+            $stmt->execute(array(':mac_addr' => $mid));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row === FALSE)
-            {
-                $_SESSION['error'] = "Invalid LAB NAME";
-                header('Location: fromrepairmc.php');
-                return;
-            }
-            $lid = $row['lab_id'];
-
-
+            $cbid = $row['complaint_book_id'];
+ 
             $stmt = $pdo->prepare('SELECT COUNT(*) FROM repair_history WHERE machine_id = :mid');
             $stmt->execute(array(':mid' => $mid));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -53,11 +47,11 @@
                  $stmt = $pdo->prepare('UPDATE machine SET state = "ACTIVE" WHERE machine_id = :mid');
                     $stmt->execute(array(':mid' => $mid));
 
-                $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, "0000-00-00")');
-                    $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date']));
-
                 $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = "0000-00-00"');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => $_POST['date'], ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
+
+                $stmt = $pdo->prepare('UPDATE complaint_book SET remarks = :remarks WHERE complaint_book_id = :cbid');
+                    $stmt->execute(array(':remarks' => $_POST['fault'], ':cbid' => $cbid));
 
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
                 header('Location: home.php');
@@ -95,7 +89,7 @@
          <?php include "navbar.php" ;?>
     <div class="container" id="container">
     <div class="page-header">
-    <h1>REPAIR MACHINE</h1>
+    <h1>MACHINE Repaired</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -112,20 +106,16 @@
     <input type="text" name="mac_addr" class="form-control"> </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">DATE (yyyy-mm-dd) </span>
-    <input type="text" name="date" class="form-control"> </div><br/>
+    <span class="input-group-addon">DATE </span>
+    <input type="date" name="date" class="form-control" required> </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">FAULT </span>
+    <span class="input-group-addon">Remark </span>
     <input type="text" name="fault" class="form-control"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">COST OF REPAIR </span>
     <input type="text" name="cost" class="form-control"> </div><br/>
-
-    <div class="input-group">
-    <span class="input-group-addon">LAB NAME </span>
-    <input type="text" name="lab" class="form-control"> </div><br/>
 
     <input type="submit" value="Place Machine" class="btn btn-info">
     <input type="submit" name="cancel" value="Cancel" class="btn btn-info">

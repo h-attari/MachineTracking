@@ -13,7 +13,7 @@
 
     if(isset($_POST['mac_addr']) )
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['date']) < 1 )
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['workfor']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: gorepairmc.php');
@@ -21,6 +21,7 @@
         }
         else
         {
+            $_POST['date']=date('y-m-d',strtotime($_POST['date']));
             $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
             $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,6 +51,9 @@
 
                 $stmt = $pdo->prepare('INSERT INTO repair_history (machine_id, initial_date, final_date) VALUES (:mid, :idate, "0000-00-00")');
                     $stmt->execute(array(':mid' => $mid, ':idate' => $_POST['date']));
+
+                $stmt = $pdo->prepare('UPDATE complaint_book SET work_for = :wf WHERE machine_id = :mid AND work_for IS NULL');
+                $stmt->execute(array(':mid' => $mid, ':wf' => $_POST['workfor']));
 
                 $_SESSION['success'] = "Machine sent to Repair Successfully";
                 header('Location: home.php');
@@ -103,11 +107,18 @@
     <input type="text" name="mac_addr" class="form-control"> </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">DATE (yyyy-mm-dd) </span>
-    <input type="text" name="date" class="form-control"> </div><br/>
+    <span class="input-group-addon">DATE</span>
+    <input type="date" name="date" class="form-control" required> </div><br/>
+
+
+    <div class="input-group">
+    <span class="input-group-addon">Work For</span>
+    <input type="text" name="workfor" class="form-control" required> </div><br/>
 
     <input type="submit" value="Repair Machine" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <div class="col-xs-3 col-xs-offset-1">
+          <a class ="link-no-format" href="home.php"><div class="btn btn-danger">Cancel</div></a>
+      </div>
     </form>
 
     </div>
