@@ -63,7 +63,8 @@
                    <div class="wrapper">
                 <?php include "navbar.php" ;?>
 
-    <div class="container" id="content">
+    <div class="container-fluid row" id="content">
+
     <div class="page-header">
     <h1>ADD MACHINE</h1>
     </div>
@@ -75,7 +76,7 @@
     }
     ?>
 
-    <form method="POST" action="addmc.php">
+    <form method="POST" action="addmc.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
@@ -93,7 +94,7 @@
     <span class="input-group-addon">Price of Purchase </span>
     <input type="text" name="price" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">Date of Purchase (yyyy-mm-dd)</span>
+    <span class="input-group-addon">Date of Purchase</span>
     <input type="date" name="dop" class="form-control"> </div><br/>
 
 

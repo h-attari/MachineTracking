@@ -65,19 +65,19 @@
     }
     ?>
     <div class="row">
-        <p class ="col-xs-12"style="font-size:22px">Please Log In</p>
+
+        <p class ="col-xs-12"style="font-size:22px">Please Log In</p><br>
+        <div class="col-xs-4">    
             <form method="POST" action="index.php">
-            <div class="col-xs-4">
-            <div class="input-group">
-            <span class="input-group-addon">Password</span>
-            <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
+                <div class="input-group">
+                <span class="input-group-addon">Password</span>
+                <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
+                <br>
             </div>
             <br>
-        </div>
-        <div class="col-xs-3">
             <input type="submit" value="Log In" class="btn btn-info">
-        </div>
             </form>
+        </div>
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

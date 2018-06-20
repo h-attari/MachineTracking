@@ -83,7 +83,7 @@
 <body>
             <div class="wrapper">
                 <?php include "navbar.php" ;?>  
-    <div class="container" id="content">
+    <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>POSITION MACHINE</h1>
     </div>
@@ -95,7 +95,7 @@
     }
     ?>
 
-    <form method="POST" action="posmc.php">
+    <form method="POST" action="posmc.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>

@@ -61,7 +61,7 @@
 <body>
     <div class="wrapper">
     <?php include "navbar.php" ;?>
-        <div class="container" id="content">
+      <div class="container-fluid row" id="content">
         <div class="page-header">
         <h1>ADD LAB</h1>
         </div>
@@ -72,7 +72,7 @@
             unset($_SESSION['error']);
         }
         ?>
-
+        <div class="col-xs-4">
         <form method="POST" action="addlab.php">
 
         <div class="input-group">
@@ -84,6 +84,7 @@
         <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
         </form>
 
+    </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
