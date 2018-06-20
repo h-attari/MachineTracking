@@ -72,6 +72,10 @@
              <p>
             <a href="complaint_form.php" class="btn btn-info">Register Complaint</a>
         </p>
+        <br>
+        <p>
+            <a href="request_form.php" class="btn btn-info">Request for Computer Systems</a>
+        </p>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
