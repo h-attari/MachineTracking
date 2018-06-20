@@ -42,6 +42,7 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="style5.css">
 
     <style>
         .input-group-addon {
@@ -51,8 +52,9 @@
     </style>
 </head>
 <body>
-    <div class="container">
-    <div class="page-header">
+
+    <div class="wrapper" id="add-nav">
+    <?php include "navbar.php" ;?>
     <h1>Machine Tracking</h1>
     </div>
     <?php
@@ -62,20 +64,24 @@
         unset($_SESSION['error']);
     }
     ?>
-    <p style="font-size:22px">Please Log In</p>
-    <form method="POST" action="index.php">
-    
-    <div class="input-group">
-    <span class="input-group-addon">Password</span>
-    <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
+    <div class="row">
+        <p class ="col-xs-12"style="font-size:22px">Please Log In</p><br>
+        <div class="col-xs-4">    
+            <form method="POST" action="index.php">
+                <div class="input-group">
+                <span class="input-group-addon">Password</span>
+                <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
+                <br>
+            </div>
+            <br>
+            <input type="submit" value="Log In" class="btn btn-info">
+            </form>
+        </div>
     </div>
-    <br>
-    <input type="submit" value="Log In" class="btn btn-info">
-
-    </form>
-
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    </script>
 </body>
 </html>
