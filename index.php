@@ -65,6 +65,7 @@
     }
     ?>
     <div class="row">
+
         <p class ="col-xs-12"style="font-size:22px">Please Log In</p><br>
         <div class="col-xs-4">    
             <form method="POST" action="index.php">

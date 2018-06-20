@@ -64,6 +64,7 @@
                 <?php include "navbar.php" ;?>
 
     <div class="container-fluid row" id="content">
+
     <div class="page-header">
     <h1>ADD MACHINE</h1>
     </div>

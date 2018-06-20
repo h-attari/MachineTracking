@@ -18,6 +18,7 @@
         <div class="wrapper">
      <?php include "navbar.php" ;?>
            <div class="container-fluid row" id="content">
+
         <div class="page-header">
         <h1>MACHINE TRACKING</h1>
         </div>
@@ -65,6 +66,11 @@
         <br>
         <p>
             <a href="viewmchistory.php" class="btn btn-info">View Computer History</a>
+        </p>
+        </div>
+        <div>
+             <p>
+            <a href="complaint_form.php" class="btn btn-info">Register Complaint</a>
         </p>
         </div>
     </div>

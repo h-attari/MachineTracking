@@ -63,7 +63,8 @@
             <div class="wrapper">
             <!-- Sidebar Holder -->
        <?php include "navbar.php" ;?>
-    <div class="container-fluid row" id="content">
+   <div class="container-fluid row" id="content">
+
     <div class="page-header">
     <h1>DELETE MACHINE</h1>
     </div>

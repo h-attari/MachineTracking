@@ -61,7 +61,7 @@
 <body>
     <div class="wrapper">
     <?php include "navbar.php" ;?>
-        <div class="container-fluid row" id="content">
+      <div class="container-fluid row" id="content">
         <div class="page-header">
         <h1>ADD LAB</h1>
         </div>
@@ -83,8 +83,8 @@
         <input type="submit" value="Add Lab" class="btn btn-info">
         <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
         </form>
-    </div>
 
+    </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
