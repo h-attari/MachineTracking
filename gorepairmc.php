@@ -105,8 +105,19 @@
     <form method="POST" action="gorepairmc.php" class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" class="form-control"> </div><br/>
+    <span class="input-group-addon">MAC ADDRESS </span>    
+    <select name="mac_addr">
+        <?php
+            $qr=$pdo->query("SELECT MAC_ADDR from machine where state='ACTIVE'");
+            while($row=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo $row['MAC_ADDR'];
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">DATE</span>

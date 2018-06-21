@@ -97,13 +97,33 @@
         echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
         unset($_SESSION['error']);
     }
+
+         $checkinactive=$pdo ->query("SELECT count(*) from machine where state='INACTIVE'");
+        $rowcheck=$checkinactive->fetch(PDO::FETCH_ASSOC);
+        if($rowcheck['count(*)']==0)
+        {
+            $_SESSION['error']="None of the machines are sent for repairing";
+            header('Location: home.php');
+            return;
+        }
     ?>
 
     <form method="POST" action="fromrepairmc.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" class="form-control"> </div><br/>
+    <select>
+        <?php
+            $qr=$pdo->query("SELECT MAC_ADDR from machine where state='INACTIVE'");
+            while($row=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo $row['MAC_ADDR'];
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">DATE </span>
