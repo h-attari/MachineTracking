@@ -2,7 +2,7 @@
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3>Machine Tracking</h3>
+                    <a href="home.php"><h3>Machine Tracking</h3></a>
                 </div>
 
                 <ul class="list-unstyled components">
