@@ -26,6 +26,7 @@
                 $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
                 $stmt->execute(array(':mac_addr' => $i));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $mid=$row['machine_id'];
                 if($row['COUNT(*)'] === '0')
                 {
                     $_SESSION['error'] .= "Unable to delete machine, ".$i." Machine does not exist";
@@ -39,8 +40,10 @@
                     header('Location: posmc.php');
                     return;
                 }
-
-                else
+                $stmt = $pdo->prepare('SELECT COUNT(*) FROM position WHERE machine_id = :mid');
+                $stmt->execute(array(':mid' => $mid));
+                $row2=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($row2['COUNT(*)']==='0')
                 {
                     $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
                     $stmt->execute(array(':mac_addr' => $i));
@@ -56,6 +59,10 @@
                     $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
                         $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['from'], ':fdate' => $_POST['to']));
                     $_SESSION['success'] .= $i."Machine Positioned Successfully";
+                }
+                else
+                {
+                    $_SESSION['error']="Machine already exists there";
                 }
 
             }
