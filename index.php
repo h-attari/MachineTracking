@@ -2,34 +2,44 @@
     session_start();
     require_once "pdo.php";
 
-    $pass="alphanumeric";
-
     if(isset($_POST['cancel']))
     {
         header("Location: index.php");
         return;
     }
 
-    if(isset($_POST['pass']))
+    $salt='new_ton56*';
+
+    if(isset($_POST['id']) && isset($_POST['pass']))
     {
         unset($_SESSION['id']);
-        if ( strlen($_POST['pass']) < 1 )
+        if ( strlen($_POST['id']) < 1 || strlen($_POST['pass']) < 1 )
         {
-            $_SESSION['error'] = "Password is required to Log In";
-            header('Location: login.php');
+            $_SESSION['error'] = "User name and password are required";
+            header('Location: index.php');
             return;
         }
         else
         {
-            if($_POST['pass']===$pass)
-            {
-                $_SESSION['id']=1;
-                header("Location: home.php");
-            }
-            else
-            {
-                $_SESSION['error']="Invalid Password";
-            }
+                $check = hash('md5', $salt.$_POST['pass']);
+                $stmt = $pdo->prepare('SELECT * FROM member WHERE id = :id AND pass_word = :pw');
+                $stmt->execute(array(':id' => $_POST['id'], ':pw' => $check));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row !== false)
+                {
+                    $_SESSION['id'] = $row['id'];
+
+                    header("Location: home.php");
+                    return;
+                }
+                else
+                {
+                    $_SESSION['error'] = "Incorrect ID or Password";
+                    header("Location: index.php");
+                    return;
+                }
+            
+            
         }
     }
 ?>
@@ -66,9 +76,15 @@
     ?>
     <div class="row">
 
-        <p class ="col-xs-12"style="font-size:22px">Please Log In</p><br>
+        <p class ="col-xs-12"style="font-size:22px">Log In</p><br>
         <div class="col-xs-4">    
             <form method="POST" action="index.php">
+                <div class="input-group">
+                <span class="input-group-addon">ID</span>
+                <input type="text" name="id" id="id" class="form-control" placeholder="Enter your id">
+                <br>
+            </div>
+            <br>
                 <div class="input-group">
                 <span class="input-group-addon">Password</span>
                 <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">

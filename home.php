@@ -76,6 +76,11 @@
         <p>
             <a href="request_form.php" class="btn btn-info">Request for Computer Systems</a>
         </p>
+        <p>
+            <a href="add_member.php" class="btn btn-info">Add Members</a>
+            <a href="view_member.php" class="btn btn-info">View Members</a>
+            <a href="delete_member.php" class="btn btn-info">Delete Members</a>
+        </p>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

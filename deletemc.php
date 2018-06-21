@@ -21,29 +21,26 @@
         }
         else
         {
-            $flag=0;
-            for($i=$_POST['mac_addr'];$i<=$_POST['mac_addr2'];$i++)
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+            $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row['COUNT(*)'] !== '0')
             {
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
-                $stmt->execute(array(':mac_addr' => $i));
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($row['COUNT(*)'] !== '0')
-                {
-                     $stmt = $pdo->prepare('DELETE FROM machine WHERE mac_addr = :mac_addr');
-                        $stmt->execute(array(':mac_addr' => $i));
-                    $_SESSION['success'].="Machine".$i." deleted Successfully\n";
-                }
-                else
-                {
-                    $_SESSION['error'] .= "Machine".$i." does not Exists\n";
-                    $flag++;
-                }
+                 $stmt = $pdo->prepare('DELETE FROM machine WHERE mac_addr = :mac_addr');
+                    $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+                $_SESSION['success'] = "The Machine was Deleted Successfully";
+                header('Location: home.php');
+                return;
             }
-            header('Location: home.php');
-            return;
+            else
+            {
+                $_SESSION['error'] = "Machine does not Exists";
+                    header('Location: deletemc.php');
+                    return;
+            }
+
         }
     }
-
 ?>
 <html>
 <head>
@@ -69,7 +66,7 @@
    <div class="container-fluid row" id="content">
 
     <div class="page-header">
-    <h1>DELETE MACHINE in range</h1>
+    <h1>DELETE MACHINE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -82,12 +79,8 @@
     <form method="POST" action="deletemc.php" class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" class="form-control" placeholder="Starting machine id"> </div><br/>
-
-    <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id"> </div><br/>
+    <span class="input-group-addon">MAC ADDRESS </span>
+    <input type="text" name="mac_addr" class="form-control"> </div><br/>
 
 
     <input type="submit" value="Delete Machine" class="btn btn-info">

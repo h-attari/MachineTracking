@@ -38,12 +38,13 @@
             unset($_SESSION['error']);
         }
         //echo('<p><a href="logout.php">Logout</a></p>');
-        $stmtcnt = $pdo->query("SELECT COUNT(*) FROM lab");
+        $stmtcnt = $pdo->query("SELECT COUNT(*) FROM lab ");
         $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
+
         if($row['COUNT(*)']!=='0')
         {
             $i=1;
-            $stmtread = $pdo->query("SELECT * FROM lab order by name");
+            $stmtread = $pdo->query("SELECT name FROM lab ORDER BY name");
             echo ("<table class=\"table table-striped\">
                 <tr> <th>S.no.</th><th>Lab Name</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
@@ -53,10 +54,7 @@
                 echo($i);
                 echo("</td>");
                 echo ("<td>");
-                //Ghanta Consistent
-                echo ("<a class='link-black' href='viewpcbylab.php?lab=".$row['lab_id'])."'>";
-                echo (htmlentities($row['name']));
-                echo ("</a>");
+                echo(htmlentities($row['name']));
                 echo ("</td>");
                 $i++;
             }
@@ -69,15 +67,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
-    <script>
-        $(document).readt(function(){
-            $('.labs').click()
-            {
-                <?php
-
-                ?>
-            }
-        });
-    </script>
 </body>
 </html>

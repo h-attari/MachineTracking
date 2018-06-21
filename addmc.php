@@ -32,17 +32,12 @@
             }
             else
             {
-                $mcid=($_POST['mac_addr']);
-                for($i = 0;$i<$_POST['qty'];$i++)
-                {
-                    $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
-                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state)');
-                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE"));
-                    $mcid++;
-                }
+                $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
+                $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state)');
+                    $stmt->execute(array(':mac_addr' => $_POST['mac_addr'], ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE"));
                 $_SESSION['success'] = "Machine Added Successfully";
-                        header('Location: home.php');
-                        return;
+                    header('Location: home.php');
+                    return;
             }
 
         }
@@ -85,9 +80,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" class="form-control"> </div>
-    <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
-    <br/>
+    <input type="text" name="mac_addr" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
     <input type="text" name="processor" class="form-control"> </div><br/>
@@ -103,11 +96,8 @@
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
     <input type="date" name="dop" class="form-control"> </div><br/>
-    <span class="input-group">
-        <span class="input-group-addon">Enter Quantity</span>
-        <input type="number" name="qty" min="1">
-    </span>
-    <br>
+
+
     <input type="submit" value="Add Machine" class="btn btn-info">
     <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>

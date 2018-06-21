@@ -21,54 +21,47 @@
         }
         else
         {
-            for($i=$_POST['mac_addr'];$i<=$_POST['mac_addr2'];$i++)
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+            $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row['COUNT(*)'] === '0')
             {
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
-                $stmt->execute(array(':mac_addr' => $i));
+                $_SESSION['error'] = "This Machine does not exist";
+                header('Location: posmc.php');
+                return;
+            }
+
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM lab WHERE name = :lab');
+            $stmt->execute(array(':lab' => $_POST['lab']));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row['COUNT(*)'] === '0')
+            {
+                $_SESSION['error'] = "This Lab does not exist";
+                header('Location: posmc.php');
+                return;
+            }
+
+            else
+            {
+                $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
+                $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $mid=$row['machine_id'];
-                if($row['COUNT(*)'] === '0')
-                {
-                    $_SESSION['error'] .= "Unable to delete machine, ".$i." Machine does not exist";
-                }
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM lab WHERE name = :lab');
+                $mid = $row['machine_id'];
+
+                $stmt = $pdo->prepare('SELECT * FROM lab WHERE name = :lab');
                 $stmt->execute(array(':lab' => $_POST['lab']));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($row['COUNT(*)'] === '0')
-                {
-                    $_SESSION['error'] = "This Lab does not exist";
-                    header('Location: posmc.php');
+                $lid = $row['lab_id'];
+
+
+                $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
+                    $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['from'], ':fdate' => $_POST['to']));
+                $_SESSION['success'] = "Machine Positioned Successfully";
+                    header('Location: home.php');
                     return;
-                }
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM position WHERE machine_id = :mid');
-                $stmt->execute(array(':mid' => $mid));
-                $row2=$stmt->fetch(PDO::FETCH_ASSOC);
-                if($row2['COUNT(*)']==='0')
-                {
-                    $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
-                    $stmt->execute(array(':mac_addr' => $i));
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $mid = $row['machine_id'];
-
-                    $stmt = $pdo->prepare('SELECT * FROM lab WHERE name = :lab');
-                    $stmt->execute(array(':lab' => $_POST['lab']));
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $lid = $row['lab_id'];
-
-
-                    $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
-                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['from'], ':fdate' => $_POST['to']));
-                    $_SESSION['success'] .= $i."Machine Positioned Successfully";
-                }
-                else
-                {
-                    $_SESSION['error']="Machine already exists there";
-                }
-
             }
+
         }
-        header('Location: home.php');
-        return;
     }
 ?>
 <html>
@@ -105,11 +98,8 @@
     <form method="POST" action="posmc.php" class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" class="form-control" placeholder="Starting Machine ID"> </div><br/>
-    <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
+    <span class="input-group-addon">MAC ADDRESS </span>
+    <input type="text" name="mac_addr" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">LAB NAME </span>
     <input type="text" name="lab" class="form-control"> </div><br/>
