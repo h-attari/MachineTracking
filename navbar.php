@@ -37,7 +37,7 @@
                         <a href="viewmchistory.php">Computer History</a>
                     </li>
                     <li class="">
-                        <a href="#memberemenu" data-toggle="collapse" aria-expanded="false">Members</a>
+                        <a href="#membermenu" data-toggle="collapse" aria-expanded="false">Members</a>
                         <ul class="collapse list-unstyled" id="membermenu">
                             <li><a href="add_member.php">Add Member</a></li>
                             <li><a href="view_member.php">View Members</a></li>
