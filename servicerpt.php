@@ -11,24 +11,47 @@
         return;
     }
 
-    if(isset($_POST['name']) )
+    if(isset($_POST['department']) )
     {
+        /*
         if ( strlen($_POST['name']) < 1 || strlen($_POST['department']) < 1 || strlen($_POST['purpose']) < 1|| strlen($_POST['quantity']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
-            header('Location: request_form.php');
+            header('Location: servicerpt.php');
             return;
         }
-        else
+        */
+       // else
         {
-                 
+                 $stmt2=$pdo->prepare('SELECT lab_id from lab where name = :labid');
+                 $stmt2->execute( array(':labid' => $_POST['labid'] ));
+                 $row=$stmt2->fetch(PDO::FETCH_ASSOC);
+                 $labid=$row['lab_id'];
                 
-                $date=date('y-m-d');
-                $stmt = $pdo->prepare('INSERT INTO transfer_request(date_of_request, name, department, purpose, processor, ram, hdd, os, quantity) VALUES (:dat, :name, :department, :purpose, :processor, :ram, :hdd, :os, :quantity)');
-                    $stmt->execute(array(':dat' => date('y-m-d'), ':name' => $_POST['name'], ':department' => $_POST['department'], ':purpose' => $_POST['purpose'], ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':hdd' => $_POST['hdd'], ':os' => $_POST['os'], ':quantity' => $_POST['quantity']));
-                $_SESSION['success'] = "Request Sent Successfully";
-                    header('Location: index.php');
-                    return;
+                $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment) VALUES (:dept, :purpose, :labid, :dat)');
+                    $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d') ));
+                 for($i =1 ;$i<=$_POST['totalqty'];$i++)
+                 {
+                    $getmid=$pdo->prepare('SELECT machine_id,COUNT(*) from machine where MAC_ADDR = :mid');
+                    $getmid->execute( array(':mid' => $_POST["machine".$i] ));
+                    $row=$getmid->fetch(PDO::FETCH_ASSOC);
+                    if($row['COUNT(*)']!=0)
+                    {
+                        $mid=$row['machine_id'];
+                        $dat=date('yyyy-mm-dd');
+                        $stmt3= $pdo->prepare("UPDATE position set final_date=". $dat." where machine_id = :mid and final_date='0000-00-00'");
+                        $stmt3->execute(array(':mid' => $mid ));
+                        $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
+                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => $dat,':fdate' =>'0000-00-00'));
+                        $_SESSION['success'] .= "Machine".$macid." Sent Successfully";
+                    }
+                    else
+                    {
+                        $_SESSION['error']+="Unable to delete machine ".macid.". Machine does not exsits";
+                    }
+                }
+                        header('Location: home.php');
+                        return;
             
 
         }
@@ -56,7 +79,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Complaint</h1>
+    <h1>System Transfer Report</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -64,24 +87,19 @@
         echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
         unset($_SESSION['error']);
     }
-    if ( isset($_SESSION['success']))
-        {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
-        }
     ?>
 
-    <form method="POST" action="request_form.php">
+    <form method="POST" action="servicerpt.php">
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" class="form-control"> </div><br/>
+    <input type="text" name="department" class="form-control" required> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" class="form-control"> </div><br/>
+    <input type="text" name="purpose" class="form-control" required> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">Labno</span>
-    <select>
+    <span class="input-group-addon">Lab no.</span>
+    <select name="labid" required>
         <?php
             $read=$pdo->query('select name,lab_id from lab order by name');
             while($row = $read->fetch(PDO::FETCH_ASSOC))
@@ -94,12 +112,11 @@
             }
         ?>
     </select>   
-    </div>
-    <div class="input-group">
-    <span class="input-group-addon">Quantity</span>
-    <input type="text" name="quantity" class="form-control"> </div><br/>
-    
-    
+    </div><br>
+        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" min=1 >
+           <a class="link-black" href="#" onclick="addtags()">Add Machines</a>
+            <br>
+        <div id="add-machine" class="input-group"></div>
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
     <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
@@ -110,5 +127,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript">
+    function addtags()
+           {
+               var total=document.getElementById("totalqty").value;
+               var addimg=document.getElementById("add-machine");
+                while (addimg.hasChildNodes()) 
+               {
+                   addimg.removeChild(addimg.lastChild);
+               }   
+                  for (i=1;i<=total;i++)
+                  {
+                     addimg.appendChild(document.createTextNode("mac" + i));
+                   var ipt = document.createElement("input");
+                   ipt.type = "text";
+                   ipt.name = "machine"+ i;
+                   ipt.class="form-control";
+     //              addimg.appendChild(ipt); 
+   //                addimg.appendChild(document.createElement("br"));
+                   document.getElementById("add-machine").appendChild(ipt);
+                    document.getElementById("add-machine").innerHTML+='<br><br>';
+             }  
+           }
+       </script>
+    </script>
 </body>
 </html>
