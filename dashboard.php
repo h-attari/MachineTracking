@@ -77,6 +77,66 @@
             }
             echo('</table>');
         }
+
+            $stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
+        $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
+
+        if($row['COUNT(*)']!=='0')
+        {
+            echo "<h2>Transfer Requests</h2>";
+            $i=1;
+            $stmtread = $pdo->query("SELECT * FROM transfer_request");
+            echo ("<table class=\"table table-striped\">
+                <tr> <th>S.no.</th><th>Date of Request</th><th>Name</th><th>Department</th><th>Purpose</th><th>Processor</th><th>Ram</th><th>HDD</th><th>OS</th><th>Quantity</th><th>Action</th> </tr>");
+            while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
+            {
+                $stmtread2 = $pdo->prepare("SELECT * FROM system_transfer_report where trid = :trid");
+                $stmtread2->execute(array(':trid' => $row['transfer_request_id']));
+                $row2 = $stmtread2->fetch(PDO::FETCH_ASSOC);
+                if($row2=== FALSE)
+                {
+                    echo ("<tr>");
+                echo ("<td>");
+                echo($i);
+                echo("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['date_of_request']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['name']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['department']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['purpose']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['processor']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['ram']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['hdd']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['os']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['quantity']));
+                echo ("</td>");
+                echo ("<td>");
+                echo('<a href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
+                echo ("</td>");
+                
+                $i++;    
+                }
+                
+            }
+            echo('</table>');
+        }
+
             }
         ?>
 
