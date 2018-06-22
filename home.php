@@ -81,6 +81,9 @@
             <a href="view_member.php" class="btn btn-info">View Members</a>
             <a href="delete_member.php" class="btn btn-info">Delete Members</a>
         </p>
+        <p>
+            <a href="servicerpt.php" class="btn btn-info">Service Report</a>
+        </p>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
