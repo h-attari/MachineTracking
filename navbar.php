@@ -22,6 +22,7 @@
                             <li><a href="deletemc.php">Delete Machine</a></li>
                             <li><a href="upgrademc.php">Upgrade Machine</a></li>
                             <li><a href="viewmc.php">View Machine</a></li>
+                            <li><a href="posmc.php">Position New Machines</a></li>
                         </ul>
                     </li>
                     <li class="">
@@ -34,6 +35,14 @@
 
                     <li>
                         <a href="viewmchistory.php">Computer History</a>
+                    </li>
+                    <li class="">
+                        <a href="#memberemenu" data-toggle="collapse" aria-expanded="false">Members</a>
+                        <ul class="collapse list-unstyled" id="membermenu">
+                            <li><a href="add_member.php">Add Member</a></li>
+                            <li><a href="view_member.php">View Members</a></li>
+                            <li><a href="delete_member.php">Delete Member</a></li>
+                        </ul>
                     </li>
 
                     <li>
