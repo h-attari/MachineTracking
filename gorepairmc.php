@@ -10,10 +10,13 @@
         header("Location: home.php");
         return;
     }
-
+    if(isset($_GET['mc_id']))
+    {
+        $mac_addr=$_GET['mc_id'];
+    }
     if(isset($_POST['mac_addr']) )
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['workfor']) < 1 )
+        if ( strlen($_POST['mac_addr']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: gorepairmc.php');
@@ -53,7 +56,7 @@
                     $stmt->execute(array(':mid' => $mid, ':idate' => $_POST['date']));
 
                 $stmt = $pdo->prepare('UPDATE complaint_book SET work_for = :wf WHERE machine_id = :mid AND work_for IS NULL');
-                $stmt->execute(array(':mid' => $mid, ':wf' => $_POST['workfor']));
+                $stmt->execute(array(':mid' => $mid, ':wf' => $_POST['work_for']));
 
                 $_SESSION['success'] = "Machine sent to Repair Successfully";
                 header('Location: home.php');
@@ -111,17 +114,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <select name="mac_addr">
-        <?php
-            $qr=$pdo->query("SELECT MAC_ADDR from machine where state='ACTIVE'");
-            while($row=$qr->fetch(PDO::FETCH_ASSOC))
-            {
-                echo '<option>';
-                echo $row['MAC_ADDR'];
-                echo '</option>';
-            }
-         ?>
-    </select>
+    <input type="text" name="mac_addr" value="<?= $mac_addr ?>">
     </div><br/>
 
     <div class="input-group">
@@ -131,8 +124,18 @@
 
     <div class="input-group">
     <span class="input-group-addon">Work For</span>
-    <input type="text" name="workfor" class="form-control" required> </div><br/>
-
+    <select name=work_for>
+        <?php
+            $qr=$pdo->query("SELECT * from member WHERE member_id <> 0");
+            while($row=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value = '.$row['member_id'].'>';
+                echo ($row['first_name'] . " " . $row['last_name']);
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
     <input type="submit" value="Repair Machine" class="btn btn-info">
     <div class="col-xs-3 col-xs-offset-1">
           <a class ="link-no-format" href="home.php"><div class="btn btn-danger">Cancel</div></a>

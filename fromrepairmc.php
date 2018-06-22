@@ -117,12 +117,12 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <select>
+    <select name="mac_addr">
         <?php
             $qr=$pdo->query("SELECT MAC_ADDR from machine where state='INACTIVE'");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))
             {
-                echo '<option>';
+                echo '<option value= '.$row['MAC_ADDR'].'>';
                 echo $row['MAC_ADDR'];
                 echo '</option>';
             }

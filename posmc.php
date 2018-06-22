@@ -22,7 +22,7 @@
         {
             for($i=$_POST['mac_addr'];$i<=$_POST['mac_addr2'];$i++)
             {
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+                $stmt = $pdo->prepare('SELECT COUNT(*),machine_id FROM machine WHERE MAC_ADDR = :mac_addr');
                 $stmt->execute(array(':mac_addr' => $i));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 $mid=$row['machine_id'];
@@ -39,10 +39,10 @@
                     header('Location: posmc.php');
                     return;
                 }
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM position WHERE machine_id = :mid');
-                $stmt->execute(array(':mid' => $mid));
-                $row2=$stmt->fetch(PDO::FETCH_ASSOC);
-                if($row2['COUNT(*)']==='0')
+                $stmtn = $pdo->prepare('SELECT COUNT(*) FROM position group by machine_id having machine_id = :mid');
+                $stmtn->execute(array(':mid' => $mid));
+                $row2=$stmtn->fetch(PDO::FETCH_ASSOC);
+                if($row2['COUNT(*)'] === '0')
                 {
                     $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
                     $stmt->execute(array(':mac_addr' => $i));
