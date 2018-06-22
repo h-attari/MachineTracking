@@ -10,8 +10,21 @@
         header("Location: index.php");
         return;
     }
-
-    if(isset($_POST['department']) )
+    if(!isset($_POST['department']))
+    {
+                  $autoc=$pdo->prepare("SELECT department,purpose from transfer_request where transfer_request_id = :tid");
+                 $autoc->execute(array(':tid'=>$_GET['id']));
+                 $rowauto=$autoc->fetch(PDO::FETCH_ASSOC);
+                 $dept=$rowauto['department'];
+                 $pur=$rowauto['purpose']; 
+    }
+    if(!isset($_GET['id']))
+    {
+      $_SESSION['error']="Transfer Request not Found";
+    //  header("Location:home.php");
+     // return;
+    }
+    else if(isset($_POST['department']) )
     {
         /*
         if ( strlen($_POST['name']) < 1 || strlen($_POST['department']) < 1 || strlen($_POST['purpose']) < 1|| strlen($_POST['quantity']) < 1)
@@ -22,7 +35,7 @@
         }
         */
        // else
-        {
+
                  $stmt2=$pdo->prepare('SELECT lab_id from lab where name = :labid');
                  $stmt2->execute( array(':labid' => $_POST['labid'] ));
                  $row=$stmt2->fetch(PDO::FETCH_ASSOC);
@@ -54,8 +67,7 @@
                         return;
             
 
-        }
-    }
+      }
 ?>
 <html>
 <head>
@@ -93,10 +105,10 @@
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" class="form-control" required> </div><br/>
+    <input type="text" name="department" class="form-control" required value="<?= $dept ?>"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" class="form-control" required> </div><br/>
+    <input type="text" name="purpose" class="form-control" required value ="<?= $pur ?>"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Lab no.</span>
     <select name="labid" required>
@@ -113,7 +125,7 @@
         ?>
     </select>   
     </div><br>
-        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" min=1 >
+        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" min=1 required>
            <a class="link-black" href="#" onclick="addtags()">Add Machines</a>
             <br>
         <div id="add-machine" class="input-group"></div>
@@ -143,6 +155,8 @@
                    ipt.type = "text";
                    ipt.name = "machine"+ i;
                    ipt.class="form-control";
+                   var att=document.createAttribute("required");
+                   ipt.setAttributeNode(att);
      //              addimg.appendChild(ipt); 
    //                addimg.appendChild(document.createElement("br"));
                    document.getElementById("add-machine").appendChild(ipt);
