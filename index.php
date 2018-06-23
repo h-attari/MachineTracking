@@ -27,7 +27,7 @@
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row !== false)
                 {
-                    $_SESSION['id'] = $row['id'];
+                    $_SESSION['id'] = $row['member_id'];
 
                     header("Location: home.php");
                     return;

@@ -5,6 +5,10 @@
     {
         die('ACCESS DENIED');
     }
+    if( $_SESSION['id'] != '0' )
+    {
+        die('ACCESS DENIED');
+    }
     if(isset($_POST['cancel']))
     {
         header("Location: home.php");
@@ -114,7 +118,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <input type="text" name="mac_addr" value="<?= $mac_addr ?>">
+    <input type="text" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
     </div><br/>
 
     <div class="input-group">
@@ -124,7 +128,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Work For</span>
-    <select name=work_for>
+    <select name=work_for class="form-control">
         <?php
             $qr=$pdo->query("SELECT * from member WHERE member_id <> 0");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))

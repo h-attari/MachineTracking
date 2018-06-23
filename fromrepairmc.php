@@ -5,12 +5,19 @@
     {
         die('ACCESS DENIED');
     }
+    if( $_SESSION['id'] != '0' )
+    {
+        die('ACCESS DENIED');
+    }
     if(isset($_POST['cancel']))
     {
         header("Location: home.php");
         return;
     }
-
+    if(isset($_GET['mc_id']))
+    {
+        $mac_addr=$_GET['mc_id'];
+    }
     if(isset($_POST['mac_addr']))
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
@@ -32,13 +39,8 @@
                 return;
             }
             $mid = $row['machine_id'];
-
-            $stmt = $pdo->prepare('SELECT * FROM complaint_book WHERE machine_id = :mac_addr AND remarks IS NULL');
-            $stmt->execute(array(':mac_addr' => $mid));
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $cbid = $row['complaint_book_id'];
  
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM repair_history WHERE machine_id = :mid');
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM repair_history WHERE machine_id = :mid AND fault IS NULL');
             $stmt->execute(array(':mid' => $mid));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row['COUNT(*)'] !== '0')
@@ -49,9 +51,6 @@
 
                 $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = "0000-00-00"');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => $_POST['date'], ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
-
-                $stmt = $pdo->prepare('UPDATE complaint_book SET remarks = :remarks WHERE complaint_book_id = :cbid');
-                    $stmt->execute(array(':remarks' => $_POST['fault'], ':cbid' => $cbid));
 
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
                 header('Location: home.php');
@@ -116,18 +115,8 @@
     <form method="POST" action="fromrepairmc.php" class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS </span>
-    <select name="mac_addr">
-        <?php
-            $qr=$pdo->query("SELECT MAC_ADDR from machine where state='INACTIVE'");
-            while($row=$qr->fetch(PDO::FETCH_ASSOC))
-            {
-                echo '<option value= '.$row['MAC_ADDR'].'>';
-                echo $row['MAC_ADDR'];
-                echo '</option>';
-            }
-         ?>
-    </select>
+    <span class="input-group-addon">MAC ADDRESS </span>    
+    <input type="text" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
     </div><br/>
 
     <div class="input-group">
@@ -135,7 +124,7 @@
     <input type="date" name="date" class="form-control" required> </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">Remark </span>
+    <span class="input-group-addon">Fault </span>
     <input type="text" name="fault" class="form-control"> </div><br/>
 
     <div class="input-group">

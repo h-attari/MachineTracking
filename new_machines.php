@@ -4,6 +4,10 @@
     {
         die('ACCESS DENIED');
     }
+    if( $_SESSION['id'] != '0' )
+    {
+        die('ACCESS DENIED');
+    }
     require_once "pdo.php";
 ?>
 <html>

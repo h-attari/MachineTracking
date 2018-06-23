@@ -1,10 +1,7 @@
 <?php
     session_start();
     require_once "pdo.php";
-    if( !isset($_SESSION['id']) )
-    {
-        die('ACCESS DENIED');
-    }
+    
     if(isset($_POST['cancel']))
     {
         header("Location: index.php");

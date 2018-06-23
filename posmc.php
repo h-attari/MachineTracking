@@ -5,6 +5,10 @@
     {
         die('ACCESS DENIED');
     }
+    if( $_SESSION['id'] != '0' )
+    {
+        die('ACCESS DENIED');
+    }
     if(isset($_POST['cancel']))
     {
         header("Location: home.php");
@@ -39,7 +43,7 @@
                     header('Location: posmc.php');
                     return;
                 }
-                $stmtn = $pdo->prepare('SELECT COUNT(*) FROM position group by machine_id having machine_id = :mid');
+                $stmtn = $pdo->prepare('SELECT COUNT(*) FROM position WHERE machine_id = :mid');
                 $stmtn->execute(array(':mid' => $mid));
                 $row2=$stmtn->fetch(PDO::FETCH_ASSOC);
                 if($row2['COUNT(*)'] === '0')

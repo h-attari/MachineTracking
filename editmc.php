@@ -5,6 +5,10 @@
     {
         die('ACCESS DENIED');
     }
+    if( $_SESSION['id'] != '0' )
+    {
+        die('ACCESS DENIED');
+    }
     if(isset($_POST['cancel']))
     {
         header("Location: home.php");
