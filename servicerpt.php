@@ -48,9 +48,8 @@
                 
                 $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment,trid) VALUES (:dept, :purpose, :labid, :dat,:trid)');
                     $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d'),':trid'=>$_GET['id']));
+
                  for($i =1 ;$i<=$_POST['totalqty'];$i++)
-                        $dat=date('yyyy-mm-dd');
-                        $_SESSION['success'].=$dat;
                  {
                     $getmid=$pdo->prepare('SELECT machine_id,COUNT(*) from machine where MAC_ADDR = :mid and state=:act');
                     $getmid->execute( array(':mid' => $_POST["machine".$i],':act' => 'ACTIVE'));
@@ -58,10 +57,10 @@
                     $mid=$row['machine_id'];
                     if($row['COUNT(*)']!=0)
                     {
-                        $stmt3= $pdo->prepare("UPDATE position set final_date=". $dat." where machine_id = :mid and final_date='0000-00-00'");
-                        $stmt3->execute(array(':mid' => $mid ));
+                        $stmt3= $pdo->prepare("UPDATE position set final_date= :fdate WHERE machine_id = :mid AND final_date='0000-00-00'");
+                        $stmt3->execute(array(':mid' => $mid,':fdate'=>date('y-m-d') ));
                         $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
-                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => $dat,':fdate' =>'0000-00-00'));
+                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => date('y-m-d'),':fdate' =>'0000-00-00'));
                         $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
                     }
                     else
