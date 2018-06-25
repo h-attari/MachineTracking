@@ -120,7 +120,7 @@
                         echo(htmlentities($row['complaint_by']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
+                        echo('<a href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a href="deleterr.php?cb_id='.$row['complaint_book_id'].'">'. 'Delete' . '</a>');
                         echo ("</td>");
                         
                         $i++;

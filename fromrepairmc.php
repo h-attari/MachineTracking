@@ -52,6 +52,14 @@
                 $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = "0000-00-00"');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => $_POST['date'], ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
 
+                $stmtn = $pdo->prepare('SELECT * from position WHERE machine_id = :mid ORDER BY position_id DESC');
+                $stmtn->execute(array(':mid' => $mid));
+                $rown=$stmtn->fetch(PDO::FETCH_ASSOC);
+                $lid=$rown['lab_id'];
+
+                $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
+                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => "0000-00-00"));
+
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
                 header('Location: home.php');
                 return;

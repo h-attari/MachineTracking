@@ -29,14 +29,23 @@
                 }
                 $mid = $row['machine_id'];
                 
-                $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
+                $stmt = $pdo->prepare('SELECT * FROM repair_history WHERE machine_id = :mid AND fault IS NULL');
+                $stmt->execute(array(':mid' => $mid));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row === FALSE)
+                {
+                    $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                 $stmt = $pdo->prepare('INSERT INTO complaint_book (date_of_complaint, machine_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
                     $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $mid, ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
                 $_SESSION['success'] = "Machine Added Successfully";
                     header('Location: home.php');
-                    return;
-            
-
+                    return;    
+                }
+                else
+                {
+                    $_SESSION['success'] = "Machine is already in Repair";
+                    header(':Location: home.php');
+                }
         }
     }
 ?>
