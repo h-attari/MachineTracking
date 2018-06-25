@@ -48,7 +48,7 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM lab order by name");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>Lab Name</th> </tr>");
+                <tr> <th>S.no.</th><th>Lab Name</th><th>Department</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 echo ("<tr>");
@@ -59,6 +59,11 @@
                 //Ghanta Consistent
                 echo ("<a class='link-black' href='viewpcbylab.php?lab=".$row['lab_id'])."'>";
                 echo (htmlentities($row['name']));
+                echo ("</a>");
+                echo ("</td>");
+                echo ("<td>");
+                echo ("<a class='link-black' href='viewpcbydept.php?dept=".$row['department'])."'>";
+                echo (htmlentities($row['department']));
                 echo ("</a>");
                 echo ("</td>");
                 $i++;

@@ -47,13 +47,16 @@
         if($row['COUNT(*)']!=='0')
         {
             $i=1;
-            $stmtread = $pdo->prepare("SELECT * FROM position where final_date='0000-00-00' and department = :dpt");
-            $stmtread->execute(array(':dept' => $_GET['dept']));
+            $stmtread = $pdo->prepare("SELECT lab_id FROM lab where  department = :dpt");
+            $stmtread->execute(array(':dpt' => $_GET['dept']));
             echo ("<table class=\"table table-striped\">
                 <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th> <th>State</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
-                $mid=$row['machine_id'];
+                $pcf=$pdo->prepare("SELECT * FROM position where lab_id=:labid AND final_date='0000-00-00'");
+                $pcf->execute(array(':labid'=>$row['lab_id']));
+                $row2=$pcf->fetch(PDO::FETCH_ASSOC);
+                $mid=$row2['machine_id'];
                 $read2= $pdo -> query("SELECT * FROM machine where machine_id='$mid'");
                 while($row2 = $read2->fetch(PDO::FETCH_ASSOC))
                 {
