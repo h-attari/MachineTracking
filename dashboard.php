@@ -76,7 +76,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class=""link-black href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
                         echo ("</td>");
                         
                         $i++;
@@ -120,7 +120,7 @@
                         echo(htmlentities($row['complaint_by']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
+                        echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
                         echo ("</td>");
                         
                         $i++;
@@ -177,7 +177,7 @@
                         echo(htmlentities($row['quantity']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
+                        echo('<a class="link-black" href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
                         echo ("</td>");
                         
                         $i++;    
@@ -221,7 +221,7 @@
                         echo(htmlentities($row['priority']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '</a>');
+                        echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '</a>');
                         echo ("</td>");
                         
                         $i++;
