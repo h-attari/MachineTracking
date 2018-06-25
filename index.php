@@ -86,13 +86,13 @@
             <form method="POST" action="index.php">
                 <div class="input-group">
                 <span class="input-group-addon">ID</span>
-                <input type="text" name="id" id="id" class="form-control" required placeholder="Enter your id">
+                <input type="text" name="id" id="id" class="form-control" placeholder="Enter your id">
                 <br>
             </div>
             <br>
                 <div class="input-group">
                 <span class="input-group-addon">Password</span>
-                <input type="password" name="pass" id="pass" class="form-control" required="" placeholder="Enter Password">
+                <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
                 <br>
             </div>
             <br>

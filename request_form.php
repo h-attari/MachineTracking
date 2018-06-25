@@ -53,7 +53,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Computers</h1>
+    <h1>REQUEST COMPUTERS</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -68,38 +68,38 @@
         }
     ?>
 
-    <form method="POST" action="request_form.php">
+    <form method="POST" action="request_form.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Name </span>
-    <input type="text" name="name" required="" class="form-control"> </div><br/>
+    <input type="text" name="name" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" required="" class="form-control"> </div><br/>
+    <input type="text" name="department" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" required="" class="form-control"> </div><br/>
+    <input type="text" name="purpose" class="form-control"> </div><br/>
     <p>Required Specifications</p>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    <input type="text" name="processor" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    <input type="text" name="ram" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">HDD</span>
-    <input type="text" name="HDD" required="" class="form-control"> </div><br/>
+    <input type="text" name="HDD" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" class="form-control"> </div><br/>
+    <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
-    <input type="text" name="quantity" required class="form-control"> </div><br/>
+    <input type="text" name="quantity" class="form-control"> </div><br/>
     
     
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

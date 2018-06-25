@@ -14,7 +14,12 @@
         header("Location: home.php");
         return;
     }
-    if(isset($_GET['mc_id']))
+    if(!isset($_GET['mc_id']))
+    {
+        header("Location: home.php");
+        return;
+    }
+    else
     {
         $mac_addr=$_GET['mc_id'];
     }
@@ -96,7 +101,7 @@
          <?php include "navbar.php" ;?>
     <div class="container-fluid row" id="container">
     <div class="page-header">
-    <h1>MACHINE Repaired</h1>
+    <h1>MACHINE REPAIRED</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -124,23 +129,23 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <input type="text" name="mac_addr" required="" value="<?= $mac_addr ?>" class="form-control">
+    <input type="text" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
     </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">DATE </span>
-    <input type="date" name="date"  required="" class="form-control" required> </div><br/>
+    <input type="date" name="date" class="form-control" required> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Fault </span>
-    <input type="text" name="fault" required="" class="form-control"> </div><br/>
+    <input type="text" name="fault" class="form-control"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">COST OF REPAIR </span>
-    <input type="text" name="cost" required="" class="form-control"> </div><br/>
+    <input type="text" name="cost" class="form-control"> </div><br/>
 
     <input type="submit" value="Place Machine" class="btn btn-info">
-        <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

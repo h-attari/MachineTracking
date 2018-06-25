@@ -87,11 +87,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">Lab Name </span>
-    <input type="text" name="lab_name" required="" class="form-control"> </div><br/>
+    <input type="text" name="lab_name" class="form-control"> </div><br/>
 
 
     <input type="submit" value="Delete Lab" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

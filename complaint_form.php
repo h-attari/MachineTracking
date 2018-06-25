@@ -71,7 +71,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Complaint</h1>
+    <h1>REGISTER COMPLAINT</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -86,7 +86,7 @@
         }
     ?>
 
-    <form method="POST" action="complaint_form.php">
+    <form method="POST" action="complaint_form.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>

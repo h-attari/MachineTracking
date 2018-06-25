@@ -27,7 +27,7 @@
     <div class="container-fluid row" id="container">
 
     <div class="page-header">
-    <h1>Members</h1>
+    <h1>MEMBERS</h1>
     </div>
     <?php
 

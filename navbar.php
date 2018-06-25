@@ -26,13 +26,6 @@
                             <li><a href="posmc.php">Position New Machines</a></li>
                         </ul>
                     </li>
-                    <li class="">
-                        <a href="#repairmenu" data-toggle="collapse" aria-expanded="false">Repair</a>
-                        <ul class="collapse list-unstyled" id="repairmenu">
-                            <li><a href="gorepairmc.php">Going for Repairing</a></li>
-                            <li><a href="fromrepairmc.php">Return from Repiar</a></li>
-                        </ul>
-                    </li>
 
                     <li>
                         <a href="viewmchistory.php">Computer History</a>

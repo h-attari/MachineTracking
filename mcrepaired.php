@@ -23,7 +23,11 @@
     {
         $mc_id = $_POST['mc_id'];
     }
-
+    else
+    {
+        header("Location: index.php");
+        return;
+    }
 
     if(isset($_POST['remarks']) )
     {
@@ -68,7 +72,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Machine Fixed</h1>
+    <h1>MACHINE FIXED</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -87,10 +91,10 @@
 
     <div class="input-group">
     <span class="input-group-addon">Remarks</span>
-    <input type="text" name="remarks" required class="form-control"> </div><br/>
+    <input type="text" name="remarks" class="form-control"> </div><br/>
     
     <input type="submit" value="Done" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     <input type="hidden" name="mc_id" value="<?= $_GET['mc_id'] ?>">
     
     </form>

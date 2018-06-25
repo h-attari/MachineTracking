@@ -92,34 +92,34 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control"> </div>
+    <input type="text" name="mac_addr" class="form-control"> </div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
     <br/>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    <input type="text" name="processor" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    <input type="text" name="ram" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
-    <input type="text" name="memory" required="" class="form-control"> </div><br/>
+    <input type="text" name="memory" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" class="form-control"> </div><br/>
+    <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
-    <input type="text" name="price" required="" class="form-control"> </div><br/>
+    <input type="text" name="price" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
-    <input type="date" name="dop" required="" class="form-control"> </div><br/>
+    <input type="date" name="dop" class="form-control"> </div><br/>
     <span class="input-group">
         <span class="input-group-addon">Enter Quantity</span>
-        <input type="number" required="" name="qty" min="1">
+        <input type="number" name="qty" min="1">
     </span>
     <br>
     <input type="submit" value="Add Machine" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

@@ -90,7 +90,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" class="form-control" required="" placeholder="Starting machine id"> </div><br/>
+    <input type="text" name="mac_addr" class="form-control" placeholder="Starting machine id"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
@@ -98,7 +98,7 @@
 
 
     <input type="submit" value="Delete Machine" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

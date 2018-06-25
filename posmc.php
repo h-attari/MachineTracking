@@ -57,7 +57,7 @@
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     $lid = $row['lab_id'];
                     $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
-                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => date('y-m-d',strtotime($_POST['from'])), ':fdate' => date('y-m-d',strtotime($_POST['to']))));
+                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['from'], ':fdate' => $_POST['to']));
                     $_SESSION['success'] .= $i."Machine Positioned Successfully";
                 }
                 else
@@ -110,23 +110,23 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Starting Machine ID"> </div><br/>
+    <input type="text" name="mac_addr" class="form-control" placeholder="Starting Machine ID"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" required="" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
+    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
     <div class="input-group">
     <span class="input-group-addon">LAB NAME </span>
-    <input type="text" name="lab" required="" class="form-control"> </div><br/>
+    <input type="text" name="lab" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">FROM </span>
-    <input type="date" name="from" required="" class="form-control"> </div><br/>
+    <span class="input-group-addon">FROM (yyyy-mm-dd) </span>
+    <input type="text" name="from" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">TO (optional)</span>
-    <input type="date" name="to" class="form-control"> </div><br/>
+    <span class="input-group-addon">TO (yyyy-mm-dd) (optional)</span>
+    <input type="text" name="to" class="form-control"> </div><br/>
 
 
     <input type="submit" value="Position Machine" class="btn btn-info">
-        <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>

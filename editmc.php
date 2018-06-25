@@ -61,7 +61,7 @@
             ':p' => $_POST['processor'],
             ':ram' => $_POST['ram'],
             ':mem' => $_POST['memory'],
-            ':dop' => date('y-m-d',strtotime($_POST['dop'])),
+            ':dop' => $_POST['dop'],
             'price' => $_POST['price'],
             ':ma' => $_POST['macaddr'],
             ':os' => $_POST['os'])
@@ -114,29 +114,29 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="macaddr" required="" value="<?= $mac_addr ?>" class="form-control"> </div><br/>
+    <input type="text" name="macaddr" value="<?= $mac_addr ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" value="<?= $processor ?>" class="form-control"> </div><br/>
+    <input type="text" name="processor" value="<?= $processor ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" value="<?= $ram ?>" class="form-control"> </div><br/>
+    <input type="text" name="ram" value="<?= $ram ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
-    <input type="text" name="memory" required="" value="<?= $memory ?>" class="form-control"> </div><br/>
+    <input type="text" name="memory" value="<?= $memory ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" value="<?= $os ?>" class="form-control"> </div><br/>
+    <input type="text" name="os" value="<?= $os ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
-    <input type="text" name="price" required="" value="<?= $price ?>" class="form-control"> </div><br/>
+    <input type="text" name="price" value="<?= $price ?>" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">Date of Purchase</span>
-    <input type="date" name="dop" required="" value="<?= $dop ?>" class="form-control"> </div><br/>
+    <span class="input-group-addon">Date of Purchase (yyyy-mm-dd)</span>
+    <input type="text" name="dop" value="<?= $dop ?>" class="form-control"> </div><br/>
 
 
     <input type="submit" value="Upgrade Machine" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
     </form>
 
     </div>
