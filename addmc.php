@@ -115,7 +115,7 @@
     <input type="date" name="dop" class="form-control"> </div><br/>
     <span class="input-group">
         <span class="input-group-addon">Enter Quantity</span>
-        <input type="number" name="qty" min="1">
+        <input type="number" name="qty" class="form-control" min="1">
     </span>
     <br>
     <input type="submit" value="Add Machine" class="btn btn-info">

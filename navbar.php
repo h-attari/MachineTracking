@@ -39,8 +39,12 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="#">Contact</a>
+                    <li class="">
+                        <a href="#conmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
+                        <ul class="collapse list-unstyled" id="conmenu">
+                            <li><a href="add_member.php">phadnis.anurag@gmail.com</a></li>
+                            <li><a href="view_member.php">krishlalwani1@gmail.com</a></li>
+                        </ul>
                     </li>
                     <hr>
                     <li>

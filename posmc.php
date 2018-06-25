@@ -109,20 +109,20 @@
     <form method="POST" action="posmc.php" class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (from)</span>
+    <span class="input-group-addon">MAC ADDRESS</span>
     <input type="text" name="mac_addr" class="form-control" placeholder="Starting Machine ID"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">MAC ADDRESS (to)</span>
+    <span class="input-group-addon">MAC ADDRESS</span>
     <input type="text" name="mac_addr2" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
     <div class="input-group">
-    <span class="input-group-addon">LAB NAME </span>
+    <span class="input-group-addon">LAB NAME</span>
     <input type="text" name="lab" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">FROM (yyyy-mm-dd) </span>
+    <span class="input-group-addon">FROM</span>
     <input type="text" name="from" class="form-control"> </div><br/>
     <div class="input-group">
-    <span class="input-group-addon">TO (yyyy-mm-dd) (optional)</span>
-    <input type="text" name="to" class="form-control"> </div><br/>
+    <span class="input-group-addon">TO</span>
+    <input type="text" name="to" placeholder="OPTIONAL" class="form-control"> </div><br/>
 
 
     <input type="submit" value="Position Machine" class="btn btn-info">
