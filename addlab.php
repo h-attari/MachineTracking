@@ -17,7 +17,7 @@
 
     if(isset($_POST['lab_name']) )
     {
-        if ( strlen($_POST['lab_name']) < 1 )
+        if ( strlen($_POST['lab_name']) < 1 || strlen($_POST['department']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: addlab.php');
@@ -36,8 +36,8 @@
             }
             else
             {
-                $stmt = $pdo->prepare('INSERT INTO lab (name) VALUES (:name)');
-                    $stmt->execute(array(':name' => $_POST['lab_name']));
+                $stmt = $pdo->prepare('INSERT INTO lab (name, department) VALUES (:name, :dept)');
+                    $stmt->execute(array(':name' => $_POST['lab_name'], ':dept' => $_POST['department']));
                 $_SESSION['success'] = "Lab Added Successfully";
                     header('Location: home.php');
                     return;
@@ -88,6 +88,9 @@
         <span class="input-group-addon">Lab Name </span>
         <input type="text" name="lab_name" class="form-control"> </div><br/>
 
+        <div class="input-group">
+        <span class="input-group-addon">Department </span>
+        <input type="text" name="department" class="form-control"> </div><br/>
 
         <input type="submit" value="Add Lab" class="btn btn-info">
         <input type="submit" name="cancel" value="Cancel" class="btn btn-info">

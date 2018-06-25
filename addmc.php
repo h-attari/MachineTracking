@@ -16,7 +16,7 @@
     }
     if(isset($_POST['mac_addr']) )
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['os']) < 1 || strlen($_POST['dop']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: addmc.php');
@@ -39,8 +39,8 @@
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
-                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state)');
-                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE"));
+                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state, :os)');
+                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os']));
                     $mcid++;
                 }
                 $_SESSION['success'] = "Machine Added Successfully";
@@ -104,6 +104,9 @@
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
     <input type="text" name="memory" class="form-control"> </div><br/>
+    <div class="input-group">
+    <span class="input-group-addon">OS </span>
+    <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
     <input type="text" name="price" class="form-control"> </div><br/>

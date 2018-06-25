@@ -22,7 +22,6 @@
                             <li><a href="deletemc.php">Delete Machine</a></li>
                             <li><a href="upgrademc.php">Upgrade Machine</a></li>
                             <li><a href="viewmc.php">View Machine</a></li>
-                            <li><a href="new_machines.php">View Unpositioned Machine</a></li>
                             <li><a href="posmc.php">Position New Machines</a></li>
                         </ul>
                     </li>
@@ -48,10 +47,6 @@
 
                     <li>
                         <a href="#">Contact</a>
-                    </li>
-                    <hr>
-                    <li>
-                        <a href="logout.php">Logout</a>
                     </li>
                 </ul>
             </nav>

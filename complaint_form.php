@@ -67,7 +67,7 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar_index.php" ;?>
+                <?php include "navbar.php" ;?>
 
     <div class="container" id="content">
     <div class="page-header">

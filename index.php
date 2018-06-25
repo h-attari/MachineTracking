@@ -64,7 +64,7 @@
 <body>
 
     <div class="wrapper" id="add-nav">
-    <?php include "navbar_index.php" ;?>
+    <?php include "navbar.php" ;?>
     <h1>Machine Tracking</h1>
     </div>
     <?php

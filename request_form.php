@@ -49,11 +49,11 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar_index.php" ;?>
+                <?php include "navbar.php" ;?>
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Computers</h1>
+    <h1>Register Complaint</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
