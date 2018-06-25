@@ -16,17 +16,18 @@
     }
     if(!isset($_POST['department']))
     {
-                  $autoc=$pdo->prepare("SELECT department,purpose from transfer_request where transfer_request_id = :tid");
-                 $autoc->execute(array(':tid'=>$_GET['id']));
-                 $rowauto=$autoc->fetch(PDO::FETCH_ASSOC);
-                 $dept=$rowauto['department'];
-                 $pur=$rowauto['purpose']; 
+        $autoc=$pdo->prepare("SELECT department,purpose,quantity from transfer_request where transfer_request_id = :tid");
+        $autoc->execute(array(':tid'=>$_GET['id']));
+        $rowauto=$autoc->fetch(PDO::FETCH_ASSOC);
+        $dept=$rowauto['department'];
+        $pur=$rowauto['purpose']; 
+        $qty=$rowauto['quantity'];         
     }
     if(!isset($_GET['id']))
     {
-      $_SESSION['error']="Transfer Request not Found";
-    //  header("Location:home.php");
-     // return;
+        $_SESSION['error']="Transfer Request not Found";
+        header("Location:home.php");
+        return;
     }
     else if(isset($_POST['department']) )
     {
@@ -45,26 +46,27 @@
                  $row=$stmt2->fetch(PDO::FETCH_ASSOC);
                  $labid=$row['lab_id'];
                 
-                $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment) VALUES (:dept, :purpose, :labid, :dat)');
-                    $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d') ));
+                $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment,trid) VALUES (:dept, :purpose, :labid, :dat,:trid)');
+                    $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d'),':trid'=>$_GET['id']));
                  for($i =1 ;$i<=$_POST['totalqty'];$i++)
+                        $dat=date('yyyy-mm-dd');
+                        $_SESSION['success'].=$dat;
                  {
-                    $getmid=$pdo->prepare('SELECT machine_id,COUNT(*) from machine where MAC_ADDR = :mid');
-                    $getmid->execute( array(':mid' => $_POST["machine".$i] ));
+                    $getmid=$pdo->prepare('SELECT machine_id,COUNT(*) from machine where MAC_ADDR = :mid and state=:act');
+                    $getmid->execute( array(':mid' => $_POST["machine".$i],':act' => 'ACTIVE'));
                     $row=$getmid->fetch(PDO::FETCH_ASSOC);
+                    $mid=$row['machine_id'];
                     if($row['COUNT(*)']!=0)
                     {
-                        $mid=$row['machine_id'];
-                        $dat=date('yyyy-mm-dd');
                         $stmt3= $pdo->prepare("UPDATE position set final_date=". $dat." where machine_id = :mid and final_date='0000-00-00'");
                         $stmt3->execute(array(':mid' => $mid ));
                         $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
                         $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => $dat,':fdate' =>'0000-00-00'));
-                        $_SESSION['success'] .= "Machine".$macid." Sent Successfully";
+                        $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
                     }
                     else
                     {
-                        $_SESSION['error']+="Unable to delete machine ".macid.". Machine does not exsits";
+                        $_SESSION['error'].="Unable to transfer machine ".$_POST['machine'.$i].". Machine is either inactive or does not exsists";
                     }
                 }
                         header('Location: home.php');
@@ -105,7 +107,7 @@
     }
     ?>
 
-    <form method="POST" action="servicerpt.php">
+    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> >
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
@@ -129,10 +131,32 @@
         ?>
     </select>   
     </div><br>
-        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" min=1 required>
+        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" value = "<?php echo $qty; ?>" min=1 required>
            <a class="link-black" href="#" onclick="addtags()">Add Machines</a>
             <br>
         <div id="add-machine" class="input-group"></div>
+        <script type="text/javascript">
+                    var total=document.getElementById("totalqty").value;
+        var addimg=document.getElementById("add-machine");
+        while (addimg.hasChildNodes()) 
+        {
+            addimg.removeChild(addimg.lastChild);
+        }   
+        for (i=1;i<=total;i++)
+        {
+            addimg.appendChild(document.createTextNode("mac" + i));
+            var ipt = document.createElement("input");
+            ipt.type = "text";
+            ipt.name = "machine"+ i;
+            ipt.class="form-control";
+            var att=document.createAttribute("required");
+            ipt.setAttributeNode(att);
+            //              addimg.appendChild(ipt); 
+            //                addimg.appendChild(document.createElement("br"));
+            document.getElementById("add-machine").appendChild(ipt);
+            document.getElementById("add-machine").innerHTML+='<br><br>';
+        }
+        </script>
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
     <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
@@ -166,8 +190,9 @@
                    document.getElementById("add-machine").appendChild(ipt);
                     document.getElementById("add-machine").innerHTML+='<br><br>';
              }  
-           }
-       </script>
+         }
+
+       
     </script>
 </body>
 </html>
