@@ -121,6 +121,7 @@
                         echo ("</td>");
                         echo ("<td>");
                         echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
+
                         echo ("</td>");
                         
                         $i++;
@@ -192,7 +193,7 @@
                 $stmtcnt = $pdo->query("SELECT COUNT(*) FROM complaint_book WHERE remarks IS NULL AND work_for = ".$_SESSION['id']."");
                 $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
 
-                if($row['COUNT(*)']!=='0')
+               if($row['COUNT(*)']!=='0')
                 {
                     echo "<h2>Repair Jobs</h2>";
                     $i=1;
