@@ -50,7 +50,7 @@
             $stmtread = $pdo->prepare("SELECT * FROM position where lab_id = :lid and final_date='0000-00-00'");
             $stmtread->execute(array(':lid' => $_GET['lab'] ));
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>DOP</th><th>Price</th> <th>State</th> </tr>");
+                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th> <th>State</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 $mid=$row['machine_id'];
@@ -72,6 +72,9 @@
                     echo ("</td>");
                     echo ("<td>");
                     echo(htmlentities($row2['memory']));
+                    echo ("</td>");
+                    echo ("<td>");
+                    echo(htmlentities($row2['os']));
                     echo ("</td>");
                     echo ("<td>");
                     echo(htmlentities($row2['DOP']));

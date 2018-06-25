@@ -40,12 +40,13 @@
             $memory = htmlentities($row['memory']);
             $price = htmlentities($row['price']);
             $dop = htmlentities($row['DOP']);
+            $os = htmlentities($row['os']);
         }
     }
 
     if(isset($_POST['macaddr']))
     {
-        if ( strlen($_POST['macaddr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
+        if ( strlen($_POST['macaddr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1 || strlen($_POST['os']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: upgrademc.php');
@@ -54,7 +55,7 @@
         else
         {
             $stmt = $pdo->prepare('UPDATE machine SET
-            processor = :p, ram = :ram, memory = :mem, DOP = :dop, price = :price
+            processor = :p, ram = :ram, memory = :mem, DOP = :dop, price = :price, os = :os
             WHERE MAC_ADDR = :ma');
             $stmt->execute(array(
             ':p' => $_POST['processor'],
@@ -62,7 +63,8 @@
             ':mem' => $_POST['memory'],
             ':dop' => $_POST['dop'],
             'price' => $_POST['price'],
-            ':ma' => $_POST['macaddr'])
+            ':ma' => $_POST['macaddr'],
+            ':os' => $_POST['os'])
             );
 
             $_SESSION['success']="Machine upgraded Sucessfully";
@@ -122,6 +124,9 @@
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
     <input type="text" name="memory" value="<?= $memory ?>" class="form-control"> </div><br/>
+    <div class="input-group">
+    <span class="input-group-addon">OS </span>
+    <input type="text" name="os" value="<?= $os ?>" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
     <input type="text" name="price" value="<?= $price ?>" class="form-control"> </div><br/>
