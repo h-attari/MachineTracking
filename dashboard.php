@@ -76,7 +76,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class=""link-black href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
                         echo ("</td>");
                         
                         $i++;
@@ -120,7 +120,8 @@
                         echo(htmlentities($row['complaint_by']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a href="deleterr.php?cb_id='.$row['complaint_book_id'].'">'. 'Delete' . '</a>');
+                        echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
+
                         echo ("</td>");
                         
                         $i++;
@@ -177,7 +178,7 @@
                         echo(htmlentities($row['quantity']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
+                        echo('<a class="link-black" href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
                         echo ("</td>");
                         
                         $i++;    
@@ -192,7 +193,7 @@
                 $stmtcnt = $pdo->query("SELECT COUNT(*) FROM complaint_book WHERE remarks IS NULL AND work_for = ".$_SESSION['id']."");
                 $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
 
-                if($row['COUNT(*)']!=='0')
+               if($row['COUNT(*)']!=='0')
                 {
                     echo "<h2>Repair Jobs</h2>";
                     $i=1;
@@ -221,7 +222,7 @@
                         echo(htmlentities($row['priority']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '</a>');
+                        echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '</a>');
                         echo ("</td>");
                         
                         $i++;
