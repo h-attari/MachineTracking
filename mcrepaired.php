@@ -87,10 +87,10 @@
 
     <div class="input-group">
     <span class="input-group-addon">Remarks</span>
-    <input type="text" name="remarks" class="form-control"> </div><br/>
+    <input type="text" name="remarks" required class="form-control"> </div><br/>
     
     <input type="submit" value="Done" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     <input type="hidden" name="mc_id" value="<?= $_GET['mc_id'] ?>">
     
     </form>

@@ -86,14 +86,14 @@
 
         <div class="input-group">
         <span class="input-group-addon">Lab Name </span>
-        <input type="text" name="lab_name" class="form-control"> </div><br/>
+        <input type="text" name="lab_name" required class="form-control"> </div><br/>
 
         <div class="input-group">
         <span class="input-group-addon">Department </span>
-        <input type="text" name="department" class="form-control"> </div><br/>
+        <input type="text" name="department" required class="form-control"> </div><br/>
 
         <input type="submit" value="Add Lab" class="btn btn-info">
-        <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+        <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
         </form>
 
     </div>

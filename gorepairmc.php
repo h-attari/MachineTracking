@@ -118,17 +118,17 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <input type="text" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
+    <input type="text" name="mac_addr" required="" value="<?= $mac_addr ?>" class="form-control">
     </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">DATE</span>
-    <input type="date" name="date" class="form-control" required> </div><br/>
+    <input type="date" name="date" required="" class="form-control" required> </div><br/>
 
 
     <div class="input-group">
     <span class="input-group-addon">Work For</span>
-    <select name=work_for class="form-control">
+    <select name=work_for class="form-control" required="">
         <?php
             $qr=$pdo->query("SELECT * from member WHERE member_id <> 0");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))
