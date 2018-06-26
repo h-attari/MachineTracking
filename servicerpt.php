@@ -97,7 +97,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>System Transfer Report</h1>
+    <h1>SYSTEM TRANSFER REPORT</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -159,7 +159,7 @@
         </script>
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>

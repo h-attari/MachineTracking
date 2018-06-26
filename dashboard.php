@@ -76,7 +76,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class=""link-black href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class="link-black" href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
                         echo ("</td>");
                         
                         $i++;

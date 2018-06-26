@@ -52,7 +52,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>Confirm Delete</h1>
+    <h1>CONFIRM DELETE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )

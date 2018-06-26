@@ -53,7 +53,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Computers</h1>
+    <h1>REQUEST COMPUTERS</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
