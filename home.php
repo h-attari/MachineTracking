@@ -17,7 +17,7 @@
 </head>
 <body>
         <div class="wrapper">
-     <?php include "navbar.php" ;?>
+         <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
            <div class="container-fluid row" id="content">
 
         <div class="page-header">
@@ -76,7 +76,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a href="deleterr.php?cb_id='.$row['complaint_book_id'].'">'. 'Delete' . '</a>');
+                        echo('<a class="link-black" href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
 
                         echo ("</td>");
                         
@@ -121,7 +121,7 @@
                         echo(htmlentities($row['complaint_by']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>');
+                        echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a class="link-black" href="deleterr.php?cb_id='.$row['complaint_book_id'].'">'. 'Delete' . '</a>');
 
                         echo ("</td>");
                         
@@ -132,8 +132,18 @@
 
                 $stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
                 $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-
-                if($row['COUNT(*)']!=='0')
+                $flag=0;
+                while($row = $stmtcnt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $stmtcnt2 = $pdo->prepare("SELECT COUNT(*) FROM system_transfer_report where trid = :trid");
+                    $stmtcnt2->execute(array(':trid' => $row['transfer_request_id']));
+                    $row2 = $stmtcnt->fetch(PDO::FETCH_ASSOC);
+                    if($row2!== FALSE)
+                    {
+                        $flag++;
+                    }
+                }
+                if($flag!=0)
                 {
                     echo "<h2>Transfer Requests</h2>";
                     $i=1;

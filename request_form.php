@@ -49,8 +49,8 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar_index.php" ;?>
-
+                <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+                
     <div class="container" id="content">
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
