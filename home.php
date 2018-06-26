@@ -130,20 +130,20 @@
                     echo('</table>');
                 }
 
-                $stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
+                $stmtcnt = $pdo->query("SELECT *,COUNT(*) FROM transfer_request");
                 $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
                 $flag=0;
                 while($row = $stmtcnt->fetch(PDO::FETCH_ASSOC))
                 {
-                    $stmtcnt2 = $pdo->prepare("SELECT COUNT(*) FROM system_transfer_report where trid = :trid");
+                    $stmtcnt2 = $pdo->prepare("SELECT COUNT(*) FROM system_transfer_report where trid =:trid");
                     $stmtcnt2->execute(array(':trid' => $row['transfer_request_id']));
                     $row2 = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-                    if($row2!== FALSE)
+                    if($row2==True)
                     {
-                        $flag++;
+                        $flag++;    
                     }
                 }
-                if($flag!=0)
+                if($flag==0)
                 {
                     echo "<h2>Transfer Requests</h2>";
                     $i=1;
@@ -189,7 +189,7 @@
                         echo(htmlentities($row['quantity']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
+                        echo('<a class="link-black" href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>' . ' / ' . '<a class="link-black" href="deletetr.php?tr_id='.$row['transfer_request_id'].'">'. 'Delete' . '</a>');
                         echo ("</td>");
                         
                         $i++;    

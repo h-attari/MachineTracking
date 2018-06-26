@@ -52,9 +52,8 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar_index.php" ;?>
-
-    <div class="container" id="content">
+         <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+    <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
     </div>
@@ -97,7 +96,7 @@
     <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
-    <input type="text" name="quantity" required class="form-control"> </div><br/>
+    <input type="number" name="quantity" required class="form-control"> </div><br/>
     
     
 

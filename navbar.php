@@ -7,6 +7,9 @@
 
                 <ul class="list-unstyled components">
                     <p>Menu</p>
+                    <li>
+                        <a href="searchpc.php">Search Computer</a>
+                    </li>
                     <li class="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Lab</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -23,6 +26,7 @@
                             <li><a href="upgrademc.php">Upgrade Machine</a></li>
                             <li><a href="viewmc.php">View Machine</a></li>
                             <li><a href="new_machines.php">View Unpositioned Machine</a></li>
+                            <li><a href="viewonrepairpc.php">View Machines on Repair</a></li>
                             <li><a href="posmc.php">Position New Machines</a></li>
                         </ul>
                     </li>
