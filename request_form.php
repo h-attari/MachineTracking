@@ -49,8 +49,8 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
-                
+                <?php include "navbar_index.php" ;?>
+
     <div class="container" id="content">
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
@@ -82,16 +82,16 @@
     <p>Required Specifications</p>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    <input type="text" name="processor" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    <input type="text" name="ram" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">HDD</span>
-    <input type="text" name="HDD" required="" class="form-control"> </div><br/>
+    <input type="text" name="HDD" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" class="form-control"> </div><br/>
+    <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
     <input type="text" name="quantity" required class="form-control"> </div><br/>
