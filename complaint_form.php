@@ -38,13 +38,30 @@
                 $stmt = $pdo->prepare('INSERT INTO complaint_book (date_of_complaint, machine_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
                     $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $mid, ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
                 $_SESSION['success'] = "Complaint Registered Successfully";
-                    header('Location: home.php');
-                    return;    
+                    if(isset($_SESSION['id']))
+                    {
+                        header('Location: home.php');
+                        return;    
+                    }
+                    else
+                    {
+                        header('Location: index.php');
+                        return;   
+                    }
                 }
                 else
                 {
                     $_SESSION['success'] = "Machine is already in Repair";
-                    header(':Location: home.php');
+                    if(isset($_SESSION['id']))
+                    {
+                        header('Location: home.php');
+                        return;    
+                    }
+                    else
+                    {
+                        header('Location: index.php');
+                        return;   
+                    }
                 }
         }
     }
@@ -67,7 +84,7 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+                <?php if (isset($_SESSION['id'])&&$_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
 
     <div class="container" id="content">
     <div class="page-header">

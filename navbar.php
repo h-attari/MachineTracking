@@ -45,7 +45,7 @@
                     </li>
                     <li class="">
                         <a href="#contactmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
-                        <ul class="collapse list-unstyled" id="membermenu">
+                        <ul class="collapse list-unstyled" id="contactmenu">
                             <li><a href="add_member.php">phadnis.anurag@gmail.com</a></li>
                             <li><a href="view_member.php">krishlalwani1@gmail.com</a></li>
 
