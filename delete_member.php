@@ -50,9 +50,9 @@
 
     <div class="input-group">
     <span class="input-group-addon">Enter ID</span>
-    <input type="text" name="id" class="form-control"> </div><br/>
+    <input type="text" required name="id" class="form-control"> </div><br/>
     <input type="submit" value="Remove Member" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>

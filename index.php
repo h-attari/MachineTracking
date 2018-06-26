@@ -82,7 +82,7 @@
     <div class="row">
 
         <p class ="col-xs-12"style="font-size:22px">Log In</p><br>
-        <div class="col-xs-4">    
+
             <form method="POST" action="index.php" class="col-xs-5">
                 <div class="input-group">
                 <span class="input-group-addon">ID</span>

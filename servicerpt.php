@@ -159,7 +159,7 @@
         </script>
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>
