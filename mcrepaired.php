@@ -83,7 +83,7 @@
         }
     ?>
 
-    <form method="POST" action="mcrepaired.php">
+    <form method="POST" action="mcrepaired.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Remarks</span>
