@@ -24,7 +24,10 @@
                 $stmt = $pdo->prepare('INSERT INTO transfer_request(date_of_request, name, department, purpose, processor, ram, hdd, os, quantity) VALUES (:dat, :name, :department, :purpose, :processor, :ram, :hdd, :os, :quantity)');
                     $stmt->execute(array(':dat' => date('y-m-d'), ':name' => $_POST['name'], ':department' => $_POST['department'], ':purpose' => $_POST['purpose'], ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':hdd' => $_POST['hdd'], ':os' => $_POST['os'], ':quantity' => $_POST['quantity']));
                 $_SESSION['success'] = "Request Sent Successfully";
-                    header('Location: index.php');
+                    if(isset($_SESSION['id']))
+                        header("Location:home.php");
+                    else
+                        header('Location: index.php');
                     return;
             
 
