@@ -25,7 +25,7 @@
         $sql = "DELETE FROM member WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':id' => $_POST['id']));
-        $_SESSION['success'] = 'Record deleted';
+        $_SESSION['success'] = 'Member Removed Successfully';
         header( 'Location: home.php' ) ;
         return;
     }

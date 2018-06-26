@@ -37,7 +37,7 @@
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                 $stmt = $pdo->prepare('INSERT INTO complaint_book (date_of_complaint, machine_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
                     $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $mid, ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
-                $_SESSION['success'] = "Machine Added Successfully";
+                $_SESSION['success'] = "Complaint Registered Successfully";
                     header('Location: home.php');
                     return;    
                 }
