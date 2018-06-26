@@ -86,7 +86,7 @@
         }
     ?>
 
-    <form method="POST" action="complaint_form.php">
+    <form method="POST" action="complaint_form.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>

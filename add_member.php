@@ -101,7 +101,7 @@
         }
     ?>
 
-    <form method="POST" action="add_member.php">
+    <form method="POST" action="add_member.php"  class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">ID</span>

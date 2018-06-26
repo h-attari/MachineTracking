@@ -67,7 +67,7 @@
         }
     ?>
 
-    <form method="post" action=<?= 'deleterr.php?cb_id=' . $_GET['cb_id'] ?> >
+    <form method="post" action=<?= 'deleterr.php?cb_id=' . $_GET['cb_id'] ?> class="col-xs-5">
     <p>Are you sure ?</p>
     <input type="hidden" name="id"
     value="<?= $id?>"

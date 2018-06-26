@@ -46,7 +46,7 @@
         }
     ?>
 
-    <form method="POST" action="confirm_delete.php">
+    <form method="POST" action="confirm_delete.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Enter ID</span>

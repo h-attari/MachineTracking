@@ -79,7 +79,7 @@
         }
     ?>
 
-    <form method="post" action="confirm_delete.php">
+    <form method="post" action="confirm_delete.php" class="col-xs-5">
     <p>First Name:
     <?= $first_name ?></p>
     <p>Last Name:

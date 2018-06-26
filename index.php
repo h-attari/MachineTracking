@@ -83,16 +83,16 @@
 
         <p class ="col-xs-12"style="font-size:22px">Log In</p><br>
         <div class="col-xs-4">    
-            <form method="POST" action="index.php">
+            <form method="POST" action="index.php" class="col-xs-5">
                 <div class="input-group">
                 <span class="input-group-addon">ID</span>
-                <input type="text" name="id" id="id" class="form-control" placeholder="Enter your id">
+                <input type="text" name="id" id="id" class="form-control" required placeholder="Enter your id">
                 <br>
             </div>
             <br>
                 <div class="input-group">
                 <span class="input-group-addon">Password</span>
-                <input type="password" name="pass" id="pass" class="form-control" placeholder="Enter Password">
+                <input type="password" name="pass" id="pass" class="form-control" required="" placeholder="Enter Password">
                 <br>
             </div>
             <br>

@@ -253,3 +253,14 @@ a.link-black:hover
 {
     text-decoration: underline;
 }
+.btn-my
+{
+    background-color: #6d7fcc;
+
+}
+.btn-my:hover
+{
+    background-color: #6d7fcc;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
