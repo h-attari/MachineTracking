@@ -25,7 +25,7 @@
         $sql = "DELETE FROM member WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':id' => $_POST['id']));
-        $_SESSION['success'] = 'Record deleted';
+        $_SESSION['success'] = 'Member Removed Successfully';
         header( 'Location: home.php' ) ;
         return;
     }
@@ -64,7 +64,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>Confirm Remove</h1>
+    <h1>CONFIRM REMOVE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -79,7 +79,7 @@
         }
     ?>
 
-    <form method="post" action="confirm_delete.php">
+    <form method="post" action="confirm_delete.php" class="col-xs-5">
     <p>First Name:
     <?= $first_name ?></p>
     <p>Last Name:

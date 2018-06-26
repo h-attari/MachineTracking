@@ -81,7 +81,7 @@
                 unset($_SESSION['success']);
         }
         ?>
-        <div class="col-xs-4">
+        <div class="col-xs-5">
         <form method="POST" action="addlab.php">
 
         <div class="input-group">

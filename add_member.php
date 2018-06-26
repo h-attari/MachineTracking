@@ -86,7 +86,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>Add New Member</h1>
+    <h1>ADD NEW MEMBER</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -101,7 +101,7 @@
         }
     ?>
 
-    <form method="POST" action="add_member.php">
+    <form method="POST" action="add_member.php"  class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">ID</span>

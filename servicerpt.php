@@ -97,7 +97,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>System Transfer Report</h1>
+    <h1>SYSTEM TRANSFER REPORT</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -107,7 +107,7 @@
     }
     ?>
 
-    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> >
+    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>

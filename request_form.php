@@ -53,7 +53,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Computers</h1>
+    <h1>REQUEST COMPUTERS</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -68,7 +68,7 @@
         }
     ?>
 
-    <form method="POST" action="request_form.php">
+    <form method="POST" action="request_form.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Name </span>

@@ -37,7 +37,7 @@
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                 $stmt = $pdo->prepare('INSERT INTO complaint_book (date_of_complaint, machine_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
                     $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $mid, ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
-                $_SESSION['success'] = "Machine Added Successfully";
+                $_SESSION['success'] = "Complaint Registered Successfully";
                     header('Location: home.php');
                     return;    
                 }
@@ -71,7 +71,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Register Complaint</h1>
+    <h1>REGISTER COMPLAINT</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -86,7 +86,7 @@
         }
     ?>
 
-    <form method="POST" action="complaint_form.php">
+    <form method="POST" action="complaint_form.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>

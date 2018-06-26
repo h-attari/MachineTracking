@@ -68,7 +68,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>Machine Fixed</h1>
+    <h1>MACHINE FIXED</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -83,7 +83,7 @@
         }
     ?>
 
-    <form method="POST" action="mcrepaired.php">
+    <form method="POST" action="mcrepaired.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Remarks</span>

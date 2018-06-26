@@ -31,7 +31,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>Remove Member</h1>
+    <h1>REMOVE MEMBER</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -46,7 +46,7 @@
         }
     ?>
 
-    <form method="POST" action="confirm_delete.php">
+    <form method="POST" action="confirm_delete.php" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Enter ID</span>

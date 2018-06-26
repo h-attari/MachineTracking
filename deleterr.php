@@ -52,7 +52,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>Confirm Delete</h1>
+    <h1>CONFIRM DELETE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -67,7 +67,7 @@
         }
     ?>
 
-    <form method="post" action=<?= 'deleterr.php?cb_id=' . $_GET['cb_id'] ?> >
+    <form method="post" action=<?= 'deleterr.php?cb_id=' . $_GET['cb_id'] ?> class="col-xs-5">
     <p>Are you sure ?</p>
     <input type="hidden" name="id"
     value="<?= $id?>"

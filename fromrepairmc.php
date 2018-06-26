@@ -96,7 +96,7 @@
          <?php include "navbar.php" ;?>
     <div class="container-fluid row" id="container">
     <div class="page-header">
-    <h1>MACHINE Repaired</h1>
+    <h1>MACHINE REPAIRED</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
