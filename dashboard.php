@@ -131,23 +131,11 @@
 
                 $stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
                 $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-                $flag=0;
-                while($row = $stmtcnt->fetch(PDO::FETCH_ASSOC))
-                {
-                    $stmtcnt2 = $pdo->prepare("SELECT COUNT(*) FROM system_transfer_report where trid = :trid");
-                    $stmtcnt2->execute(array(':trid' => $row['transfer_request_id']));
-                    $row2 = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-                    if($row2!== FALSE)
-                    {
-                        $flag++;
-                    }
-                }
 
-                if($flag!=0)
+                if($row['COUNT(*)']!=='0')
                 {
                     echo "<h2>Transfer Requests</h2>";
                     $i=1;
-                    $flag=0;
                     $stmtread = $pdo->query("SELECT * FROM transfer_request");
                     echo ("<table class=\"table table-striped\">
                         <tr> <th>S.no.</th><th>Date of Request</th><th>Name</th><th>Department</th><th>Purpose</th><th>Processor</th><th>Ram</th><th>HDD</th><th>OS</th><th>Quantity</th><th>Action</th> </tr>");

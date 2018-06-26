@@ -17,8 +17,7 @@
     
     if (!isset($_GET['cb_id']))
     {
-        header("Location: home.php");
-        return;  
+        die('ACCESS DENIED');   
     }
 
     if ( isset($_POST['delete']) )

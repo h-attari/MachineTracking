@@ -68,38 +68,38 @@
         }
     ?>
 
-    <form method="POST" action="request_form.php" class="col-xs-5">
+    <form method="POST" action="request_form.php">
 
     <div class="input-group">
     <span class="input-group-addon">Name </span>
-    <input type="text" name="name" class="form-control"> </div><br/>
+    <input type="text" name="name" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" class="form-control"> </div><br/>
+    <input type="text" name="department" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" class="form-control"> </div><br/>
+    <input type="text" name="purpose" required="" class="form-control"> </div><br/>
     <p>Required Specifications</p>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" class="form-control"> </div><br/>
+    <input type="text" name="processor" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" class="form-control"> </div><br/>
+    <input type="text" name="ram" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">HDD</span>
-    <input type="text" name="HDD" class="form-control"> </div><br/>
+    <input type="text" name="HDD" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" class="form-control"> </div><br/>
+    <input type="text" name="os" required="" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
-    <input type="text" name="quantity" class="form-control"> </div><br/>
+    <input type="text" name="quantity" required class="form-control"> </div><br/>
     
     
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>

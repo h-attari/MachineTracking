@@ -107,7 +107,7 @@
     }
     ?>
 
-    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> class="col-xs-5" >
+    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> >
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
