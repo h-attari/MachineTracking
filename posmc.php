@@ -56,8 +56,13 @@
                     $stmt->execute(array(':lab' => $_POST['lab']));
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     $lid = $row['lab_id'];
+                    $fdate;
+                    if($_POST['to'] !="1970-1-1")
+                        $fdate=date('y-m-d',strtotime($_POST['to']));
+                    else
+                        $fdate="0000-00-00";
                     $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
-                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => date('y-m-d',strtotime($_POST['from'])), ':fdate' => date('y-m-d',strtotime($_POST['to']))));
+                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => date('y-m-d',strtotime($_POST['from'])), ':fdate' => $fdate));
                     $_SESSION['success'] .= $i."Machine Positioned Successfully";
                 }
                 else
@@ -116,7 +121,20 @@
     <input type="text" name="mac_addr2" required="" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
     <div class="input-group">
     <span class="input-group-addon">LAB NAME </span>
-    <input type="text" name="lab" required="" class="form-control"> </div><br/>
+    <select class="form-control" name="lab" required>
+        <?php
+            $read=$pdo->query('select name,lab_id from lab order by name');
+            while($row = $read->fetch(PDO::FETCH_ASSOC))
+            {
+                $labname=$row['name'];
+                $labid=$row['lab_id'];
+                echo '<option name = $labid>';
+                echo    $labname;
+                echo '</option>';
+            }
+        ?>
+    </select>
+    </div><br/>
     <div class="input-group">
     <span class="input-group-addon">FROM </span>
     <input type="date" name="from" required="" class="form-control"> </div><br/>

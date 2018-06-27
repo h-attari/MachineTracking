@@ -64,7 +64,7 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar.php" ;?>
+                <?php if (isset($_SESSION['id'])&&$_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
 
     <div class="container" id="content">
     <div class="page-header">

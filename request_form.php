@@ -24,7 +24,10 @@
                 $stmt = $pdo->prepare('INSERT INTO transfer_request(date_of_request, name, department, purpose, processor, ram, hdd, os, quantity) VALUES (:dat, :name, :department, :purpose, :processor, :ram, :hdd, :os, :quantity)');
                     $stmt->execute(array(':dat' => date('y-m-d'), ':name' => $_POST['name'], ':department' => $_POST['department'], ':purpose' => $_POST['purpose'], ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':hdd' => $_POST['hdd'], ':os' => $_POST['os'], ':quantity' => $_POST['quantity']));
                 $_SESSION['success'] = "Request Sent Successfully";
-                    header('Location: index.php');
+                    if(isset($_SESSION['id']))
+                        header("Location:home.php");
+                    else
+                        header('Location: index.php');
                     return;
             
 
@@ -49,9 +52,8 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar_index.php" ;?>
-
-    <div class="container" id="content">
+         <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+    <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
     </div>
@@ -82,19 +84,19 @@
     <p>Required Specifications</p>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    <input type="text" name="processor" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    <input type="text" name="ram" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">HDD</span>
-    <input type="text" name="HDD" required="" class="form-control"> </div><br/>
+    <input type="text" name="HDD" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" class="form-control"> </div><br/>
+    <input type="text" name="os" class="form-control"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
-    <input type="text" name="quantity" required class="form-control"> </div><br/>
+    <input type="number" name="quantity" required class="form-control"> </div><br/>
     
     
 

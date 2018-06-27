@@ -67,7 +67,7 @@
             ':os' => $_POST['os'])
             );
 
-            $_SESSION['success']="Machine upgraded Sucessfully";
+            $_SESSION['success']="Machine Upgraded Sucessfully";
             header("Location: home.php");
             return;
         }

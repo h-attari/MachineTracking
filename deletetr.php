@@ -15,33 +15,21 @@
         return;
     }
     
-    if (isset($_POST['id']))
+    if (!isset($_GET['tr_id']))
     {
-        $id = $_POST['id'];
+        die('ACCESS DENIED');   
     }
 
-    if ( isset($_POST['delete']) && isset($_POST['id']) )
+    if ( isset($_POST['delete']) )
     {
-        $sql = "DELETE FROM member WHERE id = :id";
+        $sql = "DELETE FROM transfer_request WHERE transfer_request_id = :id";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(array(':id' => $_POST['id']));
-        $_SESSION['success'] = 'Member Removed Successfully';
+        $stmt->execute(array(':id' => $_GET['tr_id']));
+        $_SESSION['success'] = 'Request deleted';
         header( 'Location: home.php' ) ;
         return;
     }
-    $stmtread = $pdo->prepare("SELECT * FROM member where id = :id");
-    $stmtread->execute(array(":id" => $_POST['id']));
-    $row = $stmtread->fetch(PDO::FETCH_ASSOC);
-    if ( $row === false )
-    {
-        $_SESSION['error'] = 'No Member Found';
-        header( 'Location: delete_member.php' ) ;
-        return;
-    }
-    $first_name = htmlentities($row['first_name']);
-    $last_name = htmlentities($row['last_name']);
-    $email = htmlentities($row['email']);
-    $id = $row['id'];
+    
 ?>
 <html>
 <head>
@@ -64,7 +52,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>CONFIRM REMOVE</h1>
+    <h1>CONFIRM DELETE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -79,13 +67,8 @@
         }
     ?>
 
-    <form method="post" action="confirm_delete.php" class="col-xs-5">
-    <p>First Name:
-    <?= $first_name ?></p>
-    <p>Last Name:
-    <?= $last_name ?></p>
-    <p>Email:
-    <?= $email ?></p>
+    <form method="post" action=<?= 'deletetr.php?tr_id=' . $_GET['tr_id'] ?> class="col-xs-5">
+    <p>Are you sure ?</p>
     <input type="hidden" name="id"
     value="<?= $id?>"
     />

@@ -141,9 +141,7 @@
     </select>
     </div><br/>
     <input type="submit" value="Repair Machine" class="btn btn-info">
-    <div class="col-xs-3 col-xs-offset-1">
-          <a class ="link-no-format" href="home.php"><div class="btn btn-danger">Cancel</div></a>
-      </div>
+          <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>

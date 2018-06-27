@@ -40,7 +40,20 @@
         }
         */
        // else
-
+                $flag1=0;
+                 for($i=1;$i<=$_POST['totalqty'];$i++)
+                 {
+                    $getmid=$pdo->prepare('SELECT COUNT(*),machine_id from machine where MAC_ADDR = :mid and state=:act');
+                    $getmid->execute( array(':mid' => $_POST["machine".$i],':act' => 'ACTIVE'));
+                    $row=$getmid->fetch(PDO::FETCH_ASSOC);
+                    if($row['COUNT(*)']==0)
+                    {
+                        $flag1=1;
+                        $_SESSION['error']="Machine".$row['machine_id']."Not found \n";
+                        header("Location:home.php");
+                        return;
+                    }
+                 }
                  $stmt2=$pdo->prepare('SELECT lab_id from lab where name = :labid');
                  $stmt2->execute( array(':labid' => $_POST['labid'] ));
                  $row=$stmt2->fetch(PDO::FETCH_ASSOC);
@@ -48,9 +61,11 @@
                 
                 $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment,trid) VALUES (:dept, :purpose, :labid, :dat,:trid)');
                     $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d'),':trid'=>$_GET['id']));
+                 if($flag1==1)
+                 {
+                    return;
+                 }
                  for($i =1 ;$i<=$_POST['totalqty'];$i++)
-                        $dat=date('yyyy-mm-dd');
-                        $_SESSION['success'].=$dat;
                  {
                     $getmid=$pdo->prepare('SELECT machine_id,COUNT(*) from machine where MAC_ADDR = :mid and state=:act');
                     $getmid->execute( array(':mid' => $_POST["machine".$i],':act' => 'ACTIVE'));
@@ -58,10 +73,10 @@
                     $mid=$row['machine_id'];
                     if($row['COUNT(*)']!=0)
                     {
-                        $stmt3= $pdo->prepare("UPDATE position set final_date=". $dat." where machine_id = :mid and final_date='0000-00-00'");
-                        $stmt3->execute(array(':mid' => $mid ));
+                        $stmt3= $pdo->prepare("UPDATE position set final_date= :fdate WHERE machine_id = :mid AND final_date='0000-00-00'");
+                        $stmt3->execute(array(':mid' => $mid,':fdate'=>date('y-m-d') ));
                         $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
-                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => $dat,':fdate' =>'0000-00-00'));
+                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => date('y-m-d'),':fdate' =>'0000-00-00'));
                         $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
                     }
                     else
@@ -72,7 +87,6 @@
                         header('Location: home.php');
                         return;
             
-
       }
 ?>
 <html>
@@ -97,7 +111,7 @@
 
     <div class="container" id="content">
     <div class="page-header">
-    <h1>SYSTEM TRANSFER REPORT</h1>
+    <h1>System Transfer Report</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -107,7 +121,7 @@
     }
     ?>
 
-    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> class="col-xs-5">
+    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> >
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
@@ -191,7 +205,6 @@
                     document.getElementById("add-machine").innerHTML+='<br><br>';
              }  
          }
-
        
     </script>
 </body>

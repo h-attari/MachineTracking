@@ -76,7 +76,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class=""link-black href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class="link-black" href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
                         echo ("</td>");
                         
                         $i++;
@@ -130,9 +130,18 @@
                 }
 
                 $stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
-                $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-
-                if($row['COUNT(*)']!=='0')
+                $flag=0;
+                while($row = $stmtcnt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $stmtcnt2 = $pdo->prepare("SELECT * FROM system_transfer_report where trid = :trid");
+                    $stmtcnt2->execute(array(':trid' => $row['transfer_request_id']));
+                    $row2 = $stmtcnt2->fetch(PDO::FETCH_ASSOC);
+                    if($row2!== FALSE)
+                    {
+                        $flag++;
+                    }
+                }
+                if($flag!=0)
                 {
                     echo "<h2>Transfer Requests</h2>";
                     $i=1;
