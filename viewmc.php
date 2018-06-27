@@ -49,7 +49,7 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM machine ORDER BY MAC_ADDR");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th><th>Location</th> <th>State</th></tr>");
+                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Other Details</th><th>Price</th><th>Location</th> <th>State</th></tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date = '1970-01-01'");
@@ -81,6 +81,8 @@
                 echo ("<td>");
                 echo(htmlentities($row['DOP']));
                 echo ("</td>");
+                echo ("<td>");
+                echo (htmlentities($row['other']));
                 echo ("<td>");
                 echo(htmlentities($row['price']));
                 echo ("</td>");

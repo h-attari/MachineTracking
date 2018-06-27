@@ -39,8 +39,8 @@
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
-                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state, :os)');
-                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os']));
+                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os,other) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state, :os,:other)');
+                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'],':other' => $_POST['other']));
                     $mcid++;
                 }
                 $_SESSION['success'] = "Machine Added Successfully";
@@ -113,6 +113,9 @@
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
     <input type="date" name="dop" required="" class="form-control"> </div><br/>
+    <div class="input-group">
+    <span class="input-group-addon">Other Details</span>
+    <input type="text" name="other" required="" class="form-control"> </div><br/>
     <span class="input-group">
         <span class="input-group-addon">Enter Quantity</span>
         <input type="number" required="" class="form-control" name="qty" min="1">
