@@ -53,7 +53,7 @@
                  $stmt = $pdo->prepare('UPDATE machine SET state = "INACTIVE" WHERE machine_id = :mid');
                     $stmt->execute(array(':mid' => $mid));
 
-                $stmt = $pdo->prepare('UPDATE position SET final_date = :fdate WHERE machine_id = :mid AND final_date = "0000-00-00"');
+                $stmt = $pdo->prepare('UPDATE position SET final_date = :fdate WHERE machine_id = :mid AND final_date = "1970-01-01"');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => $_POST['date']));
 
                 $stmt = $pdo->prepare('INSERT INTO repair_history (machine_id, initial_date, final_date) VALUES (:mid, :idate, "0000-00-00")');

@@ -53,7 +53,7 @@
                 <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th> <th>State</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
-                $pcf=$pdo->prepare("SELECT * FROM position where lab_id=:labid AND final_date='0000-00-00'");
+                $pcf=$pdo->prepare("SELECT * FROM position where lab_id=:labid AND final_date='1970-01-01'");
                 $pcf->execute(array(':labid'=>$row['lab_id']));
                 $row2=$pcf->fetch(PDO::FETCH_ASSOC);
                 $mid=$row2['machine_id'];

@@ -49,9 +49,16 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM machine ORDER BY MAC_ADDR");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th> <th>State</th></tr>");
+                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Price</th><th>Location</th> <th>State</th></tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
+                $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date = '1970-01-01'");
+                $stmtn->execute(array(':mid' => $row['machine_id']));
+                $rown = $stmtn->fetch(PDO::FETCH_ASSOC);
+                $stmtn2 = $pdo->prepare("SELECT name FROM lab where lab_id = :lid");
+                $stmtn2->execute(array(':lid' => $rown['lab_id']));
+                $rown2 = $stmtn2->fetch(PDO::FETCH_ASSOC);
+
                 echo ("<tr>");
                 echo ("<td>");
                 echo($i);
@@ -76,6 +83,9 @@
                 echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['price']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($rown2['name']));
                 echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['state']));

@@ -58,7 +58,7 @@
                 $lid=$rown['lab_id'];
 
                 $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
-                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => "0000-00-00"));
+                        $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => "1970-01-01"));
 
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
                 header('Location: home.php');

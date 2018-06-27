@@ -57,7 +57,7 @@
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     $lid = $row['lab_id'];
                     $fdate;
-                    if($_POST['to'] !="1970-1-1")
+                    if($_POST['to'] !="1970-01-01")
                         $fdate=date('y-m-d',strtotime($_POST['to']));
                     else
                         $fdate="0000-00-00";

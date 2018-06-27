@@ -73,10 +73,10 @@
                     $mid=$row['machine_id'];
                     if($row['COUNT(*)']!=0)
                     {
-                        $stmt3= $pdo->prepare("UPDATE position set final_date= :fdate WHERE machine_id = :mid AND final_date='0000-00-00'");
+                        $stmt3= $pdo->prepare("UPDATE position set final_date= :fdate WHERE machine_id = :mid AND final_date='1970-01-01'");
                         $stmt3->execute(array(':mid' => $mid,':fdate'=>date('y-m-d') ));
                         $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
-                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => date('y-m-d'),':fdate' =>'0000-00-00'));
+                        $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => date('y-m-d'),':fdate' =>'1970-01-01'));
                         $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
                     }
                     else
