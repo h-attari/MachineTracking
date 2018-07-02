@@ -16,7 +16,7 @@
     }
     if(isset($_POST['mac_addr']) )
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['os']) < 1 || strlen($_POST['dop']) < 1)
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: addmc.php');
@@ -39,8 +39,32 @@
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
-                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os,other) VALUES (:mac_addr, :processor, :ram, :memory, :dop, :price, :state, :os,:other)');
-                        $stmt->execute(array(':mac_addr' => $mcid, ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':memory' => $_POST['memory'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'],':other' => $_POST['other']));
+                    //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
+                    $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`) values 
+                        ('inbuilt',:description_ram,:grn,'ram',1 ),
+                        ('inbuilt',:description_processor,:grn,'processor',1),
+                        ('inbuilt',:description_hd,:grn,'harddisk',1),
+                        ('inbuilt',:description_mouse,:grn,'mouse',1),
+                        ('inbuilt',:description_keyboard,:grn,'keyboard',1),
+                        ('inbuilt',:description_monitor,:grn,'monitor',1)
+                    ");
+                    $stmt->execute(array(
+                        ':description_ram'=>$_POST['ram'],
+                        ':description_processor'=>$_POST['processor'],
+                        ':description_hd'=>$_POST['memory'],
+                        ':description_mouse'=>$_POST['mouse'],
+                        ':description_keyboard'=>$_POST['keyboard'],
+                        ':description_monitor'=>$_POST['monitor'],
+                        ':grn'=>$_POST['grn']
+                        ));
+                    $monitorid=$pdo->lastInsertId()-1;
+                    $keyboardid=$monitorid-1;
+                    $mouseid=$keyboardid-1;
+                    $hdid=$mouseid-1;
+                    $processorid=$hdid-1;
+                    $ramid=$processorid-1;
+                    $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os, monitor, keyboard, mouse, grn) VALUES (:mac_addr, :processorid, :ramid, :hdid, :dop, :price, :state, :os, :monitorid, :keyboardid, :mouseid, :grn)');
+                        $stmt->execute(array(':mac_addr' => $mcid, ':grn' => $_POST['grn'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'], ':processorid' => $processorid, ':ramid' => $ramid, ':hdid' => $hdid, ':monitorid' => $monitorid, ':keyboardid' => $keyboardid, ':mouseid' => $mouseid));
                     $mcid++;
                 }
                 $_SESSION['success'] = "Machine Added Successfully";
@@ -94,32 +118,55 @@
     <span class="input-group-addon">MAC ADDRESS </span>
     <input type="text" name="mac_addr" required="" class="form-control"> </div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
+    
     <br/>
+    <div class="input-group">
+    <span class="input-group-addon">GR Number</span>
+    <input type="text" name="grn" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
     <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
     <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
     <input type="text" name="memory" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
+    <span class="input-group-addon">Mouse</span>
+    <input type="text" name="mouse" required="" class="form-control"> </div><br/>
+    
+    <div class="input-group">
+    <span class="input-group-addon">Keyboard</span>
+    <input type="text" name="keyboard" required="" class="form-control"> </div><br/>
+    
+    <div class="input-group">
+    <span class="input-group-addon">Monitor</span>
+    <input type="text" name="monitor" required="" class="form-control"> </div><br/>
+    
+    <div class="input-group"> 
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" class="form-control"> </div><br/>
+    <input type="text" name="os" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
     <input type="text" name="price" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
     <input type="date" name="dop" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Other Details</span>
-    <input type="text" name="other" required="" class="form-control"> </div><br/>
+    <input type="text" name="other" class="form-control"> </div><br/>   
+    
     <span class="input-group">
-        <span class="input-group-addon">Enter Quantity</span>
-        <input type="number" required="" class="form-control" name="qty" min="1">
-    </span>
+    <span class="input-group-addon">Enter Quantity</span>
+    <input type="number" required="" class="form-control" name="qty" min="1"></span>
     <br>
     <input type="submit" value="Add Machine" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
