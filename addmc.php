@@ -57,12 +57,12 @@
                         ':description_monitor'=>$_POST['monitor'],
                         ':grn'=>$_POST['grn']
                         ));
-                    $monitorid=$pdo->lastInsertId()-1;
-                    $keyboardid=$monitorid-1;
-                    $mouseid=$keyboardid-1;
-                    $hdid=$mouseid-1;
-                    $processorid=$hdid-1;
-                    $ramid=$processorid-1;
+                    $ramid=$pdo->lastInsertId();
+                    $keyboardid=$ramid+4;
+                    $mouseid=$ramid+3;
+                    $hdid=$ramid+2;
+                    $processorid=$ramid+1;
+                    $monitorid=$ramid+5;
                     $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os, monitor, keyboard, mouse, grn) VALUES (:mac_addr, :processorid, :ramid, :hdid, :dop, :price, :state, :os, :monitorid, :keyboardid, :mouseid, :grn)');
                         $stmt->execute(array(':mac_addr' => $mcid, ':grn' => $_POST['grn'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'], ':processorid' => $processorid, ':ramid' => $ramid, ':hdid' => $hdid, ':monitorid' => $monitorid, ':keyboardid' => $keyboardid, ':mouseid' => $mouseid));
                     $mcid++;
