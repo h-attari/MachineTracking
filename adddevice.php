@@ -77,20 +77,24 @@
 
         <div class="input-group">
         <span class="input-group-addon">Device Name </span>
-        <select name=device_name class="form-control" required="">
+        <select name=device_name id="device-drop" class="form-control" onchange="Device();" required="">
         <?php
             
             $qr=$pdo->query("SELECT DISTINCT name from hardware");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
-                echo '<option value = '.$rowx['name'].'>';
+                echo '<option>';
                 echo ($rowx['name']);
                 echo '</option>';
             }
          ?>
+        <option>Other</option>
         </select>
         </div><br/>
-
+        <div class="input-group">
+            <span class="input-group-addon">New Device Name </span>
+            <input type="text" class="form-control" disabled name="device_name" id="other-device" placeholder="Enter New Device Name">
+        </div><br>
         <div class="input-group">
         <span class="input-group-addon">Company </span>
         <input type="text" name="company" required class="form-control"> </div><br/>
