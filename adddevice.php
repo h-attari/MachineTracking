@@ -15,9 +15,9 @@
         return;
     }
 
-    if(isset($_POST['device_name']) )
+    if(isset($_POST['device-name']) )
     {
-        if ( strlen($_POST['device_name']) < 1 || strlen($_POST['company']) < 1 || strlen($_POST['description']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['grn']) < 1)
+        if ( strlen($_POST['device-name']) < 1   || strlen($_POST['description']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['grn']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: adddevice.php');
@@ -25,8 +25,46 @@
         }
         else
         {
+            if($_POST['alert-server-new-device']=='1')
+            {                    
+                $req=$pdo->prepare('INSERT INTO name(name) VALUES(:name)');
+                $req->execute(array(':name'=>$_POST['device-name2']));
+                $devname=$_POST['device-name2'];
+            }
+            else
+                $devname=$_POST['device-name'];
+            $req2 = $pdo->prepare("SELECT name_id from name where name = :name");
+            $req2->execute(array(":name" => $devname));
+            $row = $req2->fetch(PDO::FETCH_ASSOC);
+            if($row == false)
+            {
+                $_SESSION['error'] = "Unexpected Error occured while adding Name".$devname;
+                header("Location:home.php");
+                return;
+            }
+
+            $name_id=$row['name_id'];
+            if($_POST['alert-server-new']=='1')
+            {
+                    //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
+                    $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
+                    $req->execute(array(':name'=>$_POST['company2']));
+                    $cmn=$_POST['company2'];
+            }
+            else 
+             $cmn=$_POST['company'];
+            $req2 = $pdo->prepare("SELECT company_id from company where name = :name");
+            $req2->execute(array(":name" => $cmn));
+            $row = $req2->fetch(PDO::FETCH_ASSOC);
+            if($row == false)
+            {
+                $_SESSION['error'] = "Unexpected Error occured while adding company".$cmn;
+                header("Location:home.php");
+                return;
+            }
+            $company_id=$row['company_id'];
             $stmt = $pdo->prepare('INSERT INTO hardware (company, description, price, grn, name, state) VALUES (:company, :description, :price, :grn, :name, 0)');
-            $stmt->execute(array(':company' => $_POST['company'], ':description' => $_POST['description'], ':price' => $_POST['price'], ':grn' => $_POST['grn'], ':name' => $_POST['device_name']));
+            $stmt->execute(array(':company' => $company_id, ':description' => $_POST['description'], ':price' => $_POST['price'], ':grn' => $_POST['grn'], ':name' => $name_id));
             $_SESSION['success'] = "Device Added Successfully";
             header('Location: home.php');
             return;
@@ -77,10 +115,10 @@
 
         <div class="input-group">
         <span class="input-group-addon">Device Name </span>
-        <select name=device_name id="device-drop" class="form-control" onchange="Device();" required="">
+        <select name="device-name" id="drop-name" class="form-control" onchange="Name();" required="">
         <?php
             
-            $qr=$pdo->query("SELECT DISTINCT name from hardware");
+            $qr=$pdo->query("SELECT DISTINCT name from name");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option>';
@@ -93,12 +131,31 @@
         </div><br/>
         <div class="input-group">
             <span class="input-group-addon">New Device Name </span>
-            <input type="text" class="form-control" disabled name="device_name" id="other-device" placeholder="Enter New Device Name">
+            <input name="device-name2" type="text" class="form-control" disabled name="device_name" id="other-device" placeholder="Enter New Device Name">
         </div><br>
+        <input type="text" name="alert-server-new-device" id="alert-server-new-device" hidden>
+        
         <div class="input-group">
-        <span class="input-group-addon">Company </span>
-        <input type="text" name="company" required class="form-control"> </div><br/>
-
+        <span class="input-group-addon">Company Name</span>
+        <select id="drop-other" name="company" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT DISTINCT name from company");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['name']);
+                echo '</option>';
+            }
+         ?>
+    <option>Other</option>
+    </select>
+    </div><br>
+    <div class="input-group">
+        <span class="input-group-addon">New Company Name</span>   
+        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
+    </div><br>
+    <input type="text" id="alert-server-new"name="alert-server-new" hidden>
         <div class="input-group">
         <span class="input-group-addon">Description </span>
         <input type="text" name="description" required class="form-control"> </div><br/>
