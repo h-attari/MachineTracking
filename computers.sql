@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2018 at 05:44 AM
+-- Generation Time: Jul 05, 2018 at 09:13 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -32,6 +32,18 @@ CREATE TABLE `company` (
   `company_id` int(11) NOT NULL,
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`company_id`, `name`) VALUES
+(1, 'Alphastar'),
+(7, 'My Company is my company none '),
+(13, 'asf'),
+(14, 'Meri hai ye company'),
+(15, 'Meri hai ye company'),
+(16, 'Meri Nayi company');
 
 -- --------------------------------------------------------
 
@@ -65,6 +77,29 @@ CREATE TABLE `hardware` (
   `name` int(11) DEFAULT NULL,
   `state` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hardware`
+--
+
+INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`, `name`, `state`) VALUES
+(169, 13, 'as', 12, 1, 12, 0),
+(170, 1, 'Alphastar ka keyboard', 132, 44, 2, 0),
+(171, 1, 'asd', 12, 1, 12, 0),
+(172, 1, 'asd', 123, 1, 14, 0),
+(173, 14, '3', 1, 3, 14, 0),
+(174, 1, 'bjk', NULL, 1, 6, 1),
+(175, 1, 'bkj', NULL, 1, 5, 1),
+(176, 1, 'bjk', NULL, 1, 4, 1),
+(177, 1, 'bjkb', NULL, 1, 1, 1),
+(178, 1, 'jk', NULL, 1, 2, 1),
+(179, 1, 'bkj', NULL, 1, 3, 1),
+(180, 16, 'nln', NULL, 1, 6, 1),
+(181, 16, 'li', NULL, 1, 5, 1),
+(182, 16, 'ljkn', NULL, 1, 4, 1),
+(183, 16, 'ln', NULL, 1, 1, 1),
+(184, 16, 'lknkl', NULL, 1, 2, 1),
+(185, 16, 'nk', NULL, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -107,6 +142,14 @@ CREATE TABLE `machine` (
   `grn` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `machine`
+--
+
+INSERT INTO `machine` (`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`, `monitor`, `keyboard`, `mouse`, `grn`) VALUES
+(42, '122', 175, 174, 176, '2012-12-12', 0, 'ACTIVE', 'bjk', 179, 178, 177, 1),
+(43, '134', 181, 180, 182, '2001-12-21', 0, 'ACTIVE', 'lnk', 185, 184, 183, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -143,6 +186,22 @@ CREATE TABLE `name` (
   `name_id` int(11) NOT NULL,
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `name`
+--
+
+INSERT INTO `name` (`name_id`, `name`) VALUES
+(1, 'mouse'),
+(2, 'keyboard'),
+(3, 'monitor'),
+(4, 'memory'),
+(5, 'processor'),
+(6, 'ram'),
+(12, 'Other'),
+(13, 'Me hu ghadi'),
+(14, 'Mobile'),
+(15, '');
 
 -- --------------------------------------------------------
 
@@ -181,11 +240,11 @@ CREATE TABLE `repair_history` (
 
 CREATE TABLE `software` (
   `software_id` int(11) NOT NULL,
-  `company` varchar(30) DEFAULT NULL,
+  `company` int(11) DEFAULT NULL,
   `description` text,
   `price` int(11) DEFAULT NULL,
   `grn` int(11) DEFAULT NULL,
-  `name` varchar(20) DEFAULT NULL
+  `name` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -297,7 +356,9 @@ ALTER TABLE `repair_history`
 -- Indexes for table `software`
 --
 ALTER TABLE `software`
-  ADD PRIMARY KEY (`software_id`);
+  ADD PRIMARY KEY (`software_id`),
+  ADD KEY `FK_company2` (`company`),
+  ADD KEY `FK_name2` (`name`);
 
 --
 -- Indexes for table `system_transfer_report`
@@ -321,7 +382,7 @@ ALTER TABLE `transfer_request`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `complaint_book`
@@ -333,7 +394,7 @@ ALTER TABLE `complaint_book`
 -- AUTO_INCREMENT for table `hardware`
 --
 ALTER TABLE `hardware`
-  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `lab`
@@ -345,7 +406,7 @@ ALTER TABLE `lab`
 -- AUTO_INCREMENT for table `machine`
 --
 ALTER TABLE `machine`
-  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `member`
@@ -357,7 +418,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `name`
 --
 ALTER TABLE `name`
-  MODIFY `name_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `position`
@@ -430,6 +491,13 @@ ALTER TABLE `position`
 --
 ALTER TABLE `repair_history`
   ADD CONSTRAINT `repair_history_ibfk_1` FOREIGN KEY (`machine_id`) REFERENCES `machine` (`machine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `software`
+--
+ALTER TABLE `software`
+  ADD CONSTRAINT `FK_company2` FOREIGN KEY (`company`) REFERENCES `company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_name2` FOREIGN KEY (`name`) REFERENCES `name` (`name_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `system_transfer_report`
