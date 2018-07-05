@@ -35,18 +35,37 @@
             }
             else
             {
-                $mcid=($_POST['mac_addr']);
+                $mcid=($_POST['mac_addr']); 
+                if($_POST['alert-server-new']=='1')
+                {
+                    //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
+                    $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
+                    $req->execute(array(':name'=>$_POST['company2']));
+                    $cmn=$_POST['company2'];
+                }
+                else 
+                    $cmn=$_POST['company'];
+                $req2 = $pdo->prepare("SELECT company_id from company where name = :name");
+                $req2->execute(array(":name" => $cmn));
+                $row = $req2->fetch(PDO::FETCH_ASSOC);
+                if($row == false)
+                {
+                    $_SESSION['error'] = "Unexpected Error occured while adding company".$cmn;
+                    header("Location:home.php");
+                    return;
+                }
+                $company_id=$row['company_id'];
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                     //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
                     $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`) values 
-                        ('inbuilt',:description_ram,:grn,'ram',1 ),
-                        ('inbuilt',:description_processor,:grn,'processor',1),
-                        ('inbuilt',:description_hd,:grn,'harddisk',1),
-                        ('inbuilt',:description_mouse,:grn,'mouse',1),
-                        ('inbuilt',:description_keyboard,:grn,'keyboard',1),
-                        ('inbuilt',:description_monitor,:grn,'monitor',1)
+                        (:company,:description_ram,:grn,'6',1 ),
+                        (:company,:description_processor,:grn,'5',1),
+                        (:company,:description_hd,:grn,'4',1),
+                        (:company,:description_mouse,:grn,'1',1),
+                        (:company,:description_keyboard,:grn,'2',1),
+                        (:company,:description_monitor,:grn,'3',1)
                     ");
                     $stmt->execute(array(
                         ':description_ram'=>$_POST['ram'],
@@ -55,7 +74,8 @@
                         ':description_mouse'=>$_POST['mouse'],
                         ':description_keyboard'=>$_POST['keyboard'],
                         ':description_monitor'=>$_POST['monitor'],
-                        ':grn'=>$_POST['grn']
+                        ':grn'=>$_POST['grn'],
+                        ':company'=>$company_id
                         ));
                     $ramid=$pdo->lastInsertId();
                     $keyboardid=$ramid+4;
@@ -163,7 +183,28 @@
     <div class="input-group">
     <span class="input-group-addon">Other Details</span>
     <input type="text" name="other" class="form-control"> </div><br/>   
-    
+
+    <div class="input-group">
+        <span class="input-group-addon">Company Name</span>
+        <select id="drop-other" name="company" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT DISTINCT name from company");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['name']);
+                echo '</option>';
+            }
+         ?>
+    <option>Other</option>
+    </select>
+    </div><br>
+    <div class="input-group">
+        <span class="input-group-addon">New Company Name</span>   
+        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
+    </div><br>
+    <input type="text" id="alert-server-new"name="alert-server-new" hidden>
     <span class="input-group">
     <span class="input-group-addon">Enter Quantity</span>
     <input type="number" required="" class="form-control" name="qty" min="1"></span>
