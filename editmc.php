@@ -197,10 +197,14 @@
     <select name=processor class="form-control" required="">
         <?php
             
+            $qr=$pdo->query("SELECT * from name where name = 'processor'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $processoriddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['processor'].' selected >';
             echo ($processor);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'processor' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $processoriddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
@@ -219,11 +223,14 @@
     <span class="input-group-addon">Ram</span>
     <select name=ram class="form-control" required="">
         <?php
-            
+            $qr=$pdo->query("SELECT * from name where name = 'ram'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $ramiddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['ram'].' selected >';
             echo ($ram);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'ram' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $ramiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
@@ -242,11 +249,14 @@
     <span class="input-group-addon">Storage</span>
     <select name=memory class="form-control" required="">
         <?php
-            
+            $qr=$pdo->query("SELECT * from name where name = 'harddisk'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $memoryiddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['memory'].' selected >';
             echo ($memory);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'harddisk' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $memoryiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
@@ -269,11 +279,14 @@
     <span class="input-group-addon">Keyboard </span>
     <select name=keyboard class="form-control" required="">
         <?php
-            
+            $qr=$pdo->query("SELECT * from name where name = 'keyboard'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $keyboardiddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['keyboard'].' selected >';
             echo ($keyboard);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'keyboard' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $keyboardiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
@@ -292,11 +305,14 @@
     <span class="input-group-addon">Mouse</span>
     <select name=mouse class="form-control" required="">
         <?php
-            
+            $qr=$pdo->query("SELECT * from name where name = 'mouse'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $mouseiddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['mouse'].' selected >';
             echo ($mouse);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'mouse' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $mouseiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
@@ -315,11 +331,14 @@
     <span class="input-group-addon">Monitor</span>
     <select name=monitor class="form-control" required="">
         <?php
-            
+            $qr=$pdo->query("SELECT * from name where name = 'monitor'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $monitoriddb=$rowtmp['name_id'];
+
             echo '<option value = '.$row['monitor'].' selected >';
             echo ($monitor);
             echo '</option>';
-            $qr=$pdo->query("SELECT * from hardware WHERE name = 'monitor' AND state = '0'");
+            $qr=$pdo->query("SELECT * from hardware WHERE name = $monitoriddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
