@@ -14,6 +14,32 @@
         header("Location: home.php");
         return;
     }
+    //ID OF NAMES
+    
+    $qr=$pdo->query("SELECT * from name where name = 'keyboard'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $keyboardiddb=$rowtmp['name_id'];
+
+    $qr=$pdo->query("SELECT * from name where name = 'mouse'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $mouseiddb=$rowtmp['name_id'];
+
+    $qr=$pdo->query("SELECT * from name where name = 'harddisk'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $memoryiddb=$rowtmp['name_id'];
+
+    $qr=$pdo->query("SELECT * from name where name = 'processor'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $processoriddb=$rowtmp['name_id'];
+
+    $qr=$pdo->query("SELECT * from name where name = 'ram'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $ramiddb=$rowtmp['name_id'];
+
+    $qr=$pdo->query("SELECT * from name where name = 'monitor'");
+    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+    $monitoriddb=$rowtmp['name_id'];
+
     if(isset($_POST['mac_addr']) )
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
@@ -60,12 +86,12 @@
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                     //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
                     $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`) values 
-                        (:company,:description_ram,:grn,'6',1 ),
-                        (:company,:description_processor,:grn,'5',1),
-                        (:company,:description_hd,:grn,'4',1),
-                        (:company,:description_mouse,:grn,'1',1),
-                        (:company,:description_keyboard,:grn,'2',1),
-                        (:company,:description_monitor,:grn,'3',1)
+                        (:company,:description_ram,:grn,:ram,1 ),
+                        (:company,:description_processor,:grn,:processor,1),
+                        (:company,:description_hd,:grn,:memory,1),
+                        (:company,:description_mouse,:grn,:mouse,1),
+                        (:company,:description_keyboard,:grn,:kb,1),
+                        (:company,:description_monitor,:grn,:monitor,1)
                     ");
                     $stmt->execute(array(
                         ':description_ram'=>$_POST['ram'],
@@ -75,7 +101,15 @@
                         ':description_keyboard'=>$_POST['keyboard'],
                         ':description_monitor'=>$_POST['monitor'],
                         ':grn'=>$_POST['grn'],
-                        ':company'=>$company_id
+                        ':company'=>$company_id,
+                        ':ram' => $ramidbdb,
+                        ':processor' => $processoriddb,
+                        ':memory' => $memoryiddb,
+                        ':mouse' => $mouseiddb,
+                        ':kb' => $keyboardiddb,
+                        ':monitor'=> $monitoriddb
+
+
                         ));
                     $ramid=$pdo->lastInsertId();
                     $keyboardid=$ramid+4;
