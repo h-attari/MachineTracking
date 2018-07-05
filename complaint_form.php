@@ -108,12 +108,15 @@
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
     <input type="text" name="mac_addr" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Complaint Details </span>
     <input type="text" name="details" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Priority</span>
     <input type="text" name="priority" required="" placeholder="in no. of days" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Complaint By </span>
     <input type="text" name="name" required="" class="form-control"> </div><br/>
