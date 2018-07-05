@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 27, 2018 at 05:41 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Jul 05, 2018 at 05:41 AM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,6 +25,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `company`
+--
+
+CREATE TABLE `company` (
+  `company_id` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `complaint_book`
 --
 
@@ -37,6 +48,22 @@ CREATE TABLE `complaint_book` (
   `work_for` int(11) DEFAULT NULL,
   `remarks` varchar(512) DEFAULT NULL,
   `complaint_by` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hardware`
+--
+
+CREATE TABLE `hardware` (
+  `hardware_id` int(11) NOT NULL,
+  `company` int(11) DEFAULT NULL,
+  `description` text,
+  `price` int(11) DEFAULT NULL,
+  `grn` int(11) DEFAULT NULL,
+  `name` int(11) DEFAULT NULL,
+  `state` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -67,24 +94,18 @@ INSERT INTO `lab` (`lab_id`, `name`, `department`) VALUES
 CREATE TABLE `machine` (
   `machine_id` int(11) NOT NULL,
   `MAC_ADDR` varchar(30) DEFAULT NULL,
-  `processor` varchar(30) DEFAULT NULL,
-  `ram` varchar(20) DEFAULT NULL,
-  `memory` varchar(20) DEFAULT NULL,
+  `processor` int(11) NOT NULL,
+  `ram` int(11) NOT NULL,
+  `memory` int(11) NOT NULL,
   `DOP` date DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `state` varchar(10) DEFAULT NULL,
-  `os` varchar(30) DEFAULT NULL
+  `os` varchar(30) DEFAULT NULL,
+  `monitor` int(11) NOT NULL,
+  `keyboard` int(11) NOT NULL,
+  `mouse` int(11) NOT NULL,
+  `grn` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `machine`
---
-
-INSERT INTO `machine` (`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`) VALUES
-(22, '1', 'intel i5', '4 GB', '1 TB', '2018-06-01', 39000, 'ACTIVE', 'Ubuntu'),
-(23, '2', 'intel i5', '4 GB', '1 TB', '2018-06-01', 39000, 'ACTIVE', 'Ubuntu'),
-(24, '3', 'intel i5', '4 GB', '1 TB', '2018-06-01', 39000, 'ACTIVE', 'Ubuntu'),
-(25, '4', 'intel i5', '4 GB', '1 TB', '2018-06-01', 39000, 'ACTIVE', 'Ubuntu');
 
 -- --------------------------------------------------------
 
@@ -115,6 +136,17 @@ INSERT INTO `member` (`member_id`, `id`, `first_name`, `last_name`, `email`, `pa
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `name`
+--
+
+CREATE TABLE `name` (
+  `name_id` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `position`
 --
 
@@ -125,16 +157,6 @@ CREATE TABLE `position` (
   `initial_date` date DEFAULT NULL,
   `final_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `position`
---
-
-INSERT INTO `position` (`position_id`, `machine_id`, `lab_id`, `initial_date`, `final_date`) VALUES
-(47, 22, 15, '2018-06-08', '1970-01-01'),
-(48, 23, 15, '2018-06-08', '1970-01-01'),
-(49, 24, 15, '2018-06-02', '2018-06-16'),
-(50, 25, 15, '2018-06-02', '2018-06-16');
 
 -- --------------------------------------------------------
 
@@ -150,6 +172,21 @@ CREATE TABLE `repair_history` (
   `fault` varchar(500) DEFAULT NULL,
   `cost` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `software`
+--
+
+CREATE TABLE `software` (
+  `software_id` int(11) NOT NULL,
+  `company` varchar(30) DEFAULT NULL,
+  `description` text,
+  `price` int(11) DEFAULT NULL,
+  `grn` int(11) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -190,12 +227,26 @@ CREATE TABLE `transfer_request` (
 --
 
 --
+-- Indexes for table `company`
+--
+ALTER TABLE `company`
+  ADD PRIMARY KEY (`company_id`);
+
+--
 -- Indexes for table `complaint_book`
 --
 ALTER TABLE `complaint_book`
   ADD PRIMARY KEY (`complaint_book_id`),
   ADD KEY `fk_1` (`machine_id`),
   ADD KEY `FK1` (`work_for`);
+
+--
+-- Indexes for table `hardware`
+--
+ALTER TABLE `hardware`
+  ADD PRIMARY KEY (`hardware_id`),
+  ADD KEY `FK_company` (`company`),
+  ADD KEY `FK_name` (`name`);
 
 --
 -- Indexes for table `lab`
@@ -207,13 +258,25 @@ ALTER TABLE `lab`
 -- Indexes for table `machine`
 --
 ALTER TABLE `machine`
-  ADD PRIMARY KEY (`machine_id`);
+  ADD PRIMARY KEY (`machine_id`),
+  ADD KEY `fk_processor` (`processor`),
+  ADD KEY `fk_ram` (`ram`),
+  ADD KEY `fk_memory` (`memory`),
+  ADD KEY `fk_monitor` (`monitor`),
+  ADD KEY `fk_keyboard` (`keyboard`),
+  ADD KEY `fk_mouse` (`mouse`);
 
 --
 -- Indexes for table `member`
 --
 ALTER TABLE `member`
   ADD PRIMARY KEY (`member_id`);
+
+--
+-- Indexes for table `name`
+--
+ALTER TABLE `name`
+  ADD PRIMARY KEY (`name_id`);
 
 --
 -- Indexes for table `position`
@@ -229,6 +292,12 @@ ALTER TABLE `position`
 ALTER TABLE `repair_history`
   ADD PRIMARY KEY (`repair_history_id`),
   ADD KEY `machine_id` (`machine_id`);
+
+--
+-- Indexes for table `software`
+--
+ALTER TABLE `software`
+  ADD PRIMARY KEY (`software_id`);
 
 --
 -- Indexes for table `system_transfer_report`
@@ -249,10 +318,22 @@ ALTER TABLE `transfer_request`
 --
 
 --
+-- AUTO_INCREMENT for table `company`
+--
+ALTER TABLE `company`
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `complaint_book`
 --
 ALTER TABLE `complaint_book`
   MODIFY `complaint_book_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `hardware`
+--
+ALTER TABLE `hardware`
+  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `lab`
@@ -264,7 +345,7 @@ ALTER TABLE `lab`
 -- AUTO_INCREMENT for table `machine`
 --
 ALTER TABLE `machine`
-  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `member`
@@ -273,16 +354,28 @@ ALTER TABLE `member`
   MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `name`
+--
+ALTER TABLE `name`
+  MODIFY `name_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `repair_history`
 --
 ALTER TABLE `repair_history`
   MODIFY `repair_history_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `software`
+--
+ALTER TABLE `software`
+  MODIFY `software_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `system_transfer_report`
@@ -306,6 +399,24 @@ ALTER TABLE `transfer_request`
 ALTER TABLE `complaint_book`
   ADD CONSTRAINT `FK1` FOREIGN KEY (`work_for`) REFERENCES `member` (`member_id`),
   ADD CONSTRAINT `fk_1` FOREIGN KEY (`machine_id`) REFERENCES `machine` (`machine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `hardware`
+--
+ALTER TABLE `hardware`
+  ADD CONSTRAINT `FK_company` FOREIGN KEY (`company`) REFERENCES `company` (`company_id`),
+  ADD CONSTRAINT `FK_name` FOREIGN KEY (`name`) REFERENCES `name` (`name_id`);
+
+--
+-- Constraints for table `machine`
+--
+ALTER TABLE `machine`
+  ADD CONSTRAINT `fk_keyboard` FOREIGN KEY (`keyboard`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_memory` FOREIGN KEY (`memory`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_monitor` FOREIGN KEY (`monitor`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_mouse` FOREIGN KEY (`mouse`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_processor` FOREIGN KEY (`processor`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ram` FOREIGN KEY (`ram`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `position`
