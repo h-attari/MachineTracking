@@ -27,9 +27,20 @@
         {
             if($_POST['alert-server-new-device']=='1')
             {                    
-                $req=$pdo->prepare('INSERT INTO name(name) VALUES(:name)');
-                $req->execute(array(':name'=>$_POST['device-name2']));
-                $devname=$_POST['device-name2'];
+                $read=$pdo->prepare('SELECT * from name where name = :name');
+                $read->execute(array(':name'=>$_POST['device-name2']));
+                $rowr=$read->fetch(PDO::FETCH_ASSOC);
+                if($rowr == false)
+                {
+                    $req=$pdo->prepare('INSERT INTO name(name) VALUES(:name)');
+                    $req->execute(array(':name'=>$_POST['device-name2']));
+                    $devname=$_POST['device-name2'];    
+                }
+                else
+                {
+                    $devname=$_POST['device-name2'];
+                }
+                
             }
             else
                 $devname=$_POST['device-name'];
@@ -47,9 +58,21 @@
             if($_POST['alert-server-new']=='1')
             {
                     //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
-                    $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
-                    $req->execute(array(':name'=>$_POST['company2']));
-                    $cmn=$_POST['company2'];
+
+                    $read=$pdo->prepare('SELECT * from company where name = :name');
+                    $read->execute(array(':name'=>$_POST['device-name2']));
+                    $rowr=$read->fetch(PDO::FETCH_ASSOC);
+
+                    if($rowr == false)
+                    {
+                        $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
+                        $req->execute(array(':name'=>$_POST['company2']));
+                        $cmn=$_POST['company2'];
+                    }
+                    else
+                    {
+                        $cmn=$_POST['company2'];
+                    }
             }
             else 
              $cmn=$_POST['company'];
