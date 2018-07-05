@@ -33,6 +33,7 @@
                 if($row['COUNT(*)'] === '0')
                 {
                     $_SESSION['error'] .= "Unable to delete machine, ".$i." Machine does not exist";
+                    continue;
                 }
                 $stmt = $pdo->prepare('SELECT COUNT(*) FROM lab WHERE name = :lab');
                 $stmt->execute(array(':lab' => $_POST['lab']));
