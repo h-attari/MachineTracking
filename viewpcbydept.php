@@ -55,77 +55,79 @@
             {
                 $pcf=$pdo->prepare("SELECT * FROM position where lab_id=:labid AND final_date='1970-01-01'");
                 $pcf->execute(array(':labid'=>$row['lab_id']));
-                $row2=$pcf->fetch(PDO::FETCH_ASSOC);
-                $mid=$row2['machine_id'];
-                $read2= $pdo -> query("SELECT * FROM machine where machine_id='$mid'");
-                while($row2 = $read2->fetch(PDO::FETCH_ASSOC))
+                while($row2=$pcf->fetch(PDO::FETCH_ASSOC))
                 {
-                    $stmtreadn = $pdo->prepare("SELECT * FROM position where machine_id = :mid");
-                    $stmtreadn->execute(array(':mid' => $row2['machine_id']));
-                    $rown=$stmtreadn->fetch(PDO::FETCH_ASSOC);
+                    $mid=$row2['machine_id'];
+                    $read2= $pdo -> query("SELECT * FROM machine where machine_id='$mid'");
+                    while($row2 = $read2->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $stmtreadn = $pdo->prepare("SELECT * FROM position where machine_id = :mid");
+                        $stmtreadn->execute(array(':mid' => $row2['machine_id']));
+                        $rown=$stmtreadn->fetch(PDO::FETCH_ASSOC);
 
-                    $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $processor->execute(array(':hid' => $row2['processor']));
-                    $processorn = $processor->fetch(PDO::FETCH_ASSOC);
+                        $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $processor->execute(array(':hid' => $row2['processor']));
+                        $processorn = $processor->fetch(PDO::FETCH_ASSOC);
 
-                    $ram = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $ram->execute(array(':hid' => $row2['ram']));
-                    $ramn = $ram->fetch(PDO::FETCH_ASSOC);
+                        $ram = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $ram->execute(array(':hid' => $row2['ram']));
+                        $ramn = $ram->fetch(PDO::FETCH_ASSOC);
 
-                    $memory = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $memory->execute(array(':hid' => $row2['memory']));
-                    $memoryn = $memory->fetch(PDO::FETCH_ASSOC);
+                        $memory = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $memory->execute(array(':hid' => $row2['memory']));
+                        $memoryn = $memory->fetch(PDO::FETCH_ASSOC);
 
-                    $keyboard = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $keyboard->execute(array(':hid' => $row2['keyboard']));
-                    $keyboardn = $keyboard->fetch(PDO::FETCH_ASSOC);
+                        $keyboard = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $keyboard->execute(array(':hid' => $row2['keyboard']));
+                        $keyboardn = $keyboard->fetch(PDO::FETCH_ASSOC);
 
-                    $mouse = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $mouse->execute(array(':hid' => $row2['mouse']));
-                    $mousen = $mouse->fetch(PDO::FETCH_ASSOC);
+                        $mouse = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $mouse->execute(array(':hid' => $row2['mouse']));
+                        $mousen = $mouse->fetch(PDO::FETCH_ASSOC);
 
-                    $monitor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
-                    $monitor->execute(array(':hid' => $row2['monitor']));
-                    $monitorn = $monitor->fetch(PDO::FETCH_ASSOC);
+                        $monitor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                        $monitor->execute(array(':hid' => $row2['monitor']));
+                        $monitorn = $monitor->fetch(PDO::FETCH_ASSOC);
 
-                    echo ("<tr>");
-                    echo ("<td>");
-                    echo($i);
-                    echo("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row2['MAC_ADDR']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($processorn['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($ramn['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($memoryn['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row2['os']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($keyboardn['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($mousen['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($monitorn['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row2['DOP']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row2['price']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row2['state']));
-                    echo ("</td>");
-                    $i++;
+                        echo ("<tr>");
+                        echo ("<td>");
+                        echo($i);
+                        echo("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row2['MAC_ADDR']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($processorn['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($ramn['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($memoryn['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row2['os']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($keyboardn['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($mousen['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($monitorn['description']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row2['DOP']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row2['price']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row2['state']));
+                        echo ("</td>");
+                        $i++;
+                    }
                 }
             }
             echo('</table>');
