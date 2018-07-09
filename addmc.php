@@ -231,12 +231,12 @@
                 echo '</option>';
             }
          ?>
-    <option>Other</option>
+    <option selected="">Other</option>
     </select>
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
+        <input type="text" class="form-control" name="company2" id="hide-drop-other">
     </div><br>
     <input type="text" id="alert-server-new"name="alert-server-new" hidden>
     <span class="input-group">
