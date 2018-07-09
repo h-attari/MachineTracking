@@ -86,8 +86,14 @@
                 return;
             }
             $company_id=$row['company_id'];
-            $stmt = $pdo->prepare('INSERT INTO hardware (company, description, price, grn, name, state) VALUES (:company, :description, :price, :grn, :name, 0)');
-            $stmt->execute(array(':company' => $company_id, ':description' => $_POST['description'], ':price' => $_POST['price'], ':grn' => $_POST['grn'], ':name' => $name_id));
+            $stmt = $pdo->prepare('INSERT INTO hardware (company, description, price, grn, name, state,supplier) VALUES (:company, :description, :price, :grn, :name, 0,:supplier)');
+            $stmt->execute(array(
+                ':company' => $company_id,
+             ':description' => $_POST['description'], 
+             ':price' => $_POST['price'], 
+             ':grn' => $_POST['grn'],
+             ':name' => $name_id,
+                ':supplier' => $sup_id));
             $_SESSION['success'] = "Device Added Successfully";
             header('Location: home.php');
             return;
