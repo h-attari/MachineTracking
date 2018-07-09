@@ -153,6 +153,8 @@
     <div class="page-header">
     <h1>ADD MACHINE</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+    </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -170,13 +172,13 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control"> </div>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')"> </div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
     
     <br/>
     <div class="input-group">
     <span class="input-group-addon">GR Number</span>
-    <input type="text" name="grn" required="" class="form-control"> </div><br/>
+    <input type="text" name="grn" required="" class="form-control" id="grn" onchange="Number('grn')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
@@ -184,11 +186,11 @@
     
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control"> </div><br/>
+    <input type="text" name="ram" required="" class="form-control" id="ram" onchange="Size('ram')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
-    <input type="text" name="memory" required="" class="form-control"> </div><br/>
+    <input type="text" name="memory" required="" class="form-control" id="memory" onchange="Size('memory')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Mouse</span>
@@ -208,7 +210,7 @@
     
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
-    <input type="text" name="price" required="" class="form-control"> </div><br/>
+    <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
@@ -231,19 +233,20 @@
                 echo '</option>';
             }
          ?>
-    <option selected="">Other</option>
+    <option>Other</option>
     </select>
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" name="company2" id="hide-drop-other">
+        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
     </div><br>
     <input type="text" id="alert-server-new"name="alert-server-new" hidden>
     <span class="input-group">
     <span class="input-group-addon">Enter Quantity</span>
     <input type="number" required="" class="form-control" name="qty" min="1"></span>
     <br>
-    <input type="submit" value="Add Machine" class="btn btn-info">
+    <input type="submit" value="Add Machine" name="add" id="go" class="btn btn-info">
+
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
