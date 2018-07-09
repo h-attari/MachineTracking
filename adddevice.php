@@ -86,14 +86,39 @@
                 return;
             }
             $company_id=$row['company_id'];
-            $stmt = $pdo->prepare('INSERT INTO hardware (company, description, price, grn, name, state,supplier) VALUES (:company, :description, :price, :grn, :name, 0,:supplier)');
+
+
+
+             if($_POST['alert-server-new-supplier']=='1')
+                {
+                    //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
+                    $req=$pdo->prepare('INSERT INTO supplier(supname) VALUES(:supname)');
+                    $req->execute(array(':supname'=>$_POST['supplier2']));
+                    $smn=$_POST['supplier2'];
+                }
+                else 
+                    $smn=$_POST['supplier'];
+               
+                $req2 = $pdo->prepare("SELECT sup_id from supplier where supname = :name");
+                $req2->execute(array(":name" => $smn));
+                $row = $req2->fetch(PDO::FETCH_ASSOC);
+                $supplier_id=$row['sup_id'];
+
+
+
+
+
+
+
+
+            $stmt = $pdo->prepare('INSERT INTO hardware (company, description, price, grn, name, state,supplier) VALUES (:company, :description, :price, :grn, :name, 0,:smn)');
             $stmt->execute(array(
                 ':company' => $company_id,
              ':description' => $_POST['description'], 
              ':price' => $_POST['price'], 
              ':grn' => $_POST['grn'],
              ':name' => $name_id,
-                ':supplier' => $sup_id));
+                ':smn' => $supplier_id));
             $_SESSION['success'] = "Device Added Successfully";
             header('Location: home.php');
             return;
@@ -185,6 +210,36 @@
         <input type="text" class="form-control" name="company2" id="hide-drop-other">
     </div><br>
     <input type="text" id="alert-server-new" name="alert-server-new" value="1" hidden>
+
+
+
+     <div class="input-group">
+        <span class="input-group-addon">Supplier</span>
+        <select id="drop-supplier" name="supplier" class="form-control" onchange="Supplier();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT DISTINCT supname from supplier");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['supname']);
+                echo '</option>';
+            }
+         ?>
+    <option selected="">Other</option>
+    </select>
+    </div><br>
+    <div class="input-group">
+        <span class="input-group-addon">New Supplier Name</span>   
+        <input type="text" class="form-control" name="supplier2" id="other-supplier">
+    </div><br>
+    <input type="text" id="alert-server-new-supplier"name="alert-server-new-supplier" value="1" hidden>
+
+
+
+
+
+
         <div class="input-group">
         <span class="input-group-addon">Description </span>
         <input type="text" name="description" required class="form-control"> </div><br/>
