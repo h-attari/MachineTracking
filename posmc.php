@@ -33,6 +33,7 @@
                 if($row['COUNT(*)'] === '0')
                 {
                     $_SESSION['error'] .= "Unable to delete machine, ".$i." Machine does not exist";
+                    continue;
                 }
                 $stmt = $pdo->prepare('SELECT COUNT(*) FROM lab WHERE name = :lab');
                 $stmt->execute(array(':lab' => $_POST['lab']));
@@ -116,9 +117,11 @@
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
     <input type="text" name="mac_addr" required="" class="form-control" placeholder="Starting Machine ID"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
     <input type="text" name="mac_addr2" required="" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
+
     <div class="input-group">
     <span class="input-group-addon">LAB NAME </span>
     <select class="form-control" name="lab" required>
@@ -135,9 +138,11 @@
         ?>
     </select>
     </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">FROM </span>
     <input type="date" name="from" required="" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">TO (optional)</span>
     <input type="date" name="to" class="form-control"> </div><br/>

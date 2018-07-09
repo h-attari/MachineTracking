@@ -49,7 +49,7 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM machine ORDER BY MAC_ADDR");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>DOP</th><th>Other Details</th><th>Price</th><th>Location</th> <th>State</th></tr>");
+                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>Keyboard</th><th>Mouse</th><th>Monitor</th><th>DOP</th><th>Price</th><th>Location</th> <th>State</th></tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date = '1970-01-01'");
@@ -59,6 +59,30 @@
                 $stmtn2->execute(array(':lid' => $rown['lab_id']));
                 $rown2 = $stmtn2->fetch(PDO::FETCH_ASSOC);
 
+                $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $processor->execute(array(':hid' => $row['processor']));
+                $processorn = $processor->fetch(PDO::FETCH_ASSOC);
+
+                $ram = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $ram->execute(array(':hid' => $row['ram']));
+                $ramn = $ram->fetch(PDO::FETCH_ASSOC);
+
+                $memory = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $memory->execute(array(':hid' => $row['memory']));
+                $memoryn = $memory->fetch(PDO::FETCH_ASSOC);
+
+                $keyboard = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $keyboard->execute(array(':hid' => $row['keyboard']));
+                $keyboardn = $keyboard->fetch(PDO::FETCH_ASSOC);
+
+                $mouse = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $mouse->execute(array(':hid' => $row['mouse']));
+                $mousen = $mouse->fetch(PDO::FETCH_ASSOC);
+
+                $monitor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $monitor->execute(array(':hid' => $row['monitor']));
+                $monitorn = $monitor->fetch(PDO::FETCH_ASSOC);
+
                 echo ("<tr>");
                 echo ("<td>");
                 echo($i);
@@ -67,22 +91,29 @@
                 echo(htmlentities($row['MAC_ADDR']));
                 echo ("</td>");
                 echo ("<td>");
-                echo(htmlentities($row['processor']));
+                echo(htmlentities($processorn['description']));
                 echo ("</td>");
                 echo ("<td>");
-                echo(htmlentities($row['ram']));
+                echo(htmlentities($ramn['description']));
                 echo ("</td>");
                 echo ("<td>");
-                echo(htmlentities($row['memory']));
+                echo(htmlentities($memoryn['description']));
                 echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['os']));
                 echo ("</td>");
                 echo ("<td>");
-                echo(htmlentities($row['DOP']));
+                echo(htmlentities($keyboardn['description']));
                 echo ("</td>");
                 echo ("<td>");
-                echo (htmlentities($row['other']));
+                echo(htmlentities($mousen['description']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($monitorn['description']));
+                echo ("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['DOP']));
+                echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['price']));
                 echo ("</td>");

@@ -149,12 +149,12 @@
                 echo '</option>';
             }
          ?>
-        <option selected="">Other</option>
+        <option>Other</option>
         </select>
         </div><br/>
         <div class="input-group">
             <span class="input-group-addon">New Device Name </span>
-            <input name="device-name2" type="text" class="form-control" name="device_name" id="other-device" placeholder="Enter New Device Name">
+            <input name="device-name2" type="text" class="form-control" disabled name="device_name" id="other-device" placeholder="Enter New Device Name">
         </div><br>
         <input type="text" name="alert-server-new-device" id="alert-server-new-device" hidden>
         
@@ -171,12 +171,12 @@
                 echo '</option>';
             }
          ?>
-    <option selected="">Other</option>
+    <option>Other</option>
     </select>
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" name="company2" id="hide-drop-other">
+        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
     </div><br>
     <input type="text" id="alert-server-new"name="alert-server-new" hidden>
         <div class="input-group">

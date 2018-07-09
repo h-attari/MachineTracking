@@ -57,6 +57,7 @@
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -74,26 +75,33 @@
 
     <div class="input-group">
     <span class="input-group-addon">Name </span>
-    <input type="text" name="name" required="" class="form-control"> </div><br/>
+    <input type="text" name="name" required="" class="form-control" id="rname" onchange="Names('rname')"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Department </span>
     <input type="text" name="department" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
     <input type="text" name="purpose" required="" class="form-control"> </div><br/>
+
     <p>Required Specifications</p>
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
     <input type="text" name="processor" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" class="form-control"> </div><br/>
+    <input type="text" name="ram" class="form-control" id="ram" onchange="Size('ram')"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">HDD</span>
     <input type="text" name="HDD" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">OS </span>
     <input type="text" name="os" class="form-control"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Quantity</span>
     <input type="number" name="quantity" required class="form-control"> </div><br/>

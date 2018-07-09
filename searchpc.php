@@ -9,31 +9,6 @@
         die('ACCESS DENIED');
     }
     require_once "pdo.php";
-
-    $qr=$pdo->query("SELECT * from name where name = 'keyboard'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $keyboardiddb=$rowtmp['name_id'];
-
-    $qr=$pdo->query("SELECT * from name where name = 'mouse'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $mouseiddb=$rowtmp['name_id'];
-
-    $qr=$pdo->query("SELECT * from name where name = 'harddisk'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $memoryiddb=$rowtmp['name_id'];
-
-    $qr=$pdo->query("SELECT * from name where name = 'processor'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $processoriddb=$rowtmp['name_id'];
-
-    $qr=$pdo->query("SELECT * from name where name = 'ram'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $ramiddb=$rowtmp['name_id'];
-
-    $qr=$pdo->query("SELECT * from name where name = 'monitor'");
-    $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
-    $monitoriddb=$rowtmp['name_id'];
-
 ?>
 <html>
 <head>
@@ -56,10 +31,10 @@
                 <select class="form-control" id="processor" name="processor">
                     <option>Any</option>
                     <?php
-                        $qr=$pdo->query("SELECT description from hardware where name = $processoriddb");
+                        $qr=$pdo->query("SELECT distinct(processor) from machine where 1");
                         while($row=$qr->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo "<option>". $row['description']."</option>";
+                            echo "<option>". $row['processor']."</option>";
                         }
                     ?>    
                 </select>
@@ -67,10 +42,10 @@
                 <select class="form-control" id="ram" name="ram">
                     <option>Any</option>           
                     <?php
-                        $qr=$pdo->query("SELECT description from hardware where name = $ramiddb");
+                        $qr=$pdo->query("SELECT distinct(ram) from machine where 1");
                         while($row=$qr->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo "<option>". $row['description']."</option>";
+                            echo "<option>". $row['ram']."</option>";
                         }
                     ?>    
                 </select>
@@ -78,10 +53,10 @@
                 <select class="form-control" id="memory" name="memory">
                     <option>Any</option> 
                     <?php
-                        $qr=$pdo->query("SELECT description from hardware where name = $memoryiddb");
+                        $qr=$pdo->query("SELECT distinct(memory) from machine where 1");
                         while($row=$qr->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo "<option>". $row['description']."</option>";
+                            echo "<option>". $row['memory']."</option>";
                         }
                     ?>    
                 </select>

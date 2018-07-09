@@ -126,9 +126,11 @@
     <div class="input-group">
     <span class="input-group-addon">Department </span>
     <input type="text" name="department" class="form-control" required value="<?= $dept ?>"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
     <input type="text" name="purpose" class="form-control" required value ="<?= $pur ?>"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Lab no.</span>
     <select name="labid" required>

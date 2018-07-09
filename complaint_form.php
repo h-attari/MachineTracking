@@ -90,6 +90,7 @@
     <div class="page-header">
     <h1>REGISTER COMPLAINT</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -107,16 +108,19 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Complaint Details </span>
     <input type="text" name="details" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Priority</span>
-    <input type="text" name="priority" required="" placeholder="in no. of days" class="form-control"> </div><br/>
+    <input type="text" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority" onchange="Number('priority')"> </div><br/>
+    
     <div class="input-group">
     <span class="input-group-addon">Complaint By </span>
-    <input type="text" name="name" required="" class="form-control"> </div><br/>
+    <input type="text" name="name" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
     
 
     <input type="submit" value="Register Complaint" class="btn btn-info">

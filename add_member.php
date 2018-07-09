@@ -88,6 +88,7 @@
         <div class="page-header">
     <h1>ADD NEW MEMBER</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -106,29 +107,35 @@
     <div class="input-group">
     <span class="input-group-addon">ID</span>
     <input type="text" name="id" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">First Name</span>
-    <input type="text" name="first_name" required="" class="form-control"> </div><br/>
+    <input type="text" name="first_name" required="" class="form-control" id="fname" onchange="Names('fname')"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Last Name</span>
-    <input type="text" name="last_name" required="" class="form-control"> </div><br/>
+    <input type="text" name="last_name" required="" class="form-control" id="lname" onchange="Names('lname')"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Email</span>
     <input type="email" name="email" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Password</span>
     <input type="password" name="pass" required="" class="form-control"> </div><br/>
+
     <div class="input-group">
     <span class="input-group-addon">Confirm Password</span>
     <input type="password" required="" name="c_pass" class="form-control"> </div><br/>
+    
     <input type="submit" value="Sign Up" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>
     </div>
-    <script type="text/javascript" src="script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
