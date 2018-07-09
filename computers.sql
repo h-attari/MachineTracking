@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2018 at 09:13 AM
+-- Generation Time: Jul 09, 2018 at 07:31 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -75,31 +75,32 @@ CREATE TABLE `hardware` (
   `price` int(11) DEFAULT NULL,
   `grn` int(11) DEFAULT NULL,
   `name` int(11) DEFAULT NULL,
-  `state` int(11) NOT NULL
+  `state` int(11) NOT NULL,
+  `supplier` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hardware`
 --
 
-INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`, `name`, `state`) VALUES
-(169, 13, 'as', 12, 1, 12, 0),
-(170, 1, 'Alphastar ka keyboard', 132, 44, 2, 0),
-(171, 1, 'asd', 12, 1, 12, 0),
-(172, 1, 'asd', 123, 1, 14, 0),
-(173, 14, '3', 1, 3, 14, 0),
-(174, 1, 'bjk', NULL, 1, 6, 1),
-(175, 1, 'bkj', NULL, 1, 5, 1),
-(176, 1, 'bjk', NULL, 1, 4, 1),
-(177, 1, 'bjkb', NULL, 1, 1, 1),
-(178, 1, 'jk', NULL, 1, 2, 1),
-(179, 1, 'bkj', NULL, 1, 3, 1),
-(180, 16, 'nln', NULL, 1, 6, 1),
-(181, 16, 'li', NULL, 1, 5, 1),
-(182, 16, 'ljkn', NULL, 1, 4, 1),
-(183, 16, 'ln', NULL, 1, 1, 1),
-(184, 16, 'lknkl', NULL, 1, 2, 1),
-(185, 16, 'nk', NULL, 1, 3, 1);
+INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`, `name`, `state`, `supplier`) VALUES
+(169, 13, 'as', 12, 1, 12, 0, NULL),
+(170, 1, 'Alphastar ka keyboard', 132, 44, 2, 0, NULL),
+(171, 1, 'asd', 12, 1, 12, 0, NULL),
+(172, 1, 'asd', 123, 1, 14, 0, NULL),
+(173, 14, '3', 1, 3, 14, 0, NULL),
+(174, 1, 'bjk', NULL, 1, 6, 1, NULL),
+(175, 1, 'bkj', NULL, 1, 5, 1, NULL),
+(176, 1, 'bjk', NULL, 1, 4, 1, NULL),
+(177, 1, 'bjkb', NULL, 1, 1, 1, NULL),
+(178, 1, 'jk', NULL, 1, 2, 1, NULL),
+(179, 1, 'bkj', NULL, 1, 3, 1, NULL),
+(180, 16, 'nln', NULL, 1, 6, 1, NULL),
+(181, 16, 'li', NULL, 1, 5, 1, NULL),
+(182, 16, 'ljkn', NULL, 1, 4, 1, NULL),
+(183, 16, 'ln', NULL, 1, 1, 1, NULL),
+(184, 16, 'lknkl', NULL, 1, 2, 1, NULL),
+(185, 16, 'nk', NULL, 1, 3, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -250,6 +251,24 @@ CREATE TABLE `software` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `supname` varchar(30) DEFAULT NULL,
+  `sup_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`supname`, `sup_id`) VALUES
+('IMB', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `system_transfer_report`
 --
 
@@ -305,7 +324,8 @@ ALTER TABLE `complaint_book`
 ALTER TABLE `hardware`
   ADD PRIMARY KEY (`hardware_id`),
   ADD KEY `FK_company` (`company`),
-  ADD KEY `FK_name` (`name`);
+  ADD KEY `FK_name` (`name`),
+  ADD KEY `supplier` (`supplier`);
 
 --
 -- Indexes for table `lab`
@@ -359,6 +379,12 @@ ALTER TABLE `software`
   ADD PRIMARY KEY (`software_id`),
   ADD KEY `FK_company2` (`company`),
   ADD KEY `FK_name2` (`name`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`sup_id`);
 
 --
 -- Indexes for table `system_transfer_report`
@@ -439,6 +465,12 @@ ALTER TABLE `software`
   MODIFY `software_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `sup_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `system_transfer_report`
 --
 ALTER TABLE `system_transfer_report`
@@ -466,7 +498,8 @@ ALTER TABLE `complaint_book`
 --
 ALTER TABLE `hardware`
   ADD CONSTRAINT `FK_company` FOREIGN KEY (`company`) REFERENCES `company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_name` FOREIGN KEY (`name`) REFERENCES `name` (`name_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_name` FOREIGN KEY (`name`) REFERENCES `name` (`name_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`sup_id`);
 
 --
 -- Constraints for table `machine`
