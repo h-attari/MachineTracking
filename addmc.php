@@ -238,7 +238,7 @@
         <span class="input-group-addon">New Company Name</span>   
         <input type="text" class="form-control" name="company2" id="hide-drop-other">
     </div><br>
-    <input type="text" id="alert-server-new"name="alert-server-new" hidden>
+    <input type="text" id="alert-server-new"name="alert-server-new" value="1" hidden>
     <span class="input-group">
     <span class="input-group-addon">Enter Quantity</span>
     <input type="number" required="" class="form-control" name="qty" min="1"></span>

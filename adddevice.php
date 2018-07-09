@@ -156,7 +156,7 @@
             <span class="input-group-addon">New Device Name </span>
             <input name="device-name2" type="text" class="form-control" name="device_name" id="other-device" placeholder="Enter New Device Name">
         </div><br>
-        <input type="text" name="alert-server-new-device" id="alert-server-new-device" hidden>
+        <input type="text" name="alert-server-new-device" value="1" id="alert-server-new-device" hidden>
         
         <div class="input-group">
         <span class="input-group-addon">Company Name</span>
@@ -178,7 +178,7 @@
         <span class="input-group-addon">New Company Name</span>   
         <input type="text" class="form-control" name="company2" id="hide-drop-other">
     </div><br>
-    <input type="text" id="alert-server-new"name="alert-server-new" hidden>
+    <input type="text" id="alert-server-new" name="alert-server-new" value="1" hidden>
         <div class="input-group">
         <span class="input-group-addon">Description </span>
         <input type="text" name="description" required class="form-control"> </div><br/>

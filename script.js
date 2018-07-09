@@ -15,7 +15,7 @@ function Device()
 	else
 	{
 		document.getElementById('hide-drop-other').disabled=true;
-		
+		document.getElementById('alert-server-new').value="0";	
 	}
 }
 function Name()
@@ -29,6 +29,6 @@ function Name()
 	else
 	{
 		document.getElementById('other-device').disabled=true;
-		
+		document.getElementById('alert-server-new-device').value="0";	
 	}
 }
