@@ -1,4 +1,4 @@
-<?php
+X-UA-Compatible<?php
     session_start();
     require_once "pdo.php";
     if( !isset($_SESSION['id']) )
@@ -128,6 +128,97 @@
                 echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['cost']));
+                echo ("</td>");
+                $i++;
+            }
+            echo('</table>');
+
+
+            $i=1;
+            $stmtread = $pdo->prepare("SELECT * FROM upgrade_history WHERE machine_id = :mid ORDER BY dateofupgrade");
+            $stmtread->execute(array(':mid' => $mid));
+            echo("<h2> UPGRADE HISTORY </h2>");
+            echo ("<table class=\"table table-striped\">
+                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Initial Processor</th><th>Initial Ram</th><th>Initial Storage</th><th>Final Processor</th><th>Final Ram</th><th>Final Storage</th><th>Date</th>");
+            while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
+            {
+                $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $processor->execute(array(':hid' => $row['processori']));
+                $processori = $processor->fetch(PDO::FETCH_ASSOC);
+
+                $ram = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $ram->execute(array(':hid' => $row['rami']));
+                $rami = $ram->fetch(PDO::FETCH_ASSOC);
+
+                $memory = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $memory->execute(array(':hid' => $row['memoryi']));
+                $memoryi = $memory->fetch(PDO::FETCH_ASSOC);
+
+                $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $processor->execute(array(':hid' => $row['processorf']));
+                $processorf = $processor->fetch(PDO::FETCH_ASSOC);
+
+                $ram = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $ram->execute(array(':hid' => $row['ramf']));
+                $ramf = $ram->fetch(PDO::FETCH_ASSOC);
+
+                $memory = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
+                $memory->execute(array(':hid' => $row['memoryf']));
+                $memoryf = $memory->fetch(PDO::FETCH_ASSOC);
+
+                echo ("<tr>");
+                echo ("<td>");
+                echo($i);
+                echo("</td>");
+                
+                echo ("<td>");
+                echo(htmlentities($_POST['mac_addr']));
+                echo ("</td>");
+                
+                echo ("<td>");
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $pro->execute(array(':spec_id' => $processori['description']));
+                $proi = $pro->fetch(PDO::FETCH_ASSOC);
+                echo($proi['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                $ram = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $ram->execute(array(':spec_id' => $rami['description']));
+                $rami = $ram->fetch(PDO::FETCH_ASSOC);
+                echo($rami['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                $memory = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $memory->execute(array(':spec_id' => $memoryi['description']));
+                $memoryi = $memory->fetch(PDO::FETCH_ASSOC);
+                echo($memoryi['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $pro->execute(array(':spec_id' => $processorf['description']));
+                $prof = $pro->fetch(PDO::FETCH_ASSOC);
+                echo($prof['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                $ram = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $ram->execute(array(':spec_id' => $ramf['description']));
+                $ramf = $ram->fetch(PDO::FETCH_ASSOC);
+                echo($ramf['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                $memory = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $memory->execute(array(':spec_id' => $memoryf['description']));
+                $memoryf = $memory->fetch(PDO::FETCH_ASSOC);
+                echo($memoryf['spec']);
+                echo ("</td>");
+                
+                echo ("<td>");
+                echo($row['dateofupgrade']);
                 echo ("</td>");
                 $i++;
             }

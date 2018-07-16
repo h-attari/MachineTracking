@@ -102,11 +102,20 @@
         }
     ?>
 
-    <form method="POST" action="add_member.php"  class="col-xs-5">
+    <form method="POST"  class="col-xs-5">
 
     <div class="input-group">
-    <span class="input-group-addon">ID</span>
-    <input type="text" name="id" required="" class="form-control"> </div><br/>
+    <span class="input-group-addon">Select Hardware</span>
+    <select name="hardwarename" class="form-control">
+        <?php
+            $stmt=$pdo->query("SELECT description from hardware WHERE state =0");
+            while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+                echo "<option>".$row['description']."</option>"
+
+        ?>
+    </select>
+    </div>
+    <br/>
 
     <div class="input-group">
     <span class="input-group-addon">First Name</span>

@@ -233,72 +233,54 @@
                         echo(htmlentities($row['priority']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '</a>');
+                        echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
+                        echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
                         echo ("</td>");
                         
                         $i++;
                     }
                     echo('</table>');
                 }
-
-                /*$stmtcnt = $pdo->query("SELECT COUNT(*) FROM transfer_request");
-                $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-
-                if($row['COUNT(*)']!=='0')
+            }
+                //Showing Issue Requests
+            $stmt=$pdo->query("SELECT COUNT(*) FROM issue_request");
+            $row=$stmt->fetch(PDO::FETCH_ASSOC);
+            if($row['COUNT(*)']>0)
+            {
+                echo "<h2>Issue Requests</h2>";
+                echo ("<table class=\"table table-striped\">
+                    <tr> <th>S.no.</th><th>Name</th><th>Requested Hardware</th><th>Purpose</th><th>Date Of Request</th><th>Action</th></tr>");
+                $stmt=$pdo->query("SELECT * FROM issue_request");
+                $i=1;
+                while($row2=$stmt->fetch(PDO::FETCH_ASSOC))
                 {
-                    echo "<h2>Transfer Requests</h2>";
-                    $i=1;
-                    $stmtread = $pdo->query("SELECT * FROM transfer_request");
-                    echo ("<table class=\"table table-striped\">
-                        <tr> <th>S.no.</th><th>Date of Request</th><th>Name</th><th>Department</th><th>Purpose</th><th>Processor</th><th>Ram</th><th>HDD</th><th>OS</th><th>Quantity</th><th>Action</th> </tr>");
-                    while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
-                    {
-                        $stmtread2 = $pdo->prepare("SELECT * FROM system_transfer_report where trid = :trid");
-                        $stmtread2->execute(array(':trid' => $row['transfer_request_id']));
-                        $row2 = $stmtread2->fetch(PDO::FETCH_ASSOC);
-                        if($row2=== FALSE)
-                        {
-                            echo ("<tr>");
-                        echo ("<td>");
-                        echo($i);
-                        echo("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['date_of_request']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['name']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['department']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['purpose']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['processor']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['ram']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['hdd']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['os']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo(htmlentities($row['quantity']));
-                        echo ("</td>");
-                        echo ("<td>");
-                        echo('<a href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>');
-                        echo ("</td>");
-                        
-                        $i++;    
-                        }
-                        
-                    }
-                    echo('</table>');
-                }*/
+                    echo "<tr>";
+                        echo "<td>".$i++."</td>";
+                        echo "<td>";
+                            $stmtname=$pdo->prepare("SELECT first_name,last_name FROM member where id = :id");
+                            $stmtname->execute(array(":id"=>$_SESSION['id']));
+                            $name=$stmtname->fetch(PDO::FETCH_ASSOC);
+                            echo $name['first_name'].' '.$name['last_name'];
+                        echo "</td>";
+                        echo "<td>";
+                            $stmtname=$pdo->prepare("SELECT description from hardware where hardware_id = :name");
+                            $stmtname->execute(array(":name"=>$row2['name_of_hardware']));
+                            $name=$stmtname->fetch(PDO::FETCH_ASSOC);
+                            echo $name['description'];
+                        echo "</td>";
+                        echo "<td>";
+                            echo $row2['purpose'];
+                        echo "</td>";
+                        echo "<td>";
+                            echo $row2['date_of_request'];
+                        echo "</td>";
+                        echo "<td>";
+                            echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."'>Issue</a>/
+                            <a class='link-red' href='delete_issue_request.php?id=".$row2['issue_report_id']."'>Delete</a>";
+                        echo "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
             }
         ?>
 

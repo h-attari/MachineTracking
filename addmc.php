@@ -42,7 +42,7 @@
 
     if(isset($_POST['mac_addr']) )
     {
-        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: addmc.php');
@@ -65,12 +65,27 @@
                 if($_POST['alert-server-new']=='1')
                 {
                     //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
-                    $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
-                    $req->execute(array(':name'=>$_POST['company2']));
-                    $cmn=$_POST['company2'];
-                }
-                else 
+
+                     $read=$pdo->prepare('SELECT * from company where name = :name');
+                    $read->execute(array(':name'=>$_POST['company2']));
+                    $rowr=$read->fetch(PDO::FETCH_ASSOC);
+                     if($rowr == false)
+                    {
+                        $req=$pdo->prepare('INSERT INTO company(name) VALUES(:name)');
+                        $req->execute(array(':name'=>$_POST['company2']));
+                        $cmn=$_POST['company2'];
+                    }
+                    else
+                    {
+                        $cmn=$_POST['company2'];
+                    }
+                    
+
+                  }
+                  else{
                     $cmn=$_POST['company'];
+                  }  
+
                 $req2 = $pdo->prepare("SELECT company_id from company where name = :name");
                 $req2->execute(array(":name" => $cmn));
                 $row = $req2->fetch(PDO::FETCH_ASSOC);
@@ -81,35 +96,64 @@
                     return;
                 }
                 $company_id=$row['company_id'];
+
+//Adding suppierrrrrrrr
+
+                if($_POST['alert-server-new-supplier']=='1')
+                {
+                    //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
+
+
+                    $req=$pdo->prepare('SELECT * from supplier where supname = :supname');
+                $req->execute(array(':supname'=>$_POST['supplier2']));
+                $rowrr=$req->fetch(PDO::FETCH_ASSOC);
+                if($rowrr == false)
+                {
+                    $req=$pdo->prepare('INSERT INTO supplier(supname) VALUES(:name)');
+                    $req->execute(array(':name'=>$_POST['supplier2']));
+                    $supname=$_POST['supplier2'];    
+                }
+                else
+                {
+                    $supname=$_POST['supplier'];
+                }
+
+                }
+                else 
+                    $smn=$_POST['supplier'];
+                $req2 = $pdo->prepare("SELECT sup_id from supplier where supname = :name");
+                $req2->execute(array(":name" => $smn));
+                $row = $req2->fetch(PDO::FETCH_ASSOC);
+                $supplier_id=$row['sup_id'];
+
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                     //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
-                    $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`) values 
-                        (:company,:description_ram,:grn,:ram,1 ),
-                        (:company,:description_processor,:grn,:processor,1),
-                        (:company,:description_hd,:grn,:memory,1),
-                        (:company,:description_mouse,:grn,:mouse,1),
-                        (:company,:description_keyboard,:grn,:kb,1),
-                        (:company,:description_monitor,:grn,:monitor,1)
+                    $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`,`supplier`) values 
+                        (:company,:description_ram,:grn,:ram,1, :smn ),
+                        (:company,:description_processor,:grn,:processor,1, :smn),
+                        (:company,:description_hd,:grn,:memory,1, :smn),
+                        (:company,:description_mouse,:grn,:mouse,1, :smn),
+                        (:company,:description_keyboard,:grn,:kb,1, :smn),
+                        (:company,:description_monitor,:grn,:monitor,1, :smn)
                     ");
                     $stmt->execute(array(
                         ':description_ram'=>$_POST['ram'],
                         ':description_processor'=>$_POST['processor'],
-                        ':description_hd'=>$_POST['memory'],
+                        ':description_hd'=>$_POST['harddisk'],
                         ':description_mouse'=>$_POST['mouse'],
                         ':description_keyboard'=>$_POST['keyboard'],
                         ':description_monitor'=>$_POST['monitor'],
                         ':grn'=>$_POST['grn'],
-                        ':company'=>$company_id,
-                        ':ram' => $ramidbdb,
+                        ':ram' => $ramiddb,
                         ':processor' => $processoriddb,
                         ':memory' => $memoryiddb,
                         ':mouse' => $mouseiddb,
                         ':kb' => $keyboardiddb,
-                        ':monitor'=> $monitoriddb
-
-
+                        ':monitor'=> $monitoriddb,
+                        ':company'=>$company_id,
+                        ':smn'=>$supplier_id
                         ));
                     $ramid=$pdo->lastInsertId();
                     $keyboardid=$ramid+4;
@@ -182,39 +226,120 @@
     
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" required="" class="form-control"> </div><br/>
+    <select id="drop-other" name="processor" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=5");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
+
     
+
+
+
     <div class="input-group">
     <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" required="" class="form-control" id="ram" onchange="Size('ram')"> </div><br/>
+    <select id="drop-other" name="ram" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=6");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
     
     <div class="input-group">
     <span class="input-group-addon">Storage </span>
-    <input type="text" name="memory" required="" class="form-control" id="memory" onchange="Size('memory')"> </div><br/>
+    <select id="drop-other" name="harddisk" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=4");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
     
     <div class="input-group">
     <span class="input-group-addon">Mouse</span>
-    <input type="text" name="mouse" required="" class="form-control"> </div><br/>
+    <select id="drop-other" name="mouse" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=1");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
     
     <div class="input-group">
     <span class="input-group-addon">Keyboard</span>
-    <input type="text" name="keyboard" required="" class="form-control"> </div><br/>
+    <select id="drop-other" name="keyboard" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=2");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
     
     <div class="input-group">
     <span class="input-group-addon">Monitor</span>
-    <input type="text" name="monitor" required="" class="form-control"> </div><br/>
+    <select id="drop-other" name="monitor" class="form-control" onchange="Device();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT spec,spec_id from specification where name_id=3");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value ='.$rowx[spec_id].'>';
+                echo ($rowx['spec']);
+                echo '</option>';
+            }
+         ?>
+   </select>
+    </div></br>
     
     <div class="input-group"> 
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" class="form-control"> </div><br/>
+    <select id="drop-other" name="os" class="form-control" onchange="Device();" required="">
+       <option value="windows">Windows</option>
+       <option value="linux">Linux</option>
+       <option value="osx">OS X</option>
+   </select>
+     </div><br/>
     
     <div class="input-group">
-    <span class="input-group-addon">Price of Purchase </span>
+    <span class="input-group-addon">Price of Purchase  &#8377 </span>
     <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
-    <input type="date" name="dop" required="" class="form-control"> </div><br/>
+    <input type="date" name="dop" required="" class="form-control" id="date"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Other Details</span>
@@ -233,14 +358,41 @@
                 echo '</option>';
             }
          ?>
-    <option>Other</option>
+    <option selected="">Other</option>
     </select>
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" disabled name="company2" id="hide-drop-other">
+        <input type="text" class="form-control" name="company2" id="hide-drop-other" onchange="Other('hide-drop-other')">
     </div><br>
-    <input type="text" id="alert-server-new"name="alert-server-new" hidden>
+    <input type="text" id="alert-server-new"name="alert-server-new" value="1" hidden>
+
+
+    <div class="input-group">
+        <span class="input-group-addon">Supplier</span>
+        <select id="drop-supplier" name="supplier" class="form-control" onchange="Supplier();" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT DISTINCT supname from supplier");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['supname']);
+                echo '</option>';
+            }
+         ?>
+    <option selected="">Other</option>
+    </select>
+    </div><br>
+    <div class="input-group">
+        <span class="input-group-addon">New Supplier Name</span>   
+        <input type="text" class="form-control" name="supplier2" id="other-supplier" onchange="Other('other-supplier')">
+    </div><br>
+    <input type="text" id="alert-server-new-supplier"name="alert-server-new-supplier" value="1" hidden>
+
+
+
+    
     <span class="input-group">
     <span class="input-group-addon">Enter Quantity</span>
     <input type="number" required="" class="form-control" name="qty" min="1"></span>

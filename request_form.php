@@ -87,16 +87,62 @@
 
     <p>Required Specifications</p>
     <div class="input-group">
-    <span class="input-group-addon">Processor </span>
-    <input type="text" name="processor" class="form-control"> </div><br/>
+    <span class="input-group-addon">Processor</span>
+    <select name=processor class="form-control" required="">
+        <?php
+            
+            $qr=$pdo->query("SELECT * from name where name = 'processor'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $processoriddb=$rowtmp['name_id'];
+
+            $qr=$pdo->query("SELECT DISTINCT description from hardware WHERE name = $processoriddb");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['description']);
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">RAM </span>
-    <input type="text" name="ram" class="form-control" id="ram" onchange="Size('ram')"> </div><br/>
+    <span class="input-group-addon">Ram</span>
+    <select name=ram class="form-control" required="">
+        <?php
+            $qr=$pdo->query("SELECT * from name where name = 'ram'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $ramiddb=$rowtmp['name_id'];
+
+            $qr=$pdo->query("SELECT DISTINCT description from hardware WHERE name = $ramiddb");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['description']);
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
 
     <div class="input-group">
-    <span class="input-group-addon">HDD</span>
-    <input type="text" name="HDD" class="form-control"> </div><br/>
+    <span class="input-group-addon">Storage</span>
+    <select name=hdd class="form-control" required="">
+        <?php
+            $qr=$pdo->query("SELECT * from name where name = 'harddisk'");
+            $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
+            $memoryiddb=$rowtmp['name_id'];
+
+            $qr=$pdo->query("SELECT DISTINCT description from hardware WHERE name = $memoryiddb");
+            while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option>';
+                echo ($rowx['description']);
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">OS </span>

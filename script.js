@@ -1,9 +1,9 @@
- $(document).ready(function () {
-     $('#sidebarCollapse').on('click', function () {
-         $('#sidebar').toggleClass('active');
-         $(this).toggleClass('active');
-     });
- });
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                     $(this).toggleClass('active');
+                 });
+             });
 function Device()
 {
 	val = document.getElementById('drop-other').value;
@@ -15,6 +15,21 @@ function Device()
 	else
 	{
 		document.getElementById('hide-drop-other').disabled=true;
+		document.getElementById('alert-server-new').value="0";	
+	}
+}
+function Supplier()
+{
+	val = document.getElementById('drop-supplier').value;
+	if(val=="Other")
+	{
+		document.getElementById('other-supplier').disabled=false;
+		document.getElementById('alert-server-new-supplier').value="1";
+	}
+	else
+	{
+		document.getElementById('other-supplier').disabled=true;
+		document.getElementById('alert-server-new-supplier').value="0";	
 		
 	}
 }
@@ -29,7 +44,7 @@ function Name()
 	else
 	{
 		document.getElementById('other-device').disabled=true;
-		
+		document.getElementById('alert-server-new-device').value="0";	
 	}
 }
 function Number(val)
@@ -75,5 +90,20 @@ function Size(val)
 		document.getElementById('error').innerHTML="Invalid Input";
 		document.getElementById(val).value="";
 		return false;
+	}
+}
+function Other(val)
+{
+	var o=/\bother\b/i;
+	if(o.test(document.getElementById(val).value))
+	{
+		document.getElementById('error').innerHTML="Invalid Input";
+		document.getElementById(val).value="";
+		return false;
+	}
+	else
+	{
+		document.getElementById('error').innerHTML=null;
+		return true;
 	}
 }

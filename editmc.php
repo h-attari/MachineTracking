@@ -73,9 +73,9 @@
         }
     }
 
-    if(isset($_POST['macaddr']))
+    if(isset($_POST['processor']))
     {
-        if ( strlen($_POST['macaddr']) < 1 || strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1 || strlen($_POST['keyboard']) < 1 || strlen($_POST['mouse']) < 1 || strlen($_POST['monitor']) < 1)
+        if ( strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
             header('Location: upgrademc.php');
@@ -96,30 +96,25 @@
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $row['memory']));
 
-            $stmtu = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
+            /*$stmtu = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $row['monitor']));
 
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $row['mouse']));
 
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
-            $stmtu->execute(array(':hid' => $row['keyboard']));
+            $stmtu->execute(array(':hid' => $row['keyboard']));*/
 
             $stmt = $pdo->prepare('UPDATE machine SET
-            processor = :p, ram = :ram, memory = :mem, DOP = :dop, price = :price, os = :os, monitor = :monitor, mouse = :mouse, keyboard = :keyboard
+            processor = :p, ram = :ram, memory = :mem
             WHERE MAC_ADDR = :ma');
             $stmt->execute(array(
             ':p' => $_POST['processor'],
             ':ram' => $_POST['ram'],
             ':mem' => $_POST['memory'],
-            ':dop' => date('y-m-d',strtotime($_POST['dop'])),
-            'price' => $_POST['price'],
-            ':ma' => $_POST['macaddr'],
-            ':monitor' => $_POST['monitor'],
-            ':mouse' => $_POST['mouse'],
-            ':keyboard' => $_POST['keyboard'],
-            ':os' => $_POST['os'])
-            );
+            ':ma' => $_POST['macaddr']
+            
+            ));
 
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $_POST['processor']));
@@ -130,7 +125,7 @@
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $_POST['memory']));
 
-            $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
+ /*           $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $_POST['monitor']));
 
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
@@ -138,6 +133,18 @@
 
             $stmtu = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
             $stmtu->execute(array(':hid' => $_POST['keyboard']));
+*/
+             $stmtug = $pdo->prepare('INSERT INTO upgrade_history (machine_id, processori, rami, memoryi, processorf, ramf, memoryf, dateofupgrade) VALUES (:mid, :pi, :ri, :mi, :pf, :rf, :mf, :d)');
+            $stmtug->execute(array(
+                ':mid' => $row['machine_id'],
+             ':pi' => $row['processor'], 
+             ':ri' => $row['ram'], 
+             ':mi' => $row['memory'],
+             ':pf' => $_POST['processor'],
+                ':rf' => $_POST['ram'],
+                ':mf' => $_POST['memory'],
+                ':d' => date('y-m-d')
+                ));
 
             $_SESSION['success']="Machine Upgraded Sucessfully";
             header("Location: home.php");
@@ -186,7 +193,8 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="macaddr" required="" value="<?= $mac_addr ?>" class="form-control"> </div><br/>
+    <input type="text" value="<?= $mac_addr ?>" class="form-control" disabled> </div><br/>
+    <input type="hidden" name="macaddr" value="<?= $mac_addr ?>" class="form-control" >
 
     <!--<div class="input-group">
     <span class="input-group-addon">Processor </span>
@@ -269,7 +277,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">OS </span>
-    <input type="text" name="os" required="" value="<?= $os ?>" class="form-control"> </div><br/>
+    <input type="text" name="os" value="<?= $os ?>" class="form-control" disabled> </div><br/>
 
     <!--<div class="input-group">
     <span class="input-group-addon">Keyboard </span>
@@ -277,7 +285,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Keyboard </span>
-    <select name=keyboard class="form-control" required="">
+    <select name=keyboard class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'keyboard'");
             $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
@@ -303,7 +311,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Mouse</span>
-    <select name=mouse class="form-control" required="">
+    <select name=mouse class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'mouse'");
             $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
@@ -329,7 +337,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Monitor</span>
-    <select name=monitor class="form-control" required="">
+    <select name=monitor class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'monitor'");
             $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
@@ -351,11 +359,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase </span>
-    <input type="text" name="price" required="" value="<?= $price ?>" class="form-control"> </div><br/>
+    <input type="text" name="price" value="<?= $price ?>"" class="form-control" disabled> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
-    <input type="date" name="dop" required="" value="<?= $dop ?>" class="form-control"> </div><br/>
+    <input type="date" name="dop" value="<?= $dop ?>" class="form-control" disabled> </div><br/>
 
 
     <input type="submit" value="Upgrade Machine" class="btn btn-info">
