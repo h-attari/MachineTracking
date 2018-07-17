@@ -108,7 +108,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Complaint Details </span>

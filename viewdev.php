@@ -50,12 +50,14 @@
                         }
                     ?>    
                 </select>
+
             <label id="state">State</label>
                 <select class="form-control" id="state" name="state">           
                     <option value="0">Unpositioned</option>
                     <option value="1">Positioned</option>
                     <option value="2">Issued</option> 
                 </select>
+
             <input class="btn btn-my"type="submit" name="submit">
         </form>    
     </div>
@@ -73,6 +75,7 @@
                 $stmtread=$pdo->prepare("SELECT name_id from name where name =:name");
                 $stmtread->execute(array(":name"=>$_POST['chillana']));
                 $nameid=$stmtread->fetch(PDO::FETCH_ASSOC);
+
                 $stmtread = $pdo->prepare("SELECT * FROM hardware  where name= :name AND state=:state ORDER BY name");
                 $stmtread->execute(array(":name"=>$nameid['name_id'],":state"=>$_POST['state']));
                 echo ("<table class=\"table table-striped\">
@@ -87,16 +90,29 @@
                     $supplier->execute(array(':sid' => $row['supplier']));
                     $supplierid = $supplier->fetch(PDO::FETCH_ASSOC);
 
+                    $spec = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                    $spec->execute(array(':spec_id' => $row['description']));
+                    $specn = $spec->fetch(PDO::FETCH_ASSOC);
+
                     echo ("<tr>");
                     echo ("<td>");
                     echo($i);
                     echo("</td>");
+                    
                     echo ("<td>");
                     echo(htmlentities($_POST['chillana']));
                     echo ("</td>");
+
+                
                     echo ("<td>");
-                    echo(htmlentities($row['description']));
+                    echo($specn['spec']);
                     echo ("</td>");
+               
+
+                   // echo ("<td>");
+                   // echo(htmlentities($row['description']));
+                    //echo ("</td>");
+
                     echo ("<td>");
                     echo(htmlentities($cname['name']));
                     echo ("</td>");

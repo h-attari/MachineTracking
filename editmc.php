@@ -209,9 +209,16 @@
             $rowtmp=$qr->fetch(PDO::FETCH_ASSOC);
             $processoriddb=$rowtmp['name_id'];
 
+                
             echo '<option value = '.$row['processor'].' selected >';
-            echo ($processor);
+            
+            $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $pro->execute(array(':spec_id' => $processor));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+                echo($pron['spec']);
+            
             echo '</option>';
+
             $qr=$pdo->query("SELECT * from hardware WHERE name = $processoriddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
@@ -236,7 +243,14 @@
             $ramiddb=$rowtmp['name_id'];
 
             echo '<option value = '.$row['ram'].' selected >';
-            echo ($ram);
+
+            $ramq = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $ramq->execute(array(':spec_id' => $ram));
+                $ramn = $ramq->fetch(PDO::FETCH_ASSOC);
+                echo($ramn['spec']);
+
+
+            //echo ($ram);
             echo '</option>';
             $qr=$pdo->query("SELECT * from hardware WHERE name = $ramiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
@@ -262,7 +276,14 @@
             $memoryiddb=$rowtmp['name_id'];
 
             echo '<option value = '.$row['memory'].' selected >';
-            echo ($memory);
+
+            $mem = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $mem->execute(array(':spec_id' => $memory));
+                $memn = $mem->fetch(PDO::FETCH_ASSOC);
+                echo($memn['spec']);
+
+
+            //echo ($memory);
             echo '</option>';
             $qr=$pdo->query("SELECT * from hardware WHERE name = $memoryiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
@@ -292,7 +313,14 @@
             $keyboardiddb=$rowtmp['name_id'];
 
             echo '<option value = '.$row['keyboard'].' selected >';
-            echo ($keyboard);
+            $key = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $key->execute(array(':spec_id' => $keyboard));
+                $keyn = $key->fetch(PDO::FETCH_ASSOC);
+                echo($keyn['spec']);
+
+
+            //echo ($keyboard);
+
             echo '</option>';
             $qr=$pdo->query("SELECT * from hardware WHERE name = $keyboardiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
@@ -318,7 +346,14 @@
             $mouseiddb=$rowtmp['name_id'];
 
             echo '<option value = '.$row['mouse'].' selected >';
-            echo ($mouse);
+
+            $mou = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $mou->execute(array(':spec_id' => $mouse));
+                $moun = $mou->fetch(PDO::FETCH_ASSOC);
+                echo($moun['spec']);
+
+
+            //echo ($mouse);
             echo '</option>';
             $qr=$pdo->query("SELECT * from hardware WHERE name = $mouseiddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
@@ -344,7 +379,11 @@
             $monitoriddb=$rowtmp['name_id'];
 
             echo '<option value = '.$row['monitor'].' selected >';
-            echo ($monitor);
+            $mem = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $mem->execute(array(':spec_id' => $monitor));
+                $memn = $mem->fetch(PDO::FETCH_ASSOC);
+                echo($memn['spec']);
+           // echo ($monitor);
             echo '</option>';
             $qr=$pdo->query("SELECT * from hardware WHERE name = $monitoriddb AND state = '0'");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))

@@ -52,7 +52,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Computer No. (only integers)"> </div><br/>
 
 
     <input type="submit" value="View Machine History" class="btn btn-info">

@@ -71,7 +71,7 @@
                 <?php include "navbar.php" ;?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
-    <h1>DELETE LAB</h1>
+    <h1>DELETE SPECIFICATION</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -108,7 +108,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Specification </span>
-    <input type="text" name="spec" required="" class="form-control"> </div><br/>
+    <input type="text" name="spec" required="" class="form-control" placeholder="Specification of Hardware"> </div><br/>
 
 
 

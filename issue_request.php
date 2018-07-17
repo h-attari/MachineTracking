@@ -80,7 +80,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" required="" class="form-control"> </div><br/>
+    <input type="text" name="department" required="" class="form-control" placeholder="Department Name"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
@@ -89,10 +89,15 @@
     <span class="input-group-addon">Hardware Name</span>
     <select name="hardware_id" class="form-control">
            <?php
-                $qr=$pdo->query("SELECT *,COUNT(*) FROM hardware WHERE state=0 GROUP BY description");
+                $qr=$pdo->query("SELECT * FROM name JOIN specification ON(name.name_id=specification.name_id) JOIN hardware ON(specification.spec_id=hardware.description) WHERE hardware.state=0 GROUP BY hardware.description");
                 while($row=$qr->fetch(PDO::FETCH_ASSOC))
                 {
-                    echo "<option value=".$row['hardware_id'].">".$row['description']."</option>";
+                    $pro = $pdo->prepare("SELECT name FROM name where name_id = :name_id");
+                $pro->execute(array(':name_id' => $row['name_id']));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+                //echo($pron['spec']);s
+
+                    echo "<option value=".$row['hardware_id'].">".$pron['name']."</option>";
                 }
             ?>   
     </select>

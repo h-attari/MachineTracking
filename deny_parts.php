@@ -9,6 +9,27 @@
     {
         die('ACCESS DENIED');
     }
+    if(isset($_POST['cancel']))
+    {
+        header("Location: home.php");
+        return;
+    }
+    
+    if (!isset($_GET['cb_id']))
+    {
+        die('ACCESS DENIED');   
+    }
+
+    if ( isset($_POST['delete']) )
+    {
+        $sql = "UPDATE complaint_book SET completed = -1 WHERE complaint_book_id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(array(':id' => $_GET['cb_id']));
+        $_SESSION['success'] = 'Part Request Denied';
+        header( 'Location: home.php' ) ;
+        return;
+    }
+    
 ?>
 <html>
 <head>
@@ -31,7 +52,7 @@
     <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>REMOVE MEMBER</h1>
+    <h1>CONFIRM DENY</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -46,14 +67,15 @@
         }
     ?>
 
-    <form method="POST" action="confirm_delete.php" class="col-xs-5">
-
-    <div class="input-group">
-    <span class="input-group-addon">Enter ID</span>
-    <input type="text" required name="id" class="form-control" placeholder="Enter College ID"> </div><br/>
-    
-    <input type="submit" value="Remove Member" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <form method="post" action=<?= 'deny_parts.php?cb_id=' . $_GET['cb_id'] ?> class="col-xs-5">
+    <p>Are you sure ?</p>
+    <input type="hidden" name="id"
+    value="<?= $id?>"
+    />
+    <input type="submit" name="delete" value="Deny" class="btn btn-info">
+    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <input type="hidden" name="id" value="<?= $_POST['id'] ?>">
+    </p>
     </form>
 
     </div>

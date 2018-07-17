@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 11, 2018 at 12:35 PM
+-- Generation Time: Jul 16, 2018 at 12:17 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.20
 
@@ -66,16 +66,18 @@ CREATE TABLE `complaint_book` (
   `harddisk` int(11) DEFAULT NULL,
   `mouse` int(11) DEFAULT NULL,
   `keyboard` int(11) DEFAULT NULL,
-  `monitor` int(11) DEFAULT NULL
+  `monitor` int(11) DEFAULT NULL,
+  `DOPR` date DEFAULT NULL,
+  `completed` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `complaint_book`
 --
 
-INSERT INTO `complaint_book` (`complaint_book_id`, `Date_of_complaint`, `machine_id`, `complaint_details`, `priority`, `work_for`, `remarks`, `complaint_by`, `processor`, `ram`, `harddisk`, `mouse`, `keyboard`, `monitor`) VALUES
-(3, '2018-07-11', 59, 'pata nhi', 5, 2, NULL, 'krish', 1, 1, NULL, NULL, NULL, NULL),
-(4, '2018-07-11', 60, 'dsfjlksdfj', 2, 3, NULL, 'krsi', 1, 1, NULL, NULL, NULL, NULL);
+INSERT INTO `complaint_book` (`complaint_book_id`, `Date_of_complaint`, `machine_id`, `complaint_details`, `priority`, `work_for`, `remarks`, `complaint_by`, `processor`, `ram`, `harddisk`, `mouse`, `keyboard`, `monitor`, `DOPR`, `completed`) VALUES
+(3, '2018-07-11', 59, 'pata nhi', 5, 2, NULL, 'krish', 1, 1, NULL, NULL, NULL, NULL, '2018-07-18', -1),
+(4, '2018-07-11', 60, 'dsfjlksdfj', 2, 3, NULL, 'krsi', 1, 1, NULL, NULL, NULL, NULL, '2018-07-10', NULL);
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,7 @@ CREATE TABLE `hardware` (
 --
 
 INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`, `name`, `state`, `supplier`) VALUES
-(302, 19, 2, NULL, 1, 6, 1, 1),
+(302, 19, 2, NULL, 1, 6, 0, 1),
 (303, 19, 1, NULL, 1, 5, 1, 1),
 (304, 19, 1, NULL, 1, 4, 1, 1),
 (305, 19, 4, NULL, 1, 1, 1, 1),
@@ -110,7 +112,25 @@ INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`,
 (310, 19, NULL, NULL, 1, 4, 1, 2),
 (311, 19, 1, NULL, 1, 1, 1, 2),
 (312, 19, 6, NULL, 1, 2, 1, 2),
-(313, 19, 9, NULL, 1, 3, 1, 2);
+(313, 19, 9, NULL, 1, 3, 1, 2),
+(314, 19, 15, NULL, 33, 6, 1, 1),
+(315, 19, 17, NULL, 33, 5, 1, 1),
+(316, 19, 11, NULL, 33, 4, 1, 1),
+(317, 19, 1, NULL, 33, 1, 1, 1),
+(318, 19, 6, NULL, 33, 2, 1, 1),
+(319, 19, 9, NULL, 33, 3, 1, 1),
+(320, 19, 15, NULL, 33, 6, 1, 1),
+(321, 19, 17, NULL, 33, 5, 1, 1),
+(322, 19, 11, NULL, 33, 4, 1, 1),
+(323, 19, 1, NULL, 33, 1, 1, 1),
+(324, 19, 6, NULL, 33, 2, 1, 1),
+(325, 19, 9, NULL, 33, 3, 1, 1),
+(326, 19, 15, NULL, 33, 6, 1, 1),
+(327, 19, 17, NULL, 33, 5, 1, 1),
+(328, 19, 11, NULL, 33, 4, 1, 1),
+(329, 19, 1, NULL, 33, 1, 1, 1),
+(330, 19, 6, NULL, 33, 2, 1, 1),
+(331, 19, 9, NULL, 33, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -166,7 +186,8 @@ CREATE TABLE `lab` (
 --
 
 INSERT INTO `lab` (`lab_id`, `name`, `department`) VALUES
-(15, '1', 'CS');
+(15, '1', 'CS'),
+(16, '2', 'IT');
 
 -- --------------------------------------------------------
 
@@ -187,17 +208,19 @@ CREATE TABLE `machine` (
   `monitor` int(11) NOT NULL,
   `keyboard` int(11) NOT NULL,
   `mouse` int(11) NOT NULL,
-  `grn` int(11) NOT NULL,
-  `generation` varchar(10) DEFAULT NULL
+  `grn` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `machine`
 --
 
-INSERT INTO `machine` (`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`, `monitor`, `keyboard`, `mouse`, `grn`, `generation`) VALUES
-(59, '1', 303, 302, 304, '2018-07-08', 123, 'INACTIVE', '1', 307, 306, 305, 1, 'i5'),
-(60, '12', 309, 308, 310, '2018-07-15', 20000, 'INACTIVE', 'Windows', 313, 312, 311, 1, 'i7');
+INSERT INTO `machine` (`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`, `monitor`, `keyboard`, `mouse`, `grn`) VALUES
+(59, '1', 303, 302, 304, '2018-07-08', 123, 'INACTIVE', '1', 307, 306, 305, 1),
+(60, '12', 309, 308, 310, '2018-07-15', 20000, 'INACTIVE', 'Windows', 313, 312, 311, 1),
+(61, '33', 315, 314, 316, '2018-07-01', 12345, 'ACTIVE', 'windows', 319, 318, 317, 33),
+(62, '34', 321, 320, 322, '2018-07-01', 12345, 'ACTIVE', 'windows', 325, 324, 323, 33),
+(63, '35', 327, 326, 328, '2018-07-01', 12345, 'ACTIVE', 'windows', 331, 330, 329, 33);
 
 -- --------------------------------------------------------
 
@@ -266,6 +289,13 @@ CREATE TABLE `position` (
   `initial_date` date DEFAULT NULL,
   `final_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `position`
+--
+
+INSERT INTO `position` (`position_id`, `machine_id`, `lab_id`, `initial_date`, `final_date`) VALUES
+(1, 61, 16, '2018-07-12', '1970-01-01');
 
 -- --------------------------------------------------------
 
@@ -415,6 +445,13 @@ CREATE TABLE `transfer_request` (
   `os` varchar(20) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transfer_request`
+--
+
+INSERT INTO `transfer_request` (`transfer_request_id`, `date_of_request`, `name`, `department`, `purpose`, `processor`, `ram`, `hdd`, `os`, `quantity`) VALUES
+(1, '2018-07-16', 'dfd', 'dfsdfs', 'sdfdsf', '1', '2', '1', '', 1);
 
 -- --------------------------------------------------------
 
@@ -602,7 +639,7 @@ ALTER TABLE `complaint_book`
 -- AUTO_INCREMENT for table `hardware`
 --
 ALTER TABLE `hardware`
-  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=314;
+  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
 --
 -- AUTO_INCREMENT for table `hardware_position`
 --
@@ -617,12 +654,12 @@ ALTER TABLE `issue_request`
 -- AUTO_INCREMENT for table `lab`
 --
 ALTER TABLE `lab`
-  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `machine`
 --
 ALTER TABLE `machine`
-  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 --
 -- AUTO_INCREMENT for table `member`
 --
@@ -637,7 +674,7 @@ ALTER TABLE `name`
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `repair_history`
 --
@@ -667,17 +704,17 @@ ALTER TABLE `system_transfer_report`
 -- AUTO_INCREMENT for table `temp`
 --
 ALTER TABLE `temp`
-  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `transfer_request`
 --
 ALTER TABLE `transfer_request`
-  MODIFY `transfer_request_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `transfer_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `upgrade_history`
 --
 ALTER TABLE `upgrade_history`
-  MODIFY `upgrade_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `upgrade_history_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --

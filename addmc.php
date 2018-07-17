@@ -216,13 +216,13 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')"> </div>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"></div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
     
     <br/>
     <div class="input-group">
     <span class="input-group-addon">GR Number</span>
-    <input type="text" name="grn" required="" class="form-control" id="grn" onchange="Number('grn')"> </div><br/>
+    <input type="text" name="grn" required="" class="form-control" id="grn" onchange="Number('grn')" placeholder="Good Reciept No./Bill No."> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Processor </span>
@@ -335,7 +335,7 @@
     
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase  &#8377 </span>
-    <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')"> </div><br/>
+    <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')" placeholder="0000000"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Date of Purchase</span>
@@ -363,7 +363,7 @@
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" name="company2" id="hide-drop-other" onchange="Other('hide-drop-other')">
+        <input type="text" class="form-control" name="company2" id="hide-drop-other" onchange="Other('hide-drop-other')" placeholder="Company Name">
     </div><br>
     <input type="text" id="alert-server-new"name="alert-server-new" value="1" hidden>
 
@@ -386,7 +386,7 @@
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Supplier Name</span>   
-        <input type="text" class="form-control" name="supplier2" id="other-supplier" onchange="Other('other-supplier')">
+        <input type="text" class="form-control" name="supplier2" id="other-supplier" onchange="Other('other-supplier')" placeholder="Supplier Name">
     </div><br>
     <input type="text" id="alert-server-new-supplier"name="alert-server-new-supplier" value="1" hidden>
 
@@ -395,7 +395,7 @@
     
     <span class="input-group">
     <span class="input-group-addon">Enter Quantity</span>
-    <input type="number" required="" class="form-control" name="qty" min="1"></span>
+    <input type="number" required="" class="form-control" name="qty" min="1" placeholder="Number of Computers"></span>
     <br>
     <input type="submit" value="Add Machine" name="add" id="go" class="btn btn-info">
 

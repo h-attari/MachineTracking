@@ -87,7 +87,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Lab Name </span>
-    <input type="text" name="lab_name" required="" class="form-control"> </div><br/>
+    <input type="text" name="lab_name" required="" class="form-control" placeholder="Lab Name/Number"> </div><br/>
 
 
     <input type="submit" value="Delete Lab" class="btn btn-info">

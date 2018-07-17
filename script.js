@@ -4,7 +4,34 @@
                      $(this).toggleClass('active');
                  });
              });
+function fetch_select(val)
+{
+    $.ajax({
+    type: 'post',
+    url: 'fetch_device.php',
+    data: {
+     get_option:val
+    },
+    success: function (response) {
+     document.getElementById("drop-description").innerHTML=response;
+    }
+    });
+}
 function Device()
+{
+	val = document.getElementById('drop-name').value;
+	if(val=="Other")
+	{
+		document.getElementById('hide-drop-name').disabled=false;
+		document.getElementById('alert-server-new-device').value="1";
+	}
+	else
+	{
+		document.getElementById('hide-drop-name').disabled=true;
+		document.getElementById('alert-server-new-device').value="0";
+	}
+}
+function Company()
 {
 	val = document.getElementById('drop-other').value;
 	if(val=="Other")
@@ -15,7 +42,7 @@ function Device()
 	else
 	{
 		document.getElementById('hide-drop-other').disabled=true;
-		document.getElementById('alert-server-new').value="0";	
+		document.getElementById('alert-server-new').value="0";
 	}
 }
 function Supplier()
@@ -30,6 +57,21 @@ function Supplier()
 	{
 		document.getElementById('other-supplier').disabled=true;
 		document.getElementById('alert-server-new-supplier').value="0";	
+		
+	}
+}
+function Description()
+{
+	val = document.getElementById('drop-description').value;
+	if(val=="Other")
+	{
+		document.getElementById('other-description').disabled=false;
+		document.getElementById('alert-server-new-description').value="1";
+	}
+	else
+	{
+		document.getElementById('other-description').disabled=true;
+		document.getElementById('alert-server-new-description').value="0";	
 		
 	}
 }

@@ -30,6 +30,23 @@
                             <li><a href="posmc.php">Position New Machines</a></li>
                         </ul>
                     </li>
+
+                    <li class="">
+                        <a href="#devicemenu" data-toggle="collapse" aria-expanded="false">Device</a>
+                        <ul class="collapse list-unstyled" id="devicemenu">
+                            <li><a href="adddevice.php">Add Device</a></li>
+                            <li><a href="viewdev.php">View Device</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="">
+                        <a href="#specmenu" data-toggle="collapse" aria-expanded="false">Specification</a>
+                        <ul class="collapse list-unstyled" id="specmenu">
+                            <li><a href="addspec.php">Add Specification</a></li>
+                            <li><a href="deletespec.php">Delete Specification</a></li>
+                        </ul>
+                    </li>
+
                     <li>
                         <a href="viewmchistory.php">Computer History</a>
                     </li>
@@ -46,6 +63,11 @@
                     <li>
                         <a href="request_form.php">Request for a PC</a>
                     </li>
+
+                    <li>
+                        <a href="issue_request.php">Request for Hardware</a>
+                    </li>
+
                     </li>
                     <li class="">
                         <a href="#contactmenu" data-toggle="collapse" aria-expanded="false">Contact</a>

@@ -51,7 +51,7 @@
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required class="form-control" id="mac_addr" onchange="Number('mac_addr')"> </div><br/>
+    <input type="text" name="mac_addr" required class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"> </div><br/>
 
 
     <input type="submit" value="Upgrade Machine" class="btn btn-info">

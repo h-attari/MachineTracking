@@ -65,6 +65,9 @@
                 $stmt->execute(array(':mid' => $mc_id));
             }
 
+            $stmtd = $pdo->prepare('UPDATE complaint_book SET DOPR = date('y-m-d') WHERE machine_id = :mid');
+            $stmtd->execute(array(':mid' => $mc_id));
+
             $_SESSION['success'] = "Request Sent";
             header('Location: home.php');
             return;

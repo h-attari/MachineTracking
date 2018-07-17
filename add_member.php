@@ -106,19 +106,19 @@
 
     <div class="input-group">
     <span class="input-group-addon">ID</span>
-    <input type="text" name="id" required="" class="form-control"> </div><br/>
+    <input type="text" name="id" required="" class="form-control" placeholder="Enter Collge ID"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">First Name</span>
-    <input type="text" name="first_name" required="" class="form-control" id="fname" onchange="Names('fname')"> </div><br/>
+    <input type="text" name="first_name" required="" class="form-control" id="fname" onchange="Names('fname')" placeholder="First Name"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Last Name</span>
-    <input type="text" name="last_name" required="" class="form-control" id="lname" onchange="Names('lname')"> </div><br/>
+    <input type="text" name="last_name" required="" class="form-control" id="lname" onchange="Names('lname')" placeholder="Surname"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Email</span>
-    <input type="email" name="email" required="" class="form-control"> </div><br/>
+    <input type="email" name="email" required="" class="form-control" placeholder="xyz@abc.com"> </div><br/>
 
     <div class="input-group">
       <span class="input-group-addon">Contact No.</span>
@@ -126,11 +126,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">Password</span>
-    <input type="password" name="pass" required="" class="form-control"> </div><br/>
+    <input type="password" name="pass" required="" class="form-control" placeholder="min. 8 characters"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Confirm Password</span>
-    <input type="password" required="" name="c_pass" class="form-control"> </div><br/>
+    <input type="password" required="" name="c_pass" class="form-control" placeholder="min. 8 characters"> </div><br/>
     
     <input type="submit" value="Sign Up" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

@@ -75,6 +75,7 @@
                     $memory->execute(array(':hid' => $row2['memory']));
                     $memoryn = $memory->fetch(PDO::FETCH_ASSOC);
 
+
                     $keyboard = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
                     $keyboard->execute(array(':hid' => $row2['keyboard']));
                     $keyboardn = $keyboard->fetch(PDO::FETCH_ASSOC);
@@ -92,38 +93,69 @@
                     echo($i);
                     echo("</td>");
                     echo ("<td>");
+
                     echo(htmlentities($row2['MAC_ADDR']));
                     echo ("</td>");
+
                     echo ("<td>");
-                    echo(htmlentities($processorn['description']));
-                    echo ("</td>");
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $pro->execute(array(':spec_id' => $processorn['description']));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+                echo($pron['spec']);
+                echo ("</td>");
+
                     echo ("<td>");
-                    echo(htmlentities($ramn['description']));
-                    echo ("</td>");
+                 $ram = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $ram->execute(array(':spec_id' => $ramn['description']));
+                $ramn = $ram->fetch(PDO::FETCH_ASSOC);
+                echo($ramn['spec']);
+                echo ("</td>");
+
                     echo ("<td>");
-                    echo(htmlentities($memoryn['description']));
-                    echo ("</td>");
+                 $memory = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $memory->execute(array(':spec_id' => $memoryn['description']));
+                $memoryn = $memory->fetch(PDO::FETCH_ASSOC);
+                echo($memoryn['spec']);
+                echo ("</td>");
+
                     echo ("<td>");
                     echo(htmlentities($row2['os']));
                     echo ("</td>");
+
                     echo ("<td>");
-                    echo(htmlentities($keyboardn['description']));
-                    echo ("</td>");
+                $keyboard = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $keyboard->execute(array(':spec_id' => $keyboardn['description']));
+                $keyboardn = $keyboard->fetch(PDO::FETCH_ASSOC);
+                echo($keyboardn['spec']);
+                echo ("</td>");
+                
+
                     echo ("<td>");
-                    echo(htmlentities($mousen['description']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($monitorn['description']));
-                    echo ("</td>");
+                $mouse = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $mouse->execute(array(':spec_id' => $mousen['description']));
+                $mousen = $mouse->fetch(PDO::FETCH_ASSOC);
+                echo($mousen['spec']);
+                echo ("</td>");
+               
+                echo ("<td>");
+                $monitor = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
+                $monitor->execute(array(':spec_id' => $monitorn['description']));
+                $monitorn = $monitor->fetch(PDO::FETCH_ASSOC);
+                echo($monitorn['spec']);
+                echo ("</td>");
+                
                     echo ("<td>");
                     echo(htmlentities($row2['DOP']));
                     echo ("</td>");
+
                     echo ("<td>");
                     echo(htmlentities($row2['price']));
                     echo ("</td>");
+
                     echo ("<td>");
                     echo(htmlentities($row2['state']));
                     echo ("</td>");
+
                     $i++;
                 }
             }

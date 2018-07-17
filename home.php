@@ -198,6 +198,151 @@
                     }
                     echo('</table>');
                 }
+
+                $stmt=$pdo->query("SELECT COUNT(*) FROM issue_request");
+                $row=$stmt->fetch(PDO::FETCH_ASSOC);
+                if($row['COUNT(*)']>0)
+                {
+                    echo "<h2>Issue Requests</h2>";
+                    echo ("<table class=\"table table-striped\">
+                        <tr> <th>S.no.</th><th>Name</th><th>Requested Hardware</th><th>Purpose</th><th>Date Of Request</th><th>Action</th></tr>");
+                    $stmt=$pdo->query("SELECT * FROM issue_request");
+                    $i=1;
+                    while($row2=$stmt->fetch(PDO::FETCH_ASSOC))
+                    {
+                        echo "<tr>";
+                            echo "<td>".$i++."</td>";
+                            echo "<td>";
+                                $stmtname=$pdo->prepare("SELECT first_name,last_name FROM member where id = :id");
+                                $stmtname->execute(array(":id"=>$_SESSION['id']));
+                                $name=$stmtname->fetch(PDO::FETCH_ASSOC);
+                                echo $name['first_name'].' '.$name['last_name'];
+                            echo "</td>";
+                            echo "<td>";
+                                $stmtname=$pdo->prepare("SELECT description from hardware where hardware_id = :name");
+                                $stmtname->execute(array(":name"=>$row2['name_of_hardware']));
+                                $name=$stmtname->fetch(PDO::FETCH_ASSOC);
+                                echo $name['description'];
+                            echo "</td>";
+                            echo "<td>";
+                                echo $row2['purpose'];
+                            echo "</td>";
+                            echo "<td>";
+                                echo $row2['date_of_request'];
+                            echo "</td>";
+                            echo "<td>";
+                                echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."'>Issue</a>/
+                                <a class='link-red' href='delete_issue_request.php?id=".$row2['issue_report_id']."'>Delete</a>";
+                            echo "</td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                }
+
+                $stmtcnt = $pdo->query("SELECT COUNT(*) FROM complaint_book WHERE completed IS NULL AND (processor IS NOT NULL OR ram IS NOT NULL OR harddisk IS NOT NULL OR monitor IS NOT NULL OR keyboard IS NOT NULL OR mouse IS NOT NULL)");
+                $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
+
+                if($row['COUNT(*)']!=='0')
+                {
+                    echo "<h2>Part Requests</h2>";
+                    $i=1;
+                    $stmtread = $pdo->query("SELECT * FROM complaint_book WHERE completed IS NULL AND (processor IS NOT NULL OR ram IS NOT NULL OR harddisk IS NOT NULL OR monitor IS NOT NULL OR keyboard IS NOT NULL OR mouse IS NOT NULL)");
+                    echo ("<table class=\"table table-striped\">
+                        <tr> <th>S.no.</th><th>Date of Request</th><th>MAC_ADDR</th><th>Work For</th><th>Processor</th><th>Ram</th><th>Hard Disk</th><th>Monitor</th><th>Keyboard</th><th>Mouse</th><th>Action</th> </tr>");
+                    while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
+                    {
+                        $stmtr = $pdo->prepare("SELECT MAC_ADDR FROM machine WHERE machine_id = :mid ");
+                        $stmtr->execute(array(':mid' => $row['machine_id']));
+                        $rowr = $stmtr->fetch(PDO::FETCH_ASSOC);
+                        echo ("<tr>");
+                        echo ("<td>");
+                        echo($i);
+                        echo("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($row['DOPR']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo(htmlentities($rowr['MAC_ADDR']));
+                        echo ("</td>");
+
+                        $stmtwf = $pdo->prepare("SELECT * FROM member WHERE member_id = :mid ");
+                        $stmtwf->execute(array(':mid' => $row['work_for']));
+                        $rowwf = $stmtwf->fetch(PDO::FETCH_ASSOC);
+
+                        echo ("<td>");
+                        echo(htmlentities($rowwf['first_name']));
+                        echo " ";
+                        echo(htmlentities($rowwf['last_name']));
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['processor'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['ram'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['harddisk'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['monitor'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['keyboard'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        if($row['mouse'] == NULL)
+                        {
+                            echo("NO");
+                        }
+                        else
+                        {
+                            echo("YES");
+                        }
+                        echo ("</td>");
+                        echo ("<td>");
+                        echo('<a class="link-black" href="issue_parts.php?cb_id='.$row['complaint_book_id'].'&mc_id='.$row['machine_id'].'">'. 'Issue Parts' . '</a>' . ' / ' . '<a class="link-black" href="deny_parts.php?cb_id='.$row['complaint_book_id'].'">'. 'Deny' . '</a>');
+
+                        echo ("</td>");
+                        
+                        $i++;
+                    }
+                    echo('</table>');
+                }
             }
             else
             {
@@ -233,55 +378,40 @@
                         echo(htmlentities($row['priority']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
-                        echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
-                        echo ("</td>");
+
+                        $stmtc = $pdo->prepare("SELECT * FROM complaint_book WHERE machine_id = :mid AND (processor = 1 OR ram = 1 OR harddisk = 1 OR mouse = 1 OR monitor = 1 OR keyboard = 1) ");
+                        $stmtc->execute(array(':mid' => $row['machine_id']));
+                        $rowc = $stmtc->fetch(PDO::FETCH_ASSOC);
+
+                        $stmtc2 = $pdo->prepare("SELECT * FROM temp WHERE machine_id = :mid ");
+                        $stmtc2->execute(array(':mid' => $row['machine_id']));
+                        $rowc2 = $stmtc2->fetch(PDO::FETCH_ASSOC);
+
+                        if($rowc == false)
+                        {
+                            echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
+                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
+                            echo ("</td>");                            
+                        }
+                        else if($rowc2 == false)
+                        {
+                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
+                            echo ("</td>");    
+                        }
+                        else
+                        {
+                            echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
+                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
+                            echo ("</td>");
+    
+                        }
                         
                         $i++;
                     }
                     echo('</table>');
                 }
             }
-                //Showing Issue Requests
-            $stmt=$pdo->query("SELECT COUNT(*) FROM issue_request");
-            $row=$stmt->fetch(PDO::FETCH_ASSOC);
-            if($row['COUNT(*)']>0)
-            {
-                echo "<h2>Issue Requests</h2>";
-                echo ("<table class=\"table table-striped\">
-                    <tr> <th>S.no.</th><th>Name</th><th>Requested Hardware</th><th>Purpose</th><th>Date Of Request</th><th>Action</th></tr>");
-                $stmt=$pdo->query("SELECT * FROM issue_request");
-                $i=1;
-                while($row2=$stmt->fetch(PDO::FETCH_ASSOC))
-                {
-                    echo "<tr>";
-                        echo "<td>".$i++."</td>";
-                        echo "<td>";
-                            $stmtname=$pdo->prepare("SELECT first_name,last_name FROM member where id = :id");
-                            $stmtname->execute(array(":id"=>$_SESSION['id']));
-                            $name=$stmtname->fetch(PDO::FETCH_ASSOC);
-                            echo $name['first_name'].' '.$name['last_name'];
-                        echo "</td>";
-                        echo "<td>";
-                            $stmtname=$pdo->prepare("SELECT description from hardware where hardware_id = :name");
-                            $stmtname->execute(array(":name"=>$row2['name_of_hardware']));
-                            $name=$stmtname->fetch(PDO::FETCH_ASSOC);
-                            echo $name['description'];
-                        echo "</td>";
-                        echo "<td>";
-                            echo $row2['purpose'];
-                        echo "</td>";
-                        echo "<td>";
-                            echo $row2['date_of_request'];
-                        echo "</td>";
-                        echo "<td>";
-                            echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."'>Issue</a>/
-                            <a class='link-red' href='delete_issue_request.php?id=".$row2['issue_report_id']."'>Delete</a>";
-                        echo "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-            }
+            
         ?>
 
         

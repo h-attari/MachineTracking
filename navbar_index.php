@@ -19,6 +19,11 @@
                     <li>
                         <a href="request_form.php">Request for a PC</a>
                     </li>
+
+                    <li>
+                        <a href="issue_request.php">Request for Hardware</a>
+                    </li>
+                    
                     <li class="">
                         <a href="#contactmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
                         <ul class="collapse list-unstyled" id="contactmenu">
