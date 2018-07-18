@@ -61,6 +61,8 @@
                 
                 $stmt = $pdo->prepare('INSERT INTO system_transfer_report( department, purpose, lab_id ,date_of_assignment,trid) VALUES (:dept, :purpose, :labid, :dat,:trid)');
                     $stmt->execute(array(':dept' => $_POST['department'], ':purpose' => $_POST['purpose'], ':labid'=>$labid,':dat' => date('y-m-d'),':trid'=>$_GET['id']));
+
+                $strid = $pdo->lastInsertId();
                  if($flag1==1)
                  {
                     return;
@@ -77,6 +79,9 @@
                         $stmt3->execute(array(':mid' => $mid,':fdate'=>date('y-m-d') ));
                         $insdata=$pdo->prepare("INSERT INTO position (machine_id,lab_id,initial_date,final_date) VALUES(:mid,:labid,:idate,:fdate)");
                         $insdata->execute(array(':mid'=>$mid,':labid' =>$labid ,':idate' => date('y-m-d'),':fdate' =>'1970-01-01'));
+
+                        $insdata2=$pdo->prepare("INSERT INTO system_transfer_report_history (system_transfer_report_id, machine_id) VALUES(:strid, :mid)");
+                        $insdata2->execute(array(':strid'=>$strid,':mid' =>$mid));
                         $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
                     }
                     else
@@ -84,7 +89,7 @@
                         $_SESSION['error'].="Unable to transfer machine ".$_POST['machine'.$i].". Machine is either inactive or does not exsists";
                     }
                 }
-                        header('Location: home.php');
+                        header("Location: printservice_report.php?strid=$strid");
                         return;
             
       } 

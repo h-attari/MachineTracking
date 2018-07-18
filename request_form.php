@@ -23,11 +23,15 @@
                 $date=date('y-m-d');
                 $stmt = $pdo->prepare('INSERT INTO transfer_request(date_of_request, name, department, purpose, processor, ram, hdd, os, quantity) VALUES (:dat, :name, :department, :purpose, :processor, :ram, :hdd, :os, :quantity)');
                     $stmt->execute(array(':dat' => date('y-m-d'), ':name' => $_POST['name'], ':department' => $_POST['department'], ':purpose' => $_POST['purpose'], ':processor' => $_POST['processor'], ':ram' => $_POST['ram'], ':hdd' => $_POST['hdd'], ':os' => $_POST['os'], ':quantity' => $_POST['quantity']));
+
+                    $trid=$pdo->lastInsertId();
+                    
                 $_SESSION['success'] = "Request Sent Successfully";
-                    if(isset($_SESSION['id']))
+                    /*if(isset($_SESSION['id']))
                         header("Location:home.php");
                     else
-                        header('Location: index.php');
+                        header('Location: index.php');*/
+                    header("location:printform_request.php?trid=$trid");
                     return;
             
 

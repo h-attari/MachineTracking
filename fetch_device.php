@@ -22,7 +22,7 @@
         {
                 echo "<option>".$row['spec']."</option>";
         }
+        echo "<option selected>Other</option>";
         
     }
-    echo "<option selected>Other</option>";
 ?>
