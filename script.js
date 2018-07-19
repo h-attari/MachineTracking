@@ -1,15 +1,13 @@
-
- $(document).ready(function () {
- 	
-history.pushState(null, null, location.href);
+$(document).ready(function () {
+	history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.go(1);
     };
-     $('#sidebarCollapse').on('click', function () {
-         $('#sidebar').toggleClass('active');
-         $(this).toggleClass('active');
-     });
+ $('#sidebarCollapse').on('click', function () {
+     $('#sidebar').toggleClass('active');
+     $(this).toggleClass('active');
  });
+});
 function fetch_select(val)
 {
     $.ajax({
@@ -112,7 +110,7 @@ function Number(val)
 }
 function Names(val)
 {
-	n=/^[a-zA-Z]+$/;
+	n=/^[\w]+$/;
 	if(n.test(document.getElementById(val).value)||document.getElementById(val).value=="")	
 	{
 		document.getElementById('error').innerHTML=null;

@@ -82,15 +82,22 @@
 
                         $insdata2=$pdo->prepare("INSERT INTO system_transfer_report_history (system_transfer_report_id, machine_id) VALUES(:strid, :mid)");
                         $insdata2->execute(array(':strid'=>$strid,':mid' =>$mid));
-                        $_SESSION['success'] .= "Machine".$_POST['machine'].$i." Sent Successfully";
+                        $_SESSION['success'] = "Machine ".$_POST['machine'.$i]." Sent Successfully";
                     }
                     else
                     {
-                        $_SESSION['error'].="Unable to transfer machine ".$_POST['machine'.$i].". Machine is either inactive or does not exsists";
+                        $_SESSION['error']="Unable to transfer machine ".$_POST['machine'.$i].". Machine is either inactive or does not exsists";
                     }
                 }
-                        header("Location: printservice_report.php?strid=$strid");
-                        return;
+                        //header("Location: printservice_report.php?strid=$strid");
+
+                        echo("<script>
+         window.open('printservice_report.php?strid=$strid', '_blank'); 
+</script>");
+        echo("<script>window.open('home.php','_self')</script>");
+
+                    //header("Location:home.php");
+                    //return;
             
       } 
     $processor = $pdo->query("SELECT name_id FROM name where name = 'processor'");

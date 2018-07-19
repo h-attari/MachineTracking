@@ -62,9 +62,10 @@
                 $stmt = $pdo->prepare('UPDATE complaint_book SET work_for = :wf WHERE machine_id = :mid AND work_for IS NULL');
                 $stmt->execute(array(':mid' => $mid, ':wf' => $_POST['work_for']));
 
+                $wf=$_POST['work_for'];
+                $date=$_POST['date'];
                 $_SESSION['success'] = "Machine sent to Repair Successfully";
-                header('Location: home.php');
-                return;
+                header("Location:printcomp.php?mc_id=$mid&wf=$wf&date=$date");
             }
             else
             {

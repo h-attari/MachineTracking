@@ -30,19 +30,18 @@
         if ( strlen($_POST['remarks']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
-            header('Location: mcrepaired.php');
+            header('Location: mcrepaired.php?hid='.$_GET['hid']);
             return;
         }
         else
         {
                 
-                
-                $stmt = $pdo->prepare('UPDATE complaint_book SET remarks = :rem, completed = 1 WHERE machine_id = :mid AND remarks IS NULL');
-                $stmt->execute(array(':rem' => $_POST['remarks'], ':mid' => $mc_id));
+            $stmt = $pdo->prepare('UPDATE hardware_complaint_book SET remarks = :rem, completed = 1 WHERE hardware_complaint_book_id = :hid AND remarks IS NULL');
+            $stmt->execute(array(':rem' => $_POST['remarks'], ':hid' => $_GET['hid']));
 
-                $_SESSION['success'] = "Machine Repaired";
-                    header('Location: home.php');
-                    return;
+            $_SESSION['success'] = "Machine Repaired";
+                header('Location: home.php');
+                return;
             
 
         }
@@ -85,7 +84,7 @@
         }
     ?>
 
-    <form method="POST" action="mcrepaired.php" class="col-xs-5">
+    <form method="POST" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Remarks</span>

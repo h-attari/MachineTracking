@@ -28,7 +28,7 @@
 	</head>
 	<body>
 		<form style="margin-left: 150px; margin-right: 300px; margin-top: 100px">
-			<div style="text-align: center">
+			<div style="text-align: center; padding-left: 110px">
 				<b>
 					<span>Medi-Caps University, Indore</span><br>
 					<span>Requisition for Computer Systems</span>

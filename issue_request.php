@@ -89,7 +89,7 @@
     <span class="input-group-addon">Hardware Name</span>
     <select name="hardware_id" class="form-control">
            <?php
-                $qr=$pdo->query("SELECT *,COUNT(*) FROM hardware WHERE state=0 GROUP BY description");
+                $qr=$pdo->query("SELECT * FROM hardware WHERE state=0 GROUP BY description");
                 while($row=$qr->fetch(PDO::FETCH_ASSOC))
                 {
                     $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :name_id");

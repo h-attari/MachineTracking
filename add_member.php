@@ -27,8 +27,8 @@
         }
         else
         {
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM member WHERE id = :id');
-            $stmt->execute(array(':id' => $_POST['id']));
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM member WHERE id = :id AND role = :role');
+            $stmt->execute(array(':id' => $_POST['id'], ':role' => $_POST['role']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row['COUNT(*)'] !== '0')
             {
@@ -48,8 +48,8 @@
                 else
                 {
                     $check = hash('md5', $salt.$_POST['pass']);
-                    $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,"2",:cn)');
-                    $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check,':cn' => $_POST['contact_no']));
+                    $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,:role,:cn)');
+                    $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check, ':role' => $_POST['role'], ':cn' => $_POST['contact_no']));
 
                     $_SESSION['success'] = "Member Added Successfully";
                     header('Location: home.php');
@@ -103,6 +103,12 @@
     ?>
 
     <form method="POST" action="add_member.php"  class="col-xs-5">
+
+    <p>Role : &nbsp&nbsp&nbsp
+    <input type="radio" name="role" value="0"> Admin &nbsp&nbsp&nbsp
+    <input type="radio" name="role" value="1" checked> Faculty &nbsp&nbsp&nbsp        
+    <input type="radio" name="role" value="2"> Technician       
+    </p>
 
     <div class="input-group">
     <span class="input-group-addon">ID</span>

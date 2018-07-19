@@ -23,7 +23,7 @@
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required";
-            header('Location: fromrepairmc.php');
+            header('Location: fromrepairmc.php?mc_id='.$_GET['mc_id']);
             return;
         }
         else
@@ -35,7 +35,7 @@
             if($row === FALSE)
             {
                 $_SESSION['error'] = "Invalid MAC ADDRESS";
-                header('Location: fromrepairmc.php');
+                header('Location: fromrepairmc.php?mc_id='.$_GET['mc_id']);
                 return;
             }
             $mid = $row['machine_id'];
@@ -60,8 +60,139 @@
                 $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
                         $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => "1970-01-01"));
 
+                $stmtc = $pdo->prepare('SELECT * FROM temp WHERE machine_id = :mid');
+                $stmtc->execute(array(':mid' => $mid));
+                $c = $stmtc->fetch(PDO::FETCH_ASSOC);
+
+                if($c != false)
+                {
+                    $stmtreadu = $pdo->prepare("SELECT * FROM machine where machine_id = :xyz");
+                    $stmtreadu->execute(array(":xyz" => $mid));
+                    $row = $stmtreadu->fetch(PDO::FETCH_ASSOC);
+
+                    //$_SESSION['success']=$row['processor'];
+
+                    if(!is_null($c['processor']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['processor']));
+
+                        $stmt = $pdo->prepare('UPDATE machine SET processor = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['processor'], ':ma' => $mid));
+                    }
+
+                    if(!is_null($c['ram']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['ram']));
+                        
+                        $stmt = $pdo->prepare('UPDATE machine SET ram = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['ram'], ':ma' => $mid));
+                    }
+
+                    if(!is_null($c['harddisk']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['memory']));
+
+                        $stmt = $pdo->prepare('UPDATE machine SET memory = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['harddisk'], ':ma' => $mid));
+                    }
+
+                    if(!is_null($c['keyboard']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['keyboard']));
+
+                        $stmt = $pdo->prepare('UPDATE machine SET keyboard = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['keyboard'], ':ma' => $mid));
+                    }
+
+                    if(!is_null($c['mouse']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['mouse']));
+
+                        $stmt = $pdo->prepare('UPDATE machine SET mouse = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['mouse'], ':ma' => $mid));
+                    }
+
+                    if(!is_null($c['monitor']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE hardware SET state = -1 where hardware_id = :hid');
+                        $stmtu->execute(array(':hid' => $row['monitor']));
+
+                        $stmt = $pdo->prepare('UPDATE machine SET monitor = :p WHERE machine_id = :ma');
+                        $stmt->execute(array( ':p' => $c['monitor'], ':ma' => $mid));
+                    }
+
+                    /*$stmtug = $pdo->prepare('INSERT INTO upgrade_history (machine_id, processori, rami, memoryi, processorf, ramf, memoryf, dateofupgrade) VALUES (:mid, :pi, :ri, :mi, :pf, :rf, :mf, :d)');
+                    $stmtug->execute(array(
+                        ':mid' => $mc_id,
+                     ':pi' => $row['processor'], 
+                     ':ri' => $row['ram'], 
+                     ':mi' => $row['memory'],
+                     ':pf' => $c['processor'],
+                        ':rf' => $c['ram'],
+                        ':mf' => $c['memory'],
+                        ':d' => date('y-m-d')
+                        ));*/
+
+                    $stmtug = $pdo->prepare('INSERT INTO upgrade_history (machine_id, processori, rami, memoryi, dateofupgrade) VALUES (:mid, :pi, :ri, :mi, :d)');
+                    $stmtug->execute(array(
+                        ':mid' => $mid,
+                     ':pi' => $row['processor'], 
+                     ':ri' => $row['ram'], 
+                     ':mi' => $row['memory'],
+                       ':d' => date('y-m-d')
+                        ));
+
+                    $last_id = $pdo->lastInsertId();
+
+                    if(!is_null($c['processor']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET processorf = :pf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':pf' => $c['processor'], ':uhid' => $last_id));
+                    }
+                    else
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET processorf = :pf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':pf' => $row['processor'], ':uhid' => $last_id));
+
+                    }
+
+                    if(!is_null($c['ram']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET ramf = :rf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':rf' => $c['ram'], ':uhid' => $last_id));
+                    }
+                    else
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET ramf = :rf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':rf' => $row['ram'], ':uhid' => $last_id));
+
+                    }
+
+                    if(!is_null($c['harddisk']))
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET memoryf = :mf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':mf' => $c['harddisk'], ':uhid' => $last_id));
+                    }
+                    else
+                    {
+                        $stmtu = $pdo->prepare('UPDATE upgrade_history SET memoryf = :mf where upgrade_history_id = :uhid');
+                        $stmtu->execute(array(':mf' => $row['memory'], ':uhid' => $last_id));
+
+                    }
+
+                    $stmtdelete = $pdo->prepare("DELETE FROM temp where machine_id = :xyz");
+                    $stmtdelete->execute(array(":xyz" => $mid));
+
+
+                }
+
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
-                header('Location: home.php');
+                header("Location: printcomprem.php?mc_id=$mid");
                 return;
             }
             else

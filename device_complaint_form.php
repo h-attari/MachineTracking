@@ -103,7 +103,7 @@
     <span class="input-group-addon">Select Device</span>
     <select name="hardware_id" class="form-control">
         <?php
-            $qr=$pdo->query("SELECT description,name,hardware.hardware_id, description,hardware_position.lab_id,hardware_position.member_id FROM hardware JOIN hardware_position ON (hardware_position.hardware_id=hardware.hardware_id)");
+            $qr=$pdo->query("SELECT description,name,hardware.hardware_id, description,hardware_position.lab_id,hardware_position.member_id FROM hardware JOIN hardware_position ON (hardware_position.hardware_id=hardware.hardware_id) WHERE hardware_position.final_date='0000-00-00' OR hardware_position.final_date='1970-01-01'");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :name_id");

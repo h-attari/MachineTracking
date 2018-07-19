@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.8.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 16, 2018 at 12:17 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.20
+-- Generation Time: Jul 18, 2018 at 11:18 AM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -77,7 +79,33 @@ CREATE TABLE `complaint_book` (
 
 INSERT INTO `complaint_book` (`complaint_book_id`, `Date_of_complaint`, `machine_id`, `complaint_details`, `priority`, `work_for`, `remarks`, `complaint_by`, `processor`, `ram`, `harddisk`, `mouse`, `keyboard`, `monitor`, `DOPR`, `completed`) VALUES
 (3, '2018-07-11', 59, 'pata nhi', 5, 2, NULL, 'krish', 1, 1, NULL, NULL, NULL, NULL, '2018-07-18', -1),
-(4, '2018-07-11', 60, 'dsfjlksdfj', 2, 3, NULL, 'krsi', 1, 1, NULL, NULL, NULL, NULL, '2018-07-10', NULL);
+(4, '2018-07-11', 60, 'dsfjlksdfj', 2, 3, 'adsd', 'krsi', 1, 1, NULL, NULL, NULL, NULL, '2018-07-10', 1),
+(5, '2018-07-17', 61, 'as', 1, 3, 'sadsad', 'anrug', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(6, '2018-07-18', 63, 'sfsdf', 1, 3, 'asdsad', 'sfdafds', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(7, '2018-07-18', 62, 'dfsd', 3, 3, 'asdsa', 'sdfs', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(9, '2018-07-18', 64, 'gvxvdxf', 3, 4, NULL, 'gtrgtsrgvrd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `device_repair_history`
+--
+
+CREATE TABLE `device_repair_history` (
+  `repair_history_id` int(11) NOT NULL,
+  `hardware_id` int(11) DEFAULT NULL,
+  `initial_date` date DEFAULT NULL,
+  `final_date` date DEFAULT NULL,
+  `fault` varchar(500) DEFAULT NULL,
+  `cost` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `device_repair_history`
+--
+
+INSERT INTO `device_repair_history` (`repair_history_id`, `hardware_id`, `initial_date`, `final_date`, `fault`, `cost`) VALUES
+(2, 302, '2018-07-17', '0000-00-00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -101,14 +129,14 @@ CREATE TABLE `hardware` (
 --
 
 INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`, `name`, `state`, `supplier`) VALUES
-(302, 19, 2, NULL, 1, 6, 0, 1),
-(303, 19, 1, NULL, 1, 5, 1, 1),
+(302, 19, 2, NULL, 1, 6, 3, 1),
+(303, 19, 1, NULL, 1, 5, 0, 1),
 (304, 19, 1, NULL, 1, 4, 1, 1),
 (305, 19, 4, NULL, 1, 1, 1, 1),
 (306, 19, 1, NULL, 1, 2, 1, 1),
-(307, 19, 1, NULL, 1, 3, 1, 1),
-(308, 19, 16, NULL, 1, 6, 1, 2),
-(309, 19, 18, NULL, 1, 5, 1, 2),
+(307, 19, 1, NULL, 1, 3, 2, 1),
+(308, 19, 16, NULL, 1, 6, -1, 2),
+(309, 19, 18, NULL, 1, 5, -1, 2),
 (310, 19, NULL, NULL, 1, 4, 1, 2),
 (311, 19, 1, NULL, 1, 1, 1, 2),
 (312, 19, 6, NULL, 1, 2, 1, 2),
@@ -121,7 +149,7 @@ INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`,
 (319, 19, 9, NULL, 33, 3, 1, 1),
 (320, 19, 15, NULL, 33, 6, 1, 1),
 (321, 19, 17, NULL, 33, 5, 1, 1),
-(322, 19, 11, NULL, 33, 4, 1, 1),
+(322, 19, 11, NULL, 33, 4, 2, 1),
 (323, 19, 1, NULL, 33, 1, 1, 1),
 (324, 19, 6, NULL, 33, 2, 1, 1),
 (325, 19, 9, NULL, 33, 3, 1, 1),
@@ -130,7 +158,38 @@ INSERT INTO `hardware` (`hardware_id`, `company`, `description`, `price`, `grn`,
 (328, 19, 11, NULL, 33, 4, 1, 1),
 (329, 19, 1, NULL, 33, 1, 1, 1),
 (330, 19, 6, NULL, 33, 2, 1, 1),
-(331, 19, 9, NULL, 33, 3, 1, 1);
+(331, 19, 9, NULL, 33, 3, 1, 1),
+(332, 1, 15, NULL, 1, 6, 1, 3),
+(333, 1, 19, NULL, 1, 5, 1, 3),
+(334, 1, 11, NULL, 1, 4, 1, 3),
+(335, 1, 1, NULL, 1, 1, 1, 3),
+(336, 1, 8, NULL, 1, 2, 1, 3),
+(337, 1, 9, NULL, 1, 3, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hardware_complaint_book`
+--
+
+CREATE TABLE `hardware_complaint_book` (
+  `hardware_complaint_book_id` int(11) NOT NULL COMMENT 'AUTO_INCREMENT',
+  `date_of_complaint` date DEFAULT NULL,
+  `hardware_id` int(11) DEFAULT NULL,
+  `complaint_details` varchar(512) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `work_for` int(11) DEFAULT NULL,
+  `remarks` varchar(512) DEFAULT NULL,
+  `complaint_by` varchar(40) DEFAULT NULL,
+  `completed` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hardware_complaint_book`
+--
+
+INSERT INTO `hardware_complaint_book` (`hardware_complaint_book_id`, `date_of_complaint`, `hardware_id`, `complaint_details`, `priority`, `work_for`, `remarks`, `complaint_by`, `completed`) VALUES
+(1, '2018-07-17', 302, 'as', 2, 2, NULL, 'a', NULL);
 
 -- --------------------------------------------------------
 
@@ -147,6 +206,15 @@ CREATE TABLE `hardware_position` (
   `final_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `hardware_position`
+--
+
+INSERT INTO `hardware_position` (`hardware_position_id`, `hardware_id`, `lab_id`, `member_id`, `initial_date`, `final_date`) VALUES
+(1, 307, NULL, 0, '2018-07-17', '0000-00-00'),
+(2, 322, NULL, 0, '2018-07-17', '0000-00-00'),
+(3, 302, NULL, 0, '2018-07-17', '2018-07-17');
+
 -- --------------------------------------------------------
 
 --
@@ -161,13 +229,6 @@ CREATE TABLE `issue_request` (
   `date_of_request` date DEFAULT NULL,
   `name_of_hardware` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `issue_request`
---
-
-INSERT INTO `issue_request` (`issue_report_id`, `department`, `id`, `purpose`, `date_of_request`, `name_of_hardware`) VALUES
-(3, 'CS', 0, 'Halwa', '2018-07-09', 1);
 
 -- --------------------------------------------------------
 
@@ -217,10 +278,11 @@ CREATE TABLE `machine` (
 
 INSERT INTO `machine` (`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`, `monitor`, `keyboard`, `mouse`, `grn`) VALUES
 (59, '1', 303, 302, 304, '2018-07-08', 123, 'INACTIVE', '1', 307, 306, 305, 1),
-(60, '12', 309, 308, 310, '2018-07-15', 20000, 'INACTIVE', 'Windows', 313, 312, 311, 1),
+(60, '12', 303, 303, 310, '2018-07-15', 20000, 'ACTIVE', 'Windows', 313, 312, 311, 1),
 (61, '33', 315, 314, 316, '2018-07-01', 12345, 'ACTIVE', 'windows', 319, 318, 317, 33),
-(62, '34', 321, 320, 322, '2018-07-01', 12345, 'ACTIVE', 'windows', 325, 324, 323, 33),
-(63, '35', 327, 326, 328, '2018-07-01', 12345, 'ACTIVE', 'windows', 331, 330, 329, 33);
+(62, '34', 321, 320, 322, '2018-07-01', 12345, 'INACTIVE', 'windows', 325, 324, 323, 33),
+(63, '35', 327, 326, 328, '2018-07-01', 12345, 'INACTIVE', 'windows', 331, 330, 329, 33),
+(64, '4433', 333, 332, 334, '2018-07-01', 1221321, 'INACTIVE', 'osx', 337, 336, 335, 1);
 
 -- --------------------------------------------------------
 
@@ -295,7 +357,11 @@ CREATE TABLE `position` (
 --
 
 INSERT INTO `position` (`position_id`, `machine_id`, `lab_id`, `initial_date`, `final_date`) VALUES
-(1, 61, 16, '2018-07-12', '1970-01-01');
+(1, 61, 16, '2018-07-12', '2018-07-12'),
+(2, 62, 15, '2018-07-16', '2018-07-18'),
+(3, 64, 16, '2018-07-15', '1970-01-01'),
+(4, 60, NULL, '2018-07-17', '1970-01-01'),
+(5, 61, 16, '2018-07-15', '1970-01-01');
 
 -- --------------------------------------------------------
 
@@ -318,7 +384,11 @@ CREATE TABLE `repair_history` (
 
 INSERT INTO `repair_history` (`repair_history_id`, `machine_id`, `initial_date`, `final_date`, `fault`, `cost`) VALUES
 (3, 59, '2018-07-11', '0000-00-00', NULL, NULL),
-(4, 60, '2018-07-10', '0000-00-00', NULL, NULL);
+(4, 60, '2018-07-10', '2018-07-17', 'fdgfd', 0),
+(5, 61, '2018-07-12', '2018-07-15', 'ram ', 1000),
+(6, 63, '2018-07-18', '0000-00-00', NULL, NULL),
+(7, 62, '2018-07-18', '0000-00-00', NULL, NULL),
+(9, 64, '2018-07-08', '0000-00-00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -413,6 +483,18 @@ CREATE TABLE `system_transfer_report` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `system_transfer_report_history`
+--
+
+CREATE TABLE `system_transfer_report_history` (
+  `system_transfer_report_history_id` int(11) NOT NULL,
+  `system_transfer_report_id` int(11) DEFAULT NULL,
+  `machine_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `temp`
 --
 
@@ -472,6 +554,13 @@ CREATE TABLE `upgrade_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `upgrade_history`
+--
+
+INSERT INTO `upgrade_history` (`upgrade_history_id`, `machine_id`, `processori`, `rami`, `memoryi`, `processorf`, `ramf`, `memoryf`, `dateofupgrade`) VALUES
+(1, 60, 309, 308, 310, 303, 303, 310, '2018-07-18');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -490,6 +579,13 @@ ALTER TABLE `complaint_book`
   ADD KEY `FK1` (`work_for`);
 
 --
+-- Indexes for table `device_repair_history`
+--
+ALTER TABLE `device_repair_history`
+  ADD PRIMARY KEY (`repair_history_id`),
+  ADD KEY `fk_devicehistory_hardwareid` (`hardware_id`);
+
+--
 -- Indexes for table `hardware`
 --
 ALTER TABLE `hardware`
@@ -498,6 +594,14 @@ ALTER TABLE `hardware`
   ADD KEY `FK_name` (`name`),
   ADD KEY `supplier` (`supplier`),
   ADD KEY `fk_description` (`description`);
+
+--
+-- Indexes for table `hardware_complaint_book`
+--
+ALTER TABLE `hardware_complaint_book`
+  ADD PRIMARY KEY (`hardware_complaint_book_id`),
+  ADD KEY `fk_hardwarecomplaint_hardwareid` (`hardware_id`),
+  ADD KEY `fk_hardware_workfor` (`work_for`);
 
 --
 -- Indexes for table `hardware_position`
@@ -513,7 +617,7 @@ ALTER TABLE `hardware_position`
 --
 ALTER TABLE `issue_request`
   ADD PRIMARY KEY (`issue_report_id`),
-  ADD KEY `fK_issue` (`name_of_hardware`);
+  ADD KEY `fk_issue` (`name_of_hardware`);
 
 --
 -- Indexes for table `lab`
@@ -590,6 +694,14 @@ ALTER TABLE `system_transfer_report`
   ADD KEY `fk_streport` (`trid`);
 
 --
+-- Indexes for table `system_transfer_report_history`
+--
+ALTER TABLE `system_transfer_report_history`
+  ADD PRIMARY KEY (`system_transfer_report_history_id`),
+  ADD KEY `FKK_SYSTRAN` (`system_transfer_report_id`),
+  ADD KEY `FKK_MID` (`machine_id`);
+
+--
 -- Indexes for table `temp`
 --
 ALTER TABLE `temp`
@@ -630,91 +742,127 @@ ALTER TABLE `upgrade_history`
 --
 ALTER TABLE `company`
   MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
 --
 -- AUTO_INCREMENT for table `complaint_book`
 --
 ALTER TABLE `complaint_book`
-  MODIFY `complaint_book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `complaint_book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `device_repair_history`
+--
+ALTER TABLE `device_repair_history`
+  MODIFY `repair_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `hardware`
 --
 ALTER TABLE `hardware`
-  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
+  MODIFY `hardware_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=338;
+
+--
+-- AUTO_INCREMENT for table `hardware_complaint_book`
+--
+ALTER TABLE `hardware_complaint_book`
+  MODIFY `hardware_complaint_book_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'AUTO_INCREMENT', AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `hardware_position`
 --
 ALTER TABLE `hardware_position`
-  MODIFY `hardware_position_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `hardware_position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `issue_request`
 --
 ALTER TABLE `issue_request`
-  MODIFY `issue_report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `issue_report_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `lab`
 --
 ALTER TABLE `lab`
   MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
 --
 -- AUTO_INCREMENT for table `machine`
 --
 ALTER TABLE `machine`
-  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `machine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
   MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `name`
 --
 ALTER TABLE `name`
   MODIFY `name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `repair_history`
 --
 ALTER TABLE `repair_history`
-  MODIFY `repair_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `repair_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `software`
 --
 ALTER TABLE `software`
   MODIFY `software_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `specification`
 --
 ALTER TABLE `specification`
   MODIFY `spec_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `sup_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `system_transfer_report`
 --
 ALTER TABLE `system_transfer_report`
   MODIFY `system_transfer_report_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `system_transfer_report_history`
+--
+ALTER TABLE `system_transfer_report_history`
+  MODIFY `system_transfer_report_history_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `temp`
 --
 ALTER TABLE `temp`
-  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `transfer_request`
 --
 ALTER TABLE `transfer_request`
   MODIFY `transfer_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `upgrade_history`
 --
 ALTER TABLE `upgrade_history`
-  MODIFY `upgrade_history_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `upgrade_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- Constraints for dumped tables
 --
@@ -727,6 +875,12 @@ ALTER TABLE `complaint_book`
   ADD CONSTRAINT `fk_1` FOREIGN KEY (`machine_id`) REFERENCES `machine` (`machine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `device_repair_history`
+--
+ALTER TABLE `device_repair_history`
+  ADD CONSTRAINT `fk_devicehistory_hardwareid` FOREIGN KEY (`hardware_id`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `hardware`
 --
 ALTER TABLE `hardware`
@@ -734,6 +888,12 @@ ALTER TABLE `hardware`
   ADD CONSTRAINT `FK_name` FOREIGN KEY (`name`) REFERENCES `name` (`name_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_description` FOREIGN KEY (`description`) REFERENCES `specification` (`spec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`sup_id`);
+
+--
+-- Constraints for table `hardware_complaint_book`
+--
+ALTER TABLE `hardware_complaint_book`
+  ADD CONSTRAINT `fk_hardwarecomplaint_hardwareid` FOREIGN KEY (`hardware_id`) REFERENCES `hardware` (`hardware_id`);
 
 --
 -- Constraints for table `hardware_position`
@@ -747,7 +907,7 @@ ALTER TABLE `hardware_position`
 -- Constraints for table `issue_request`
 --
 ALTER TABLE `issue_request`
-  ADD CONSTRAINT `fK_issue` FOREIGN KEY (`name_of_hardware`) REFERENCES `name` (`name_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_issue` FOREIGN KEY (`name_of_hardware`) REFERENCES `hardware` (`hardware_id`);
 
 --
 -- Constraints for table `machine`
@@ -794,6 +954,13 @@ ALTER TABLE `system_transfer_report`
   ADD CONSTRAINT `fk_streport` FOREIGN KEY (`trid`) REFERENCES `transfer_request` (`transfer_request_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `system_transfer_report_history`
+--
+ALTER TABLE `system_transfer_report_history`
+  ADD CONSTRAINT `FKK_MID` FOREIGN KEY (`machine_id`) REFERENCES `machine` (`machine_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKK_SYSTRAN` FOREIGN KEY (`system_transfer_report_id`) REFERENCES `system_transfer_report` (`system_transfer_report_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `temp`
 --
 ALTER TABLE `temp`
@@ -816,6 +983,7 @@ ALTER TABLE `upgrade_history`
   ADD CONSTRAINT `FK_proi` FOREIGN KEY (`processori`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ramf` FOREIGN KEY (`ramf`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_rami` FOREIGN KEY (`rami`) REFERENCES `hardware` (`hardware_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -31,8 +31,12 @@
                         header("Location:home.php");
                     else
                         header('Location: index.php');*/
-                    header("location:printform_request.php?trid=$trid");
-                    return;
+                   // header("location:printform_request.php?trid=$trid");
+                    //return;
+                         echo("<script>
+         window.open('printform_request.php?trid=$trid', '_blank'); 
+</script>");
+        echo("<script>window.open('home.php','_self')</script>");
             
 
         }
