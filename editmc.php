@@ -223,7 +223,12 @@
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
-                echo ($rowx['description']);
+                
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :desc");
+                $pro->execute(array(':desc' => $rowx['description']));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+
+                echo ($pron['spec']);
                 echo '</option>';
             }
          ?>
@@ -256,7 +261,12 @@
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
-                echo ($rowx['description']);
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :desc");
+                $pro->execute(array(':desc' => $rowx['description']));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+
+                echo ($pron['spec']);
+                //echo ($rowx['description']);
                 echo '</option>';
             }
          ?>
@@ -289,6 +299,11 @@
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$rowx['hardware_id'].'>';
+                $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :desc");
+                $pro->execute(array(':desc' => $rowx['description']));
+                $pron = $pro->fetch(PDO::FETCH_ASSOC);
+
+                echo ($pron['spec']);
                 echo ($rowx['description']);
                 echo '</option>';
             }

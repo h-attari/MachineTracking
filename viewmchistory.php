@@ -35,6 +35,8 @@
     <div class="page-header">
     <h1>VIEW MACHINE HISTORY</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+        </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -52,7 +54,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
-    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Computer No. (only integers)"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Computer No. (only integers)" id="viewmc" onchange="Number('viewmc')"> </div><br/>
 
 
     <input type="submit" value="View Machine History" class="btn btn-info">

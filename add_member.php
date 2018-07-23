@@ -128,16 +128,16 @@
 
     <div class="input-group">
       <span class="input-group-addon">Contact No.</span>
-      <input type="text" name="contact_no" class="form-control" required placeholder="Enter a valid Contact number"> </div><br/>
+      <input type="text" name="contact_no" class="form-control" required placeholder="10 digit number" id="cnct" onchange="contact('cnct')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Password</span>
-    <input type="password" name="pass" required="" class="form-control" placeholder="min. 8 characters"> </div><br/>
+    <input type="password" name="pass" required="" class="form-control" placeholder="min. 8 characters" id="npswrd" onchange="newp('npswrd')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Confirm Password</span>
-    <input type="password" required="" name="c_pass" class="form-control" placeholder="min. 8 characters"> </div><br/>
-    
+    <input type="password" required="" name="c_pass" class="form-control" placeholder="min. 8 characters" id="cpswrd" onchange="conp('cpswrd')"> </div><br/>
+     
     <input type="submit" value="Sign Up" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>

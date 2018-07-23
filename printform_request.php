@@ -52,16 +52,20 @@
 				?>
 			</div>
 		<br><br><br>
-			<div class=container>
-				<span class="col-xs-6"><b>Name: &nbsp</b>
+			<div class="container">
+				<span class="col-xs-12">
+					<b>Name: &nbsp</b>
 					<?php
-						$rname = $pdo->prepare("SELECT name FROM transfer_request WHERE transfer_request_id=:tid");
+						$rname = $pdo->prepare("SELECT name FROM transfer_request WHERE 	transfer_request_id=:tid");
 						$rname->execute(array(':tid' => $tid));
 						$rnamen = $rname->fetch(PDO::FETCH_ASSOC); 
 						echo ($rnamen['name']);	
 					?>
 				</span>
-				<span>
+			</div>
+		<br>
+			<div class="container">
+				<span class="col-xs-12">
 					<b>Department: &nbsp</b>
 					<?php
 						$rdep = $pdo->prepare("SELECT department FROM transfer_request WHERE transfer_request_id=:tid");
@@ -104,28 +108,56 @@
                 				$rpro = $pdo->prepare("SELECT processor FROM transfer_request WHERE transfer_request_id=:tid");
 								$rpro->execute(array(':tid' => $tid));
 								$rpron = $rpro->fetch(PDO::FETCH_ASSOC); 
-								echo ($rpron['processor']);
+								if($rpron['processor']=="NULL")
+								{
+									echo "Any";
+								}
+								else
+								{
+									echo ($rpron['processor']);
+								}
                 				echo ("</td>");
                 				
                 				echo ("<td>");
                 				$rram = $pdo->prepare("SELECT ram FROM transfer_request WHERE transfer_request_id=:tid");
 								$rram->execute(array(':tid' => $tid));
 								$rramn = $rram->fetch(PDO::FETCH_ASSOC); 
-								echo ($rramn['ram']);
+								if($rramn['ram']=="NULL")
+								{
+									echo "Any";
+								}
+								else
+								{
+									echo ($rramn['ram']);
+								}
                 				echo ("</td>");
 
                 				echo ("<td>");
                 				$rsto = $pdo->prepare("SELECT hdd FROM transfer_request WHERE transfer_request_id=:tid");
 								$rsto->execute(array(':tid' => $tid));
 								$rston = $rsto->fetch(PDO::FETCH_ASSOC); 
-								echo ($rston['hdd']);
+								if($rston['hdd']=="NULL")
+								{
+									echo "Any";
+								}
+								else
+								{
+									echo ($rston['hdd']);
+								}
                 				echo ("</td>");
 
                 				echo ("<td>");
                 				$ros = $pdo->prepare("SELECT os FROM transfer_request WHERE transfer_request_id=:tid");
 								$ros->execute(array(':tid' => $tid));
 								$rosn = $ros->fetch(PDO::FETCH_ASSOC); 
-								echo ($rosn['os']);
+								if($rosn['os']=="NULL")
+								{
+									echo "Any";
+								}
+								else
+								{
+									echo ($rosn['os']);
+								}
                 				echo ("</td>");
 
                 				echo ("<td>");

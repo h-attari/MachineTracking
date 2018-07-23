@@ -50,7 +50,7 @@
         }
         else
         {
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+            /*$stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
             $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row['COUNT(*)'] !== '0')
@@ -58,8 +58,8 @@
                 $_SESSION['error'] = "This Machine already exists";
                 header('Location: addmc.php');
                 return;
-            }
-            else
+            }*/
+            
             {
                 $mcid=($_POST['mac_addr']); 
                 if($_POST['alert-server-new']=='1')
@@ -128,6 +128,16 @@
 
                 for($i = 0;$i<$_POST['qty'];$i++)
                 {
+                    $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+                    $stmt->execute(array(':mac_addr' => $mcid));
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if($row['COUNT(*)'] !== '0')
+                    {
+                        $_SESSION['error'] = "Other Machines already exists";
+                        $mcid++;
+                        continue;
+                    }
+
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                     //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
                     $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`,`supplier`) values 
@@ -163,11 +173,13 @@
                     $monitorid=$ramid+5;
                     $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os, monitor, keyboard, mouse, grn) VALUES (:mac_addr, :processorid, :ramid, :hdid, :dop, :price, :state, :os, :monitorid, :keyboardid, :mouseid, :grn)');
                         $stmt->execute(array(':mac_addr' => $mcid, ':grn' => $_POST['grn'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'], ':processorid' => $processorid, ':ramid' => $ramid, ':hdid' => $hdid, ':monitorid' => $monitorid, ':keyboardid' => $keyboardid, ':mouseid' => $mouseid));
-                    $mcid++;
+                    
+                    $_SESSION['success'] .= "Machine ".$mcid." Added Successfully";
+                        
+                        $mcid++;
                 }
-                $_SESSION['success'] = "Machine Added Successfully";
-                        header('Location: home.php');
-                        return;
+                header('Location: home.php');
+                return;
             }
         }
     }
@@ -222,7 +234,7 @@
     <br/>
     <div class="input-group">
     <span class="input-group-addon">GR Number</span>
-    <input type="text" name="grn" required="" class="form-control" id="grn" onchange="Number('grn')" placeholder="Good Reciept No./Bill No."> </div><br/>
+    <input type="text" name="grn" required="" class="form-control" id="grn" placeholder="Good Reciept No./Bill No."> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Processor </span>

@@ -29,7 +29,7 @@
                 }
                 $mid = $row['machine_id'];
                 
-                $stmt = $pdo->prepare('SELECT * FROM repair_history WHERE machine_id = :mid AND fault IS NULL');
+                $stmt = $pdo->prepare('SELECT * FROM complaint_book WHERE machine_id = :mid AND completed IS NULL');
                 $stmt->execute(array(':mid' => $mid));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row === FALSE)
@@ -51,7 +51,7 @@
                 }
                 else
                 {
-                    $_SESSION['success'] = "Machine is already in Repair";
+                    $_SESSION['success'] = "Complaint for this machine already exists";
                     if(isset($_SESSION['id']))
                     {
                         header('Location: home.php');
@@ -116,7 +116,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Priority</span>
-    <input type="text" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority" onchange="Number('priority')"> </div><br/>
+    <input type="number" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Complaint By </span>

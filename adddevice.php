@@ -282,7 +282,7 @@
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Description</span>   
-        <input type="text" class="form-control" name="description2" id="other-description" onchange="Other('other-supplier')" placeholder="Specification of Device">
+        <input type="text" class="form-control" name="description2" id="other-description" onchange="Other('other-description')" placeholder="Specification of Device">
     </div><br>
     <input type="text" id="alert-server-new-description" name="alert-server-new-description" value="1" hidden>
     
@@ -292,7 +292,7 @@
 
         <div class="input-group">
         <span class="input-group-addon">GR No. </span>
-        <input type="text" name="grn" required class="form-control" id="gr" onchange="Number('gr')"placeholder="Good Reciept No./Bill No."> </div><br/>
+        <input type="text" name="grn" required class="form-control" id="gr" placeholder="Good Reciept No./Bill No."> </div><br/>
 
         <input type="submit" value="Add Device" class="btn btn-info">
         <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

@@ -304,16 +304,28 @@
                         echo(htmlentities($row['purpose']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo(htmlentities($row['processor']));
+                        if($row['processor']=="NULL")
+                            echo("Any");
+                        else
+                            echo(htmlentities($row['processor']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo(htmlentities($row['ram']));
+                        if($row['ram']=="NULL")
+                            echo "Any";
+                        else
+                            echo(htmlentities($row['ram']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo(htmlentities($row['hdd']));
+                        if($row['hdd']=="NULL")
+                            echo "Any";
+                        else
+                            echo(htmlentities($row['hdd']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo(htmlentities($row['os']));
+                        if($row['os']=="NULL")
+                            echo "Any";
+                        else
+                            echo(htmlentities($row['os']));
                         echo ("</td>");
                         echo ("<td>");
                         echo(htmlentities($row['quantity']));

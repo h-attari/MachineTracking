@@ -9,6 +9,56 @@
         die('ACCESS DENIED');
     }
     require_once "pdo.php";
+    /*
+    $stmt = $pdo->query("SELECT * FROM machine");
+    while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date = '1970-01-01'");
+
+        $stmtn->execute(array(':mid' => $row['machine_id']));
+        $rown = $stmtn->fetch(PDO::FETCH_ASSOC);//rown will store labid
+
+        $stmtn2 = $pdo->prepare("SELECT name FROM lab where lab_id = :lid");
+        $stmtn2->execute(array(':lid' => $rown['lab_id']));
+        $rownlabid = $stmtn2->fetch(PDO::FETCH_ASSOC);//rowlabid will store lab name
+
+        //echo $row['processor'];
+        $stmtrow=$pdo->prepare("SELECT spec FROM specification JOIN hardware ON(specification.spec_id = hardware.description AND hardware.hardware_id=:hid)"
+            ); 
+        $stmtrow->execute(array(":hid"=>$row['processor']));
+        $processorspec=$stmtrow->fetch(PDO::FETCH_ASSOC);//processorspec will store description of processor
+        $stmtrow=$pdo->prepare("SELECT spec FROM specification JOIN hardware ON(specification.spec_id = hardware.description AND hardware.hardware_id = :hid)"
+            );
+        $stmtrow->execute(array(":hid"=>$row['ram']));
+        $ramspec=$stmtrow->fetch(PDO::FETCH_ASSOC);//ramspec will store description of ram
+        $stmtrow=$pdo->prepare("SELECT spec FROM specification JOIN hardware ON(specification.spec_id = hardware.description AND  hardware.hardware_id = :hid)"
+            );
+        $stmtrow->execute(array(":hid"=>$row['memory']));
+        $memoryspec=$stmtrow->fetch(PDO::FETCH_ASSOC);//memoryspec will store description of memory
+
+        //Inserting in machine_view
+        $stmt = $pdo->prepare("INSERT INTO machine_view(`machine_id`, `MAC_ADDR`, `processor`, `ram`, `memory`, `DOP`, `price`, `state`, `os`, `monitor`, `keyboard`, `mouse`, `grn`, `lab`) VALUES(:machineid, :macadd, :processor,:ram,:memory,:DOP,:price,:state,:os,:monitor,:keyboard,:mouse,:grn,:lab )
+            ");
+        $stmt ->execute(array(
+            ":machineid" =>$row[',
+            ":macadd",
+            ":processor",
+            ":ram",
+            ":memory",
+            ":DOP",
+            ":price",
+            ":state",
+            ":os",
+            ":monitor",
+            ":keyboard",
+            ":mouse",
+            ":grn",
+            ":lab"
+        ));
+
+    }
+    */
+
 ?>
 <html>
 <head>
@@ -26,7 +76,7 @@
          <div class="container-fluid row" id="content">
 
     <div class="page-header">
-    <h1>MACHINES</h1>
+    <h1>STOCK TABLE</h1>
     </div>
     <?php
 
@@ -47,18 +97,12 @@
         if($row['COUNT(*)']!=='0')
         {
             $i=1;
-            $stmtread = $pdo->query("SELECT machine_id,MAC_ADDR,processor,ram,memory,DOP,price,state,os,monitor,keyboard,mouse,grn,COUNT(*) FROM machine GROUP BY DOP,processor,ram,memory,monitor,state ORDER BY DOP");
+            $stmtread = $pdo->query("SELECT *,COUNT(*) FROM machine GROUP BY grn,state ORDER BY DOP");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>MAC ADDRESS</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>Keyboard</th><th>Mouse</th><th>Monitor</th><th>DOP</th><th>Price</th><th>Location</th> <th>State</th><th>Quantity</th></tr>");
+                <tr> <th>S.no.</th><th>Processor</th><th>RAM</th><th>Storage</th><th>OS</th><th>Keyboard</th><th>Mouse</th><th>Monitor</th><th>DOP</th><th>Price</th> <th>State</th><th>GRN</th><th>Quantity</th></tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
-                $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date = '1970-01-01'");
-                $stmtn->execute(array(':mid' => $row['machine_id']));
-                $rown = $stmtn->fetch(PDO::FETCH_ASSOC);
-                $stmtn2 = $pdo->prepare("SELECT name FROM lab where lab_id = :lid");
-                $stmtn2->execute(array(':lid' => $rown['lab_id']));
-                $rown2 = $stmtn2->fetch(PDO::FETCH_ASSOC);
-
+             
                 $processor = $pdo->prepare("SELECT description FROM hardware where hardware_id = :hid");
                 $processor->execute(array(':hid' => $row['processor']));
                 $processorn = $processor->fetch(PDO::FETCH_ASSOC);
@@ -87,10 +131,6 @@
                 echo ("<td>");
                 echo($i);
                 echo("</td>");
-                echo ("<td>");
-
-                echo(htmlentities($row['MAC_ADDR']));
-                echo ("</td>");
                 
                 echo ("<td>");
                 $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
@@ -145,11 +185,11 @@
                 echo(htmlentities($row['price']));
                 echo ("</td>");
                 echo ("<td>");
-                echo(htmlentities($rown2['name']));
-                echo ("</td>");
-                echo ("<td>");
                 echo(htmlentities($row['state']));
                 echo ("</td>");           
+                echo "<td>";
+                echo(htmlentities($row['grn']));
+                echo "</td>";
                 echo "<td>";
                 echo(htmlentities($row['COUNT(*)']));
                 echo "</td>";     

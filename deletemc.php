@@ -27,18 +27,32 @@
             $flag=0;
             for($i=$_POST['mac_addr'];$i<=$_POST['mac_addr2'];$i++)
             {
-                $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+                $stmt = $pdo->prepare('SELECT *,COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
                 $stmt->execute(array(':mac_addr' => $i));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row['COUNT(*)'] !== '0')
                 {
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['processor']));
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['ram']));
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['memory']));
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['monitor']));
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['keyboard']));
+                    $stmtd = $pdo->prepare('DELETE FROM hardware WHERE hardware_id = :hid');
+                    $stmtd->execute(array(':hid' => $row['mouse']));
+
+
                      $stmt = $pdo->prepare('DELETE FROM machine WHERE mac_addr = :mac_addr');
                         $stmt->execute(array(':mac_addr' => $i));
                     $_SESSION['success'].="Machine".$i." deleted Successfully\n";
                 }
                 else
                 {
-                    $_SESSION['error'] .= "Machine".$i." does not Exists\n";
+                    $_SESSION['error'] = "Other Machines does not Exists\n";
                     $flag++;
                 }
             }
@@ -73,6 +87,8 @@
     <div class="page-header">
     <h1>DELETE MACHINE in range</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+    </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -90,11 +106,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" class="form-control" required="" placeholder="Starting machine id"> </div><br/>
+    <input type="text" name="mac_addr" class="form-control" required="" placeholder="Starting machine id" id="delmcf" onchange="Number('delmcf')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id"> </div><br/>
+    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id" id="delmct" onchange="Number('delmct')"> </div><br/>
 
 
     <input type="submit" value="Delete Machine" class="btn btn-info">

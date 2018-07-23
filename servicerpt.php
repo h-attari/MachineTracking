@@ -154,6 +154,8 @@
     <div class="page-header">
     <h1>System Transfer Report</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+        </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -193,7 +195,7 @@
             <br>
         <div id="add-machine" class="input-group"></div>
         <script type="text/javascript">
-                    var total=document.getElementById("totalqty").value;
+        var total=document.getElementById("totalqty").value;
         var addimg=document.getElementById("add-machine");
         while (addimg.hasChildNodes()) 
         {
@@ -201,11 +203,19 @@
         }   
         for (i=1;i<=total;i++)
         {
-            addimg.appendChild(document.createTextNode("mac" + i));
+            addimg.appendChild(document.createTextNode("Machine " + i+" Address"));
             var ipt = document.createElement("input");
             ipt.type = "text";
             ipt.name = "machine"+ i;
-            ipt.class="form-control";
+            idadd=document.createAttribute('id');
+            idadd.value="machine"+ i;
+            ipt.setAttributeNode(idadd);
+            classadd=document.createAttribute('class');
+            classadd.value="form-control";
+            ipt.setAttributeNode(classadd);
+            onchangeadd=document.createAttribute("onchange");
+            onchangeadd.value= "Number(this.id);"//Number('machine'+i);";
+            ipt.setAttributeNode(onchangeadd);
             var att=document.createAttribute("required");
             ipt.setAttributeNode(att);
             //              addimg.appendChild(ipt); 
@@ -271,7 +281,7 @@
                             //echo "<option>". $row['memory']."</option>";
                         }
                     ?>
-                </select>
+                </s            ipt.onchange="Number(machine"+i+")";elect>
             <label id="os">OS</label>
                 <select class="form-control" id="os" name="os">
                     <option value='-1'>Any</option>
@@ -392,27 +402,35 @@
     <script type="text/javascript">
     function addtags()
            {
-               var total=document.getElementById("totalqty").value;
-               var addimg=document.getElementById("add-machine");
-                while (addimg.hasChildNodes()) 
-               {
-                   addimg.removeChild(addimg.lastChild);
-               }   
-                  for (i=1;i<=total;i++)
-                  {
-                     addimg.appendChild(document.createTextNode("mac" + i));
-                   var ipt = document.createElement("input");
-                   ipt.type = "text";
-                   ipt.name = "machine"+ i;
-                   ipt.class="form-control";
-                   var att=document.createAttribute("required");
-                   ipt.setAttributeNode(att);
-     //              addimg.appendChild(ipt); 
-   //                addimg.appendChild(document.createElement("br"));
-                   document.getElementById("add-machine").appendChild(ipt);
-                    document.getElementById("add-machine").innerHTML+='<br><br>';
-             }  
-         }
+          var total=document.getElementById("totalqty").value;
+        var addimg=document.getElementById("add-machine");
+        while (addimg.hasChildNodes()) 
+        {
+            addimg.removeChild(addimg.lastChild);
+        }   
+        for (i=1;i<=total;i++)
+        {
+            addimg.appendChild(document.createTextNode("Machine " + i+" Address"));
+            var ipt = document.createElement("input");
+            ipt.type = "text";
+            ipt.name = "machine"+ i;
+            idadd=document.createAttribute('id');
+            idadd.value="machine"+ i;
+            ipt.setAttributeNode(idadd);
+            classadd=document.createAttribute('class');
+            classadd.value="form-control";
+            ipt.setAttributeNode(classadd);
+            onchangeadd=document.createAttribute("onchange");
+            onchangeadd.value= "Number(this.id);"//Number('machine'+i);";
+            ipt.setAttributeNode(onchangeadd);
+            var att=document.createAttribute("required");
+            ipt.setAttributeNode(att);
+            //              addimg.appendChild(ipt); 
+            //                addimg.appendChild(document.createElement("br"));
+            document.getElementById("add-machine").appendChild(ipt);
+            document.getElementById("add-machine").innerHTML+='<br><br>';
+        }
+    }
        
     </script>
 </body>

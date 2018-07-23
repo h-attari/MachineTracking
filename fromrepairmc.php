@@ -229,6 +229,8 @@
     <div class="page-header">
     <h1>MACHINE REPAIRED</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+        </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -268,7 +270,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">COST OF REPAIR </span>
-    <input type="text" name="cost" required="" class="form-control"> </div><br/>
+    <input type="text" name="cost" required="" class="form-control" id="cost" onchange="Number('cost')"> </div><br/>
 
     <input type="submit" value="Place Machine" class="btn btn-info">
         <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

@@ -110,7 +110,7 @@ function Number(val)
 }
 function Names(val)
 {
-	n=/^[\w]+$/;
+	n=/^[a-zA-Z ]+$/;
 	if(n.test(document.getElementById(val).value)||document.getElementById(val).value=="")	
 	{
 		document.getElementById('error').innerHTML=null;
@@ -151,5 +151,59 @@ function Other(val)
 	{
 		document.getElementById('error').innerHTML=null;
 		return true;
+	}
+}
+function contact(val)
+{
+	n=/^[0-9]+$/;
+	m=document.getElementById(val).value;
+	if(n.test(document.getElementById(val).value)||document.getElementById(val).value=="")	
+	{
+		if(m.length==10||document.getElementById(val).value=="")
+		{
+			document.getElementById('error').innerHTML=null;
+			return true;
+		}
+		else
+		{
+			document.getElementById('error').innerHTML="10 Digits only";
+			document.getElementById(val).value="";
+			return false;
+		}
+	}
+	else
+	{
+		document.getElementById('error').innerHTML="Invalid Input";
+		document.getElementById(val).value="";
+		return false;
+	}
+}
+function newp(val)
+{
+	m=document.getElementById(val).value;
+	if(m.length==8||m.length>8||document.getElementById(val).value=="")	
+	{
+		document.getElementById('error').innerHTML=null;
+		return true;
+	}
+	else
+	{
+		document.getElementById('error').innerHTML="Min. 8 characters";
+		document.getElementById(val).value="";
+		return false;
+	}
+}
+function conp(val)
+{
+	if(document.getElementById(val).value==document.getElementById('npswrd').value||document.getElementById(val).value=="")	
+	{
+		document.getElementById('error').innerHTML=null;
+		return true;
+	}
+	else
+	{
+		document.getElementById('error').innerHTML="Password did not match";
+		document.getElementById(val).value="";
+		return false;
 	}
 }

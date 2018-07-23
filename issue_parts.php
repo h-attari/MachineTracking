@@ -25,12 +25,46 @@
             {
                 $flag++;
             }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['processor']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='processor')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
+            }
         }
         if($row['ram']==1)
         {
             if(strlen($_POST['ram'] < 1))
             {
                 $flag++;
+            }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['ram']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='ram')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
             }
         }
         if($row['harddisk']==1)
@@ -39,12 +73,46 @@
             {
                 $flag++;
             }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['harddisk']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='harddisk')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
+            }
         }
         if($row['monitor']==1)
         {
             if(strlen($_POST['monitor'] < 1))
             {
                 $flag++;
+            }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['monitor']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='monitor')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
             }
         }
         if($row['keyboard']==1)
@@ -53,12 +121,46 @@
             {
                 $flag++;
             }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['keyboard']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='keyboard')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
+            }
         }
         if($row['mouse']==1)
         {
             if(strlen($_POST['mouse'] < 1))
             {
                 $flag++;
+            }
+            else
+            {
+                $stmtq=$pdo->prepare("SELECT * FROM hardware WHERE hardware_id = :hid");
+                $stmtq->execute(array(":hid"=>$_POST['mouse']));
+                $rowq=$stmtq->fetch(PDO::FETCH_ASSOC);
+
+                $stmtname=$pdo->prepare("SELECT * FROM name WHERE name_id = :nid");
+                $stmtname->execute(array(":nid"=>$rowq['name']));
+                $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+
+                if($rowq['state']!='0' || $rowname['name']!='Mouse')
+                {
+                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    header("Location:home.php");
+                    return;
+                }
             }
         }
 
@@ -72,14 +174,14 @@
                 return;
             
         }
-        /*
+        
         else
         {
                  
             $_SESSION['error'] = "All Fields are required";
             header('Location: home.php');
             return;
-        }*/
+        }
     }
 ?>
 <html>

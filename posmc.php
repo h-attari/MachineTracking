@@ -32,7 +32,7 @@
                 $mid=$row['machine_id'];
                 if($row['COUNT(*)'] === '0')
                 {
-                    $_SESSION['error'] .= "Unable to delete machine, ".$i." Machine does not exist";
+                    $_SESSION['error'] .= "Unable to place machine, ".$i." Machine does not exist";
                     continue;
                 }
                 $stmt = $pdo->prepare('SELECT COUNT(*) FROM lab WHERE name = :lab');
@@ -68,7 +68,7 @@
                 }
                 else
                 {
-                    $_SESSION['error']="Machine already exists there";
+                    $_SESSION['error']="Machine ".$i." is already placed";
                 }
             }
         }
@@ -99,6 +99,8 @@
     <div class="page-header">
     <h1>POSITION MACHINE</h1>
     </div>
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
+    </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -116,11 +118,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Starting Machine ID"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" placeholder="Starting Machine ID" id="delmcf" onchange="Number('delmcf')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" required="" class="form-control" placeholder="Ending Machine ID"> </div><br/> 
+    <input type="text" name="mac_addr2" required="" class="form-control" placeholder="Ending Machine ID" id="delmct" onchange="Number('delmct')"> </div><br/> 
 
     <div class="input-group">
     <span class="input-group-addon">LAB NAME </span>
@@ -143,9 +145,9 @@
     <span class="input-group-addon">FROM </span>
     <input type="date" name="from" required="" class="form-control"> </div><br/>
     
-    <div class="input-group">
-    <span class="input-group-addon">TO (optional)</span>
-    <input type="date" name="to" class="form-control"> </div><br/>
+    <!--<div class="input-group" hidden>
+    <span class="input-group-addon">TO (optional)</span>-->
+    <input type="date" name="to"  hidden=""> <!--/div><br/-->
 
 
     <input type="submit" value="Position Machine" class="btn btn-info">
