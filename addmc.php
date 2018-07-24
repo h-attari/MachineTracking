@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -140,13 +140,13 @@
 
                     $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
                     //RAM PROCESSOR HARDDISK MOUSE KEYBOARD monitor LIZARD
-                    $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`,`supplier`) values 
-                        (:company,:description_ram,:grn,:ram,1, :smn ),
-                        (:company,:description_processor,:grn,:processor,1, :smn),
-                        (:company,:description_hd,:grn,:memory,1, :smn),
-                        (:company,:description_mouse,:grn,:mouse,1, :smn),
-                        (:company,:description_keyboard,:grn,:kb,1, :smn),
-                        (:company,:description_monitor,:grn,:monitor,1, :smn)
+                    $stmt= $pdo->prepare("INSERT INTO hardware ( `company`, `description`, `grn`, `name`, `state`,`supplier`, `DOP`) values 
+                        (:company,:description_ram,:grn,:ram,1, :smn, :dop ),
+                        (:company,:description_processor,:grn,:processor,1, :smn, :dop),
+                        (:company,:description_hd,:grn,:memory,1, :smn, :dop),
+                        (:company,:description_mouse,:grn,:mouse,1, :smn, :dop),
+                        (:company,:description_keyboard,:grn,:kb,1, :smn, :dop),
+                        (:company,:description_monitor,:grn,:monitor,1, :smn, :dop)
                     ");
                     $stmt->execute(array(
                         ':description_ram'=>$_POST['ram'],
@@ -163,7 +163,8 @@
                         ':kb' => $keyboardiddb,
                         ':monitor'=> $monitoriddb,
                         ':company'=>$company_id,
-                        ':smn'=>$supplier_id
+                        ':smn'=>$supplier_id,
+                        ':dop'=>$_POST['dop']
                         ));
                     $ramid=$pdo->lastInsertId();
                     $keyboardid=$ramid+4;
@@ -202,7 +203,9 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar.php" ;?>
+                <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
 
     <div class="container-fluid row" id="content">
 
@@ -349,9 +352,9 @@
     <span class="input-group-addon">Price of Purchase  &#8377 </span>
     <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')" placeholder="0000000"> </div><br/>
     
-    <div class="input-group">
-    <span class="input-group-addon">Date of Purchase</span>
-    <input type="date" name="dop" required="" class="form-control" id="date"> </div><br/>
+    <!--div class="input-group">
+    <span class="input-group-addon">Date of Purchase</span-->
+    <input type="text"  name="dop" hidden="" id="date" value = '<?= date('y-m-d') ?>'> <!--/div><br/-->
     
     <div class="input-group">
     <span class="input-group-addon">Other Details</span>
@@ -359,7 +362,7 @@
 
     <div class="input-group">
         <span class="input-group-addon">Company Name</span>
-        <select id="drop-other" name="company" class="form-control" onchange="Device();" required="">
+        <select id="drop-other-company" name="company" class="form-control" onchange="Company();" required="">
         <?php
             
             $qr=$pdo->query("SELECT DISTINCT name from company");
@@ -375,9 +378,9 @@
     </div><br>
     <div class="input-group">
         <span class="input-group-addon">New Company Name</span>   
-        <input type="text" class="form-control" name="company2" id="hide-drop-other" onchange="Other('hide-drop-other')" placeholder="Company Name">
+        <input type="text" class="form-control" name="company2" id="hide-drop-other-company" onchange="Other('hide-drop-other')" placeholder="Company Name">
     </div><br>
-    <input type="text" id="alert-server-new"name="alert-server-new" value="1" hidden>
+    <input type="text" id="alert-server-new-company"name="alert-server-new" value="1" hidden>
 
 
     <div class="input-group">

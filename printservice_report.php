@@ -6,7 +6,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -55,7 +55,7 @@
 		</div>
 	<br><br><br>
 		<div class="container">
-			<span class="col-xs-6">
+			<span class="col-xs-12">
 				<b>Department: &nbsp</b>
 				<?php
 						$sdep = $pdo->prepare("SELECT department FROM system_transfer_report WHERE system_transfer_report_id=:srid");

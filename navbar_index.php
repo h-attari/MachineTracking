@@ -11,36 +11,15 @@
                 </div>
 
                 <ul class="list-unstyled components">
-                    <p>Menu</p>
-                    
-                    <li>
-                        <a href="complaint_form.php">Register a complaint</a>
-                    </li>
-                    <li>
-                        <a href="request_form.php">Request for a PC</a>
-                    </li>
-
-                    <li>
-                        <a href="issue_request.php">Request for Hardware</a>
-                    </li>
                     
                     <li class="">
-                        <a href="#contactmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
-                        <ul class="collapse list-unstyled" id="contactmenu">
-                            <li><a href="add_member.php">phadnis.anurag@gmail.com</a></li>
-                            <li><a href="view_member.php">krishlalwani1@gmail.com</a></li>
+                        <a href="#contactmenu" aria-expanded="false">Contact</a>
+                        <ul class="list-unstyled" id="contactmenu">
+                            <li><a href="#add_member.php">phadnis.anurag@gmail.com</a></li>
+                            <li><a href="#view_member.php">krishlalwani1@gmail.com</a></li>
 
                         </ul>
                     </li>
-                    <?php
-                    if(isset($_SESSION['id']))
-                    {
-                        echo "<hr>";
-                        echo "<li>";
-                            echo '<a href="logout.php">Logout</a>';
-                        echo "</li>";
-                    }
-                    ?>
                 </ul>
             </nav>
     <div class="container" id="content">

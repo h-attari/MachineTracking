@@ -333,7 +333,12 @@
                     echo(htmlentities($_POST['chillana']));
                     echo ("</td>");
                     echo ("<td>");
-                    echo(htmlentities($row['description']));
+
+                    $stmtn1 = $pdo->prepare("SELECT spec FROM specification where name_id = :name ");
+                    $stmtn1->execute(array(':name' => $row['description']));
+                    $cname1 = $stmtn1->fetch(PDO::FETCH_ASSOC);
+                    echo(htmlentities($cname1['spec']));
+                    
                     echo ("</td>");
                     echo ("<td>");
                     echo(htmlentities($cname['name']));

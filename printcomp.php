@@ -4,7 +4,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }

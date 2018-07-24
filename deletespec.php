@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -68,7 +68,9 @@
 <body>
             <div class="wrapper">
             <!-- Sidebar Holder -->
-                <?php include "navbar.php" ;?>
+               <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>DELETE SPECIFICATION</h1>
@@ -91,10 +93,10 @@
         <div class="input-group">
         <span class="input-group-addon">Hardware Type</span>
        
-        <select id="drop-other" name="hardware" class="form-control" onchange="Device();" required="">
+        <select id="drop-other" name="hardware" class="form-control" onchange="fetch_select2(this.value);" >
         <?php
             
-            $qr=$pdo->query("SELECT * FROM name WHERE name_id<7");
+            $qr=$pdo->query("SELECT DISTINCT(name) FROM name WHERE name_id");
             while($rowx=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option>';
@@ -108,7 +110,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">Specification </span>
-    <input type="text" name="spec" required="" class="form-control" placeholder="Specification of Hardware"> </div><br/>
+    <select name="spec" id="spec" class="form-control"></select> </div><br/>
 
 
 

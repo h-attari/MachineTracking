@@ -22,9 +22,13 @@
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row['COUNT(*)'] !== '0')
                 {
-                     $stmt = $pdo->prepare('UPDATE hardware SET state=0 WHERE hardware_id = :hid');
-                        $stmt->execute(array(':hid' => $_POST['dev_id']));
-                    $_SESSION['success'] ="Device Returned Successfully\n";
+                    
+                    $stmt = $pdo->prepare('UPDATE hardware_position SET final_date = :fd WHERE hardware_id = :hid AND final_date = :fdd');
+                        $stmt->execute(array(':hid' => $_POST['dev_id'], ':fdd' => "0000-00-00", ':fd' => date('y-m-d')));
+
+                        $stmt = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
+                    $stmt->execute(array(':hid' => $_POST['dev_id']));
+                    $_SESSION['success'] ="Device unplaced Successfully\n";
                 }
                 else
                 {
@@ -76,19 +80,9 @@
                 unset($_SESSION['success']);
         }
     ?>
-    <?php
-        $stmt=$pdo->prepare("SELECT * FROM hardware_position WHERE hardware_id = :hid AND final_date = '0000-00-00' OR final_date = '1970-01-01'");
-        $stmt->execute(array(":hid"=>$_GET['dev_id']));
-        $member=$stmt->fetch(PDO::FETCH_ASSOC);
-        $member=$member['member_id'];
-        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE id =:id");
-        $stmt->execute(array(":id"=>$member));
-        $name=$stmt->fetch(PDO::FETCH_ASSOC);
-        $name=$name['first_name'].' '.$name['last_name'];
-    ?>
-    <form method="POST" class="col-xs-5">
+
+    <form method="POST" action="unposdev.php" class="col-xs-5">
     <input type="hidden" name="dev_id" value="<?= $_GET['dev_id'] ?>" class="btn btn-info">
-    <input type="text" disabled="" value = "<?= $name ?>" class="form-control">
     <input type="submit" name="submit" value="submit" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>

@@ -22,12 +22,13 @@
         else
         {
                 $check = hash('md5', $salt.$_POST['pass']);
-                $stmt = $pdo->prepare('SELECT * FROM member WHERE id = :id AND pass_word = :pw');
-                $stmt->execute(array(':id' => $_POST['id'], ':pw' => $check));
+                $stmt = $pdo->prepare('SELECT * FROM member WHERE id = :id AND pass_word = :pw AND role = :role');
+                $stmt->execute(array(':id' => $_POST['id'], ':pw' => $check, ':role' => $_POST['role']));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row !== false)
                 {
                     $_SESSION['id'] = $row['member_id'];
+                    $_SESSION['role'] = $row['role'];
 
                     header("Location: home.php");
                     return;
@@ -64,7 +65,7 @@
 <body>
 
     <div class="wrapper" id="add-nav">
-    <?php include "navbar_index.php" ;?>
+    <?php include 'navbar_index.php';?>
     <h1>Machine Tracking</h1>
     </div>
     <?php
@@ -84,6 +85,13 @@
         <p class ="col-xs-12"style="font-size:22px">Log In</p><br>
 
             <form method="POST" action="index.php" class="col-xs-5">
+
+                <p>Role : &nbsp&nbsp&nbsp
+                <input type="radio" name="role" value="0"> Admin &nbsp&nbsp&nbsp
+                <input type="radio" name="role" value="1" checked> Faculty &nbsp&nbsp&nbsp        
+                <input type="radio" name="role" value="2"> Technician       
+                </p>
+
                 <div class="input-group">
                 <span class="input-group-addon">ID</span>
                 <input type="text" name="id" id="id" class="form-control" required placeholder="Enter your id">

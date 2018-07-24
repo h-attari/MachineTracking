@@ -45,7 +45,7 @@
             <b>S.No.: &nbsp</b>
             <?php
             $midq=$_GET['mc_id'];
-            $stmtn3 = $pdo->prepare("SELECT complaint_book_id FROM complaint_book where machine_id = :mid ");
+            $stmtn3 = $pdo->prepare("SELECT complaint_book_id,Date_of_complaint FROM complaint_book where machine_id = :mid ORDER BY complaint_book_id desc ");
                 $stmtn3->execute(array(':mid' => $midq));
                 $rown3 = $stmtn3->fetch(PDO::FETCH_ASSOC);
                echo(htmlentities($rown3['complaint_book_id'])); 
@@ -55,11 +55,11 @@
         <span>
             <b>Date: &nbsp</b>
             <?php
-            $midq=$_GET['mc_id'];
-            $stmtn6 = $pdo->prepare("SELECT Date_of_complaint FROM complaint_book where machine_id = :mid ");
-                $stmtn6->execute(array(':mid' => $midq));
+          $midq=$_GET['mc_id'];
+            $stmtn6 = $pdo->prepare("SELECT Date_of_complaint FROM complaint_book where machine_id = :mid ORDER BY complaint_book_id desc ");
+              $stmtn6->execute(array(':mid' => $midq));
                 $rown6 = $stmtn6->fetch(PDO::FETCH_ASSOC);
-            echo(htmlentities($rown6['Date_of_complaint']));
+            echo(htmlentities($rown3['Date_of_complaint']));
             ?>
         </span>
     </div>
@@ -69,7 +69,7 @@
             <b>Department: &nbsp</b>
           <?php  
             $midq=$_GET['mc_id'];
-                $stmtn = $pdo->prepare('SELECT lab_id FROM position where machine_id = :mid ');
+                $stmtn = $pdo->prepare("SELECT lab_id FROM position where machine_id = :mid AND final_date='1970-01-01' ");
                 $stmtn->execute(array(':mid' =>$midq ));
                 $rown = $stmtn->fetch(PDO::FETCH_ASSOC);
                 
@@ -87,7 +87,7 @@
         <span class="col-xs-4">
              <span> <b>Complaint By : </b><?php
             $midq=$_GET['mc_id'];
-            $stmtn6 = $pdo->prepare("SELECT complaint_by FROM complaint_book where machine_id = :mid ");
+            $stmtn6 = $pdo->prepare("SELECT complaint_by FROM complaint_book where machine_id = :mid ORDER BY complaint_book_id desc ");
                 $stmtn6->execute(array(':mid' => $midq));
                 $rown6 = $stmtn6->fetch(PDO::FETCH_ASSOC);
                  echo(htmlentities($rown6['complaint_by']));
@@ -128,8 +128,8 @@
 
                 $row = $stmtread->fetch(PDO::FETCH_ASSOC) ;
                  $midq=$_GET['mc_id'];
-                $stmtn = $pdo->prepare('SELECT lab_id FROM position where machine_id = :mid ');
-                $stmtn->execute(array(':mid' =>$midq ));
+                $stmtn = $pdo->prepare('SELECT lab_id FROM position where machine_id = :mid AND final_date = :fdate ');
+                $stmtn->execute(array(':mid' =>$midq,':fdate' => $_GET['date'] ));
                 $rown = $stmtn->fetch(PDO::FETCH_ASSOC);
                 
                 $stmtn1 = $pdo->prepare("SELECT name FROM lab where lab_id = :lid ");
@@ -140,7 +140,7 @@
                 $stmtn5->execute(array(':lid' => $rown['lab_id']));
                 $rown5 = $stmtn5->fetch(PDO::FETCH_ASSOC);
 
-                $stmtn3 = $pdo->prepare("SELECT complaint_book_id FROM complaint_book where machine_id = :mid ");
+                $stmtn3 = $pdo->prepare("SELECT complaint_book_id FROM complaint_book where machine_id = :mid ORDER BY complaint_book_id desc ");
                 $stmtn3->execute(array(':mid' => $midq));
                 $rown3 = $stmtn3->fetch(PDO::FETCH_ASSOC);
 
@@ -166,7 +166,6 @@
                 $stmtn4 = $pdo->prepare("SELECT priority FROM complaint_book where complaint_book_id = :cid ");
                 $stmtn4->execute(array(':cid' => $rown3['complaint_book_id']));
                 $rown4 = $stmtn4->fetch(PDO::FETCH_ASSOC);
-
 
                 $stmtn6 = $pdo->prepare("SELECT Date_of_complaint FROM complaint_book where machine_id = :mid ");
                 $stmtn6->execute(array(':mid' => $midq));

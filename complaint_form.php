@@ -7,7 +7,17 @@
         header("Location: index.php");
         return;
     }
-
+    if(!isset($_SESSION['id']))
+    {
+        die("Please Login First");
+    }
+    else
+    {
+        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE member_id = :id");
+        $stmt->execute(array(":id"=>$_SESSION['id']));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $name = $row['first_name'].' '.$row['last_name'];
+    }
     if(isset($_POST['mac_addr']) )
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['details']) < 1 || strlen($_POST['priority']) < 1 || strlen($_POST['name']) < 1)
@@ -84,7 +94,7 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php if (isset($_SESSION['id'])&&$_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+                <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php"; else include "navbar_tech.php"?>
 
     <div class="container" id="content">
     <div class="page-header">
@@ -120,8 +130,8 @@
     
     <div class="input-group">
     <span class="input-group-addon">Complaint By </span>
-    <input type="text" name="name" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
-    
+    <input type="text" value = '<?= $name ?>' disabled="" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
+    <input type="text" name="name" hidden="" value = '<?=$name?>'>
 
     <input type="submit" value="Register Complaint" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

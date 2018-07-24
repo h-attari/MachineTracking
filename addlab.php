@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -64,10 +64,14 @@
 </head>
 <body>
     <div class="wrapper">
-    <?php include "navbar.php" ;?>
+    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
         <h1>ADD LAB</h1>
+        </div>
+        <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
         </div>
         <?php
         if ( isset($_SESSION['error']) )
@@ -86,11 +90,11 @@
 
         <div class="input-group">
         <span class="input-group-addon">Lab Name </span>
-        <input type="text" name="lab_name" required class="form-control" placeholder="Lab Name/Number"> </div><br/>
+        <input type="text" name="lab_name" required class="form-control" placeholder="Lab Name/Number" id="lb" onchange="labs('lb')"> </div><br/>
 
         <div class="input-group">
         <span class="input-group-addon">Department </span>
-        <input type="text" name="department" required class="form-control" placeholder="Department Name"> </div><br/>
+        <input type="text" name="department" required class="form-control" placeholder="Department Name" id="depname" onchange="Names('depname')"> </div><br/>
 
         <input type="submit" value="Add Lab" class="btn btn-info">
         <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

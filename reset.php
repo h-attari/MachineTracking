@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['role'] != '0' )
+    if( $_SESSION['id'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -14,20 +14,20 @@
         header("Location: home.php");
         return;
     }
-    
-    if (!isset($_GET['tr_id']))
-    {
-        die('ACCESS DENIED');   
-    }
+
 
     if ( isset($_POST['delete']) )
     {
-        $sql = "DELETE FROM transfer_request WHERE transfer_request_id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(array(':id' => $_GET['tr_id']));
-        $_SESSION['success'] = 'Request deleted';
-        header( 'Location: home.php' ) ;
-        return;
+        $stmt = $pdo->query("SHOW TABLES");
+        while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+           $sql = "DELETE FROM ".$row['Tables_in_computers']." WHERE 1";
+            echo $sql;
+            $stmt = $pdo->query($sql);
+        }
+        $_SESSION['success'] = 'Data Reset';
+       // header( 'Location: home.php' ) ;
+        //return;
     }
     
 ?>
@@ -49,12 +49,10 @@
 </head>
 <body>
     <div class="wrapper">
-    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
-                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
-                else include "navbar_tech.php";?>
+    <?php include "navbar.php" ;?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
-    <h1>CONFIRM DELETE</h1>
+    <h1>CONFIRM RESET</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -69,8 +67,8 @@
         }
     ?>
 
-    <form method="post" action=<?= 'deletetr.php?tr_id=' . $_GET['tr_id'] ?> class="col-xs-5">
-    <p>Are you sure ?</p>
+    <form method="post" class="col-xs-5">
+    <p>This will delete all the data. Are you sure you want to continue?</p>
     <input type="hidden" name="id"
     value="<?= $id?>"
     />

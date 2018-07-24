@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -22,7 +22,7 @@
         {
                 echo "<option>".$row['spec']."</option>";
         }
-        echo "<option selected>Other</option>";
+
         
     }
 ?>

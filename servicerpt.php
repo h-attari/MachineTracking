@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -148,7 +148,9 @@
 </head>
 <body>
                    <div class="wrapper">
-                <?php include "navbar.php" ;?>
+                <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
 
     <div class="container" id="content">
     <div class="page-header">
@@ -164,19 +166,19 @@
     }
     ?>
 
-    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?> >
+    <form method="POST" action=<?= "servicerpt.php?id=".$_GET['id']?>" class="col-xs-5">
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" class="form-control" required value="<?= $dept ?>"> </div><br/>
+    <input type="text" name="department" class="form-control" required value="<?= $dept ?>" disabled class="form-control"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" class="form-control" required value ="<?= $pur ?>"> </div><br/>
+    <input type="text" name="purpose" class="form-control" required value ="<?= $pur ?>" disabled class="form-control"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Lab no.</span>
-    <select name="labid" required>
+    <select name="labid" class="form-control" required>
         <?php
             $read=$pdo->query('select name,lab_id from lab order by name');
             while($row = $read->fetch(PDO::FETCH_ASSOC))
@@ -190,12 +192,15 @@
         ?>
     </select>   
     </div><br>
-        <div>Choose number of PC</div><input type="Number" name="totalqty" id="totalqty" value = "<?php echo $qty; ?>" min=1 required>
-           <a class="link-black" href="#" onclick="addtags()">Add Machines</a>
+        <div class="input-group">
+        <span class="input-group-addon">Choose number of PC</span><input type="Number" class="form-control" name="totalqty" id="totalqty" value = "<?php echo $qty; ?>" min=1 onchange="addtags();" required>
             <br>
+           <!--a class="link-black" href="#" onclick="addtags()">Add Machines</a-->
+        </div>
+        <br>
         <div id="add-machine" class="input-group"></div>
         <script type="text/javascript">
-        var total=document.getElementById("totalqty").value;
+                    var total=document.getElementById("totalqty").value;
         var addimg=document.getElementById("add-machine");
         while (addimg.hasChildNodes()) 
         {
@@ -226,7 +231,7 @@
         </script>
 
     <input type="submit" value="Register Transfer Request" class="btn btn-info">
-    <input type="submit" name="cancel" value="Cancel" class="btn btn-info">
+    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>
 
     </div>

@@ -57,23 +57,26 @@
                             <li><a href="view_member.php">View Members</a></li>
                             <li><a href="delete_member.php">Delete Member</a></li>
                         </ul>
-                    <li>
-                        <a href="complaint_form.php">Register a complaint</a>
                     </li>
-                    <li>
-                        <a href="request_form.php">Request for a PC</a>
+                    <li class="">
+                        <a href="#complaintmenu" data-toggle="collapse" aria-expanded="false">Register a complaint</a>
+                        <ul class="collapse list-unstyled" id="complaintmenu">
+                            <li><a href="complaint_form.php">Complaint for PC</a></li>
+                            <li><a href="device_complaint_form.php">Complaint for Hardware</a></li>
+                        </ul>
                     </li>
-
-                    <li>
-                        <a href="issue_request.php">Request for Hardware</a>
-                    </li>
-
+                    <li class="">
+                        <a href="#requestmenu" data-toggle="collapse" aria-expanded="false">Send a Request</a>
+                        <ul class="collapse list-unstyled" id="requestmenu">
+                            <li><a href="request_form.php">Request for a PC</a></li>
+                            <li><a href="issue_request.php">Request for Hardware</a></li>
+                        </ul>
                     </li>
                     <li class="">
                         <a href="#contactmenu" data-toggle="collapse" aria-expanded="false">Contact</a>
                         <ul class="collapse list-unstyled" id="contactmenu">
-                            <li><a href="add_member.php">phadnis.anurag@gmail.com</a></li>
-                            <li><a href="view_member.php">krishlalwani1@gmail.com</a></li>
+                            <li><a href="#add_member.php">phadnis.anurag@gmail.com</a></li>
+                            <li><a href="#view_member.php">krishlalwani1@gmail.com</a></li>
 
                         </ul>
                     </li>

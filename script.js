@@ -18,6 +18,20 @@ function fetch_select(val)
     },
     success: function (response) {
      document.getElementById("drop-description").innerHTML=response;
+     document.getElementById("drop-description").innerHTML+="<option selected>Other</option>"
+    }
+    });
+}
+function fetch_select2(val)
+{
+    $.ajax({
+    type: 'post',
+    url: 'fetch_device.php',
+    data: {
+     get_option:val
+    },
+    success: function (response) {
+     document.getElementById("spec").innerHTML=response;
     }
     });
 }
@@ -37,21 +51,25 @@ function Device()
 }
 function Company()
 {
-	val = document.getElementById('drop-other').value;
-	if(val=="Other")
+	val = document.getElementById('drop-other-company').value;
+//	alert(val.innerHTML	);
+	if(val == "Other")
 	{
-		document.getElementById('hide-drop-other').disabled=false;
-		document.getElementById('alert-server-new').value="1";
+		document.getElementById('hide-drop-other-company').disabled=false;
+		document.getElementById('alert-server-new-company').value="1";
 	}
 	else
 	{
-		document.getElementById('hide-drop-other').disabled=true;
-		document.getElementById('alert-server-new').value="0";
+//		alert(0);
+		document.getElementById('hide-drop-other-company').disabled=true;
+		document.getElementById('alert-server-new-company').value="0";
 	}
 }
 function Supplier()
 {
+
 	val = document.getElementById('drop-supplier').value;
+	alert(val);
 	if(val=="Other")
 	{
 		document.getElementById('other-supplier').disabled=false;
@@ -205,5 +223,35 @@ function conp(val)
 		document.getElementById('error').innerHTML="Password did not match";
 		document.getElementById(val).value="";
 		return false;
+	}
+}
+function labs(val)
+{
+	n=/^[a-zA-Z0-9]+$/;
+	if(n.test(document.getElementById(val).value)||document.getElementById(val).value=="")	
+	{
+		document.getElementById('error').innerHTML=null;
+		return true;
+	}
+	else
+	{
+		document.getElementById('error').innerHTML="Invalid Input";
+		document.getElementById(val).value="";
+		return false;
+	}
+}
+function Purpose(val)
+{
+	var o=/^[0-9]+$/;
+	if(o.test(document.getElementById(val).value))
+	{
+		document.getElementById('error').innerHTML="Invalid Input";
+		document.getElementById(val).value="";
+		return false;
+	}
+	else
+	{
+		document.getElementById('error').innerHTML=null;
+		return true;
 	}
 }

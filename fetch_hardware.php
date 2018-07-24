@@ -7,7 +7,7 @@
         header("Location: index.php");
         return;
     }
-    if( !isset($_SESSION['id'])&&$_SESSION['id']!=0 )
+    if( !isset($_SESSION['id'])&&$_SESSION['role']!=0 )
     {
         die('ACCESS DENIED');
     }

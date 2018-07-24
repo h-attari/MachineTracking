@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -54,10 +54,10 @@
                     $stmt->execute(array(':mid' => $hid));
 
                 $stmt = $pdo->prepare('UPDATE hardware_position SET final_date = :fdate WHERE hardware_id = :mid AND final_date = "000-00-00"');
-                    $stmt->execute(array(':mid' => $hid, ':fdate' => $_POST['date']));
+                    $stmt->execute(array(':mid' => $hid, ':fdate' => date('y-m-d')));
 
                 $stmt = $pdo->prepare('INSERT INTO device_repair_history (hardware_id, initial_date, final_date) VALUES (:hid, :idate, "0000-00-00")');
-                    $stmt->execute(array(':hid' => $hid, ':idate' => $_POST['date']));
+                    $stmt->execute(array(':hid' => $hid, ':idate' => date('y-m-d')));
 
                 $stmt = $pdo->prepare('UPDATE hardware_complaint_book SET work_for = :wf WHERE hardware_id = :hid AND work_for IS NULL');
                 $stmt->execute(array(':hid' => $hid, ':wf' => $_POST['work_for']));
@@ -94,12 +94,14 @@
 </head>
 <body>
              <div class="wrapper">
-    <?php include "navbar.php" ;?>
+    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
 
        <div class="container-fluid row" id="content">
 
     <div class="page-header">
-    <h1>REPAIR MACHINE</h1>
+    <h1>REPAIR HARDWARE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -121,16 +123,16 @@
     <input type="text" disabled required="" value="<?= $hid ?>" class="form-control">
     </div><br/>
     <input type="text" name="hardware_id" hidden="" required="" value="<?= $hid ?>">
-    <div class="input-group">
+    <!--<div class="input-group">
     <span class="input-group-addon">DATE</span>
     <input type="date" name="date" required="" class="form-control" required> </div><br/>
-
+    -->
 
     <div class="input-group">
     <span class="input-group-addon">Work For</span>
     <select name=work_for class="form-control" required="">
         <?php
-            $qr=$pdo->query("SELECT * from member WHERE member_id <> 0");
+            $qr=$pdo->query("SELECT * from member WHERE role = 2");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$row['member_id'].'>';

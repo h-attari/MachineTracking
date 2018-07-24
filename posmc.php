@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -94,7 +94,9 @@
 </head>
 <body>
             <div class="wrapper">
-                <?php include "navbar.php" ;?>  
+               <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>POSITION MACHINE</h1>
@@ -141,9 +143,9 @@
     </select>
     </div><br/>
 
-    <div class="input-group">
-    <span class="input-group-addon">FROM </span>
-    <input type="date" name="from" required="" class="form-control"> </div><br/>
+    <!--div class="input-group">
+    <span class="input-group-addon">FROM </span-->
+    <input type="text" name="from" hidden="" value = "<?= date('y-m-d') ?>"> <!--/div><br/-->
     
     <!--<div class="input-group" hidden>
     <span class="input-group-addon">TO (optional)</span>-->

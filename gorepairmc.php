@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -65,7 +65,11 @@
                 $wf=$_POST['work_for'];
                 $date=$_POST['date'];
                 $_SESSION['success'] = "Machine sent to Repair Successfully";
-                header("Location:printcomp.php?mc_id=$mid&wf=$wf&date=$date");
+               // header("Location:printcomp.php?mc_id=$mid&wf=$wf&date=$date");
+                echo("<script>
+         window.open('printcomp.php?mc_id=$mid&wf=$wf&date=$date', '_blank'); 
+</script>");
+        echo("<script>window.open('home.php','_self')</script>");
             }
             else
             {
@@ -95,8 +99,9 @@
 </head>
 <body>
              <div class="wrapper">
-    <?php include "navbar.php" ;?>
-
+    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
        <div class="container-fluid row" id="content">
 
     <div class="page-header">
@@ -119,19 +124,18 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <input type="text" name="mac_addr" required="" value="<?= $mac_addr ?>" class="form-control">
+    <input type="text" value="<?= $mac_addr ?>" class="form-control" disabled>
+    <input type="text" name="mac_addr" hidden value="<?= $mac_addr ?>" >
     </div><br/>
 
-    <div class="input-group">
-    <span class="input-group-addon">DATE</span>
-    <input type="date" name="date" required="" class="form-control" required> </div><br/>
+    <input type="text" name="date" hidden="" value = '<?= date('y-m-d') ?>'>
 
 
     <div class="input-group">
     <span class="input-group-addon">Work For</span>
     <select name=work_for class="form-control" required="">
         <?php
-            $qr=$pdo->query("SELECT * from member WHERE member_id <> 0");
+            $qr=$pdo->query("SELECT * from member WHERE role = 2");
             while($row=$qr->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value = '.$row['member_id'].'>';

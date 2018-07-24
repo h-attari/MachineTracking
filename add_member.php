@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -83,7 +83,9 @@
 </head>
 <body>
     <div class="wrapper">
-    <?php include "navbar.php" ;?>
+    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
     <h1>ADD NEW MEMBER</h1>
@@ -111,8 +113,8 @@
     </p>
 
     <div class="input-group">
-    <span class="input-group-addon">ID</span>
-    <input type="text" name="id" required="" class="form-control" placeholder="Enter Collge ID"> </div><br/>
+    <span class="input-group-addon">ID</span> 
+    <input type="text" name="id" required="" class="form-control" placeholder="Enter Collge ID" id="Mid" onchange="labs('Mid')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">First Name</span>

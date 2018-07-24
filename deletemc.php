@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -81,14 +81,16 @@
 <body>
             <div class="wrapper">
             <!-- Sidebar Holder -->
-       <?php include "navbar.php" ;?>
+       <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
    <div class="container-fluid row" id="content">
 
     <div class="page-header">
     <h1>DELETE MACHINE in range</h1>
     </div>
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
-    </div>
+        </div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -106,11 +108,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (from)</span>
-    <input type="text" name="mac_addr" class="form-control" required="" placeholder="Starting machine id" id="delmcf" onchange="Number('delmcf')"> </div><br/>
+    <input type="text" name="mac_addr" class="form-control" required="" placeholder="Starting machine id" id="mcs" onchange="Number('mcs')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id" id="delmct" onchange="Number('delmct')"> </div><br/>
+    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id" id="mce" onchange="Number('mce')"> </div><br/>
 
 
     <input type="submit" value="Delete Machine" class="btn btn-info">

@@ -22,9 +22,18 @@
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row['COUNT(*)'] !== '0')
                 {
-                     $stmt = $pdo->prepare('UPDATE hardware SET state=0 WHERE hardware_id = :hid');
-                        $stmt->execute(array(':hid' => $_POST['dev_id']));
-                    $_SESSION['success'] ="Device Returned Successfully\n";
+                     $stmt1 = $pdo->prepare('SELECT * FROM lab WHERE name = :lab');
+                    $stmt1->execute(array(':lab' => $_POST['lab']));
+                    $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+                    $lid = $row['lab_id'];
+
+                     $stmt = $pdo->prepare('INSERT INTO hardware_position (hardware_id, lab_id, initial_date, final_date) VALUES (:hid, :lid, :id, :fd)');
+                        $stmt->execute(array(':hid' => $_POST['dev_id'], ':lid' => $lid, ':id' => date('y-m-d'), ':fd'=> "0000-00-00"));
+
+                    $stmt = $pdo->prepare('UPDATE hardware SET state = 1 where hardware_id = :hid');
+                    $stmt->execute(array(':hid' => $_POST['dev_id']));
+
+                    $_SESSION['success'] ="Device placed Successfully\n";
                 }
                 else
                 {
@@ -62,7 +71,7 @@
    <div class="container-fluid row" id="content">
 
     <div class="page-header">
-    <h1>Are You Sure?</h1>
+    <h1>PLACE DEVICE</h1>
     </div>
     <?php
     if ( isset($_SESSION['error']) )
@@ -76,19 +85,25 @@
                 unset($_SESSION['success']);
         }
     ?>
-    <?php
-        $stmt=$pdo->prepare("SELECT * FROM hardware_position WHERE hardware_id = :hid AND final_date = '0000-00-00' OR final_date = '1970-01-01'");
-        $stmt->execute(array(":hid"=>$_GET['dev_id']));
-        $member=$stmt->fetch(PDO::FETCH_ASSOC);
-        $member=$member['member_id'];
-        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE id =:id");
-        $stmt->execute(array(":id"=>$member));
-        $name=$stmt->fetch(PDO::FETCH_ASSOC);
-        $name=$name['first_name'].' '.$name['last_name'];
-    ?>
-    <form method="POST" class="col-xs-5">
+
+    <form method="POST" action="posdev.php" class="col-xs-5">
     <input type="hidden" name="dev_id" value="<?= $_GET['dev_id'] ?>" class="btn btn-info">
-    <input type="text" disabled="" value = "<?= $name ?>" class="form-control">
+    <div class="input-group">
+    <span class="input-group-addon">LAB NAME </span>
+    <select class="form-control" name="lab" required>
+        <?php
+            $read=$pdo->query('select name,lab_id from lab order by name');
+            while($row = $read->fetch(PDO::FETCH_ASSOC))
+            {
+                $labname=$row['name'];
+                $labid=$row['lab_id'];
+                echo '<option name = $labid>';
+                echo    $labname;
+                echo '</option>';
+            }
+        ?>
+    </select>
+    </div><br/>
     <input type="submit" name="submit" value="submit" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     </form>

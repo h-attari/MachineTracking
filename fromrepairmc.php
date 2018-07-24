@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -146,6 +146,7 @@
                      ':mi' => $row['memory'],
                        ':d' => date('y-m-d')
                         ));
+                    $date=date('y-m-d');
 
                     $last_id = $pdo->lastInsertId();
 
@@ -192,7 +193,11 @@
                 }
 
                 $_SESSION['success'] = "Machine returned from Repair Successfully";
-                header("Location: printcomprem.php?mc_id=$mid");
+                header("Location: printcomprem.php?mc_id=$mid&date=$date");
+                echo("<script>
+         window.open('printcomprem.php?mc_id=$mid&date=$date', '_blank'); 
+</script>");
+        echo("<script>window.open('home.php','_self')</script>");
                 return;
             }
             else
@@ -224,7 +229,9 @@
 </head>
 <body>
                      <div class="wrapper">
-         <?php include "navbar.php" ;?>
+         <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="container">
     <div class="page-header">
     <h1>MACHINE REPAIRED</h1>
@@ -257,16 +264,13 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>    
-    <input type="text" name="mac_addr" required="" value="<?= $mac_addr ?>" class="form-control">
+    <input type="text" value="<?= $mac_addr ?>" disabled class="form-control">
+    <input type="hidden" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
     </div><br/>
-
+    <input type="text" name="date" hidden >
     <div class="input-group">
-    <span class="input-group-addon">DATE </span>
-    <input type="date" name="date"  required="" class="form-control" required> </div><br/>
-
-    <div class="input-group">
-    <span class="input-group-addon">Fault </span>
-    <input type="text" name="fault" required="" class="form-control"> </div><br/>
+    <span class="input-group-addon">FAULT </span>
+    <input type="text" name="fault" required="" class="form-control" id="fault"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">COST OF REPAIR </span>

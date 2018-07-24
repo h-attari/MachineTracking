@@ -5,7 +5,7 @@ X-UA-Compatible<?php
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -37,7 +37,9 @@ X-UA-Compatible<?php
 </head>
 <body>
             <div class="wrapper">
-       <?php include "navbar.php" ;?>
+       <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>MACHINE HISTORY</h1>

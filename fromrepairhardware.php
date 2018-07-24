@@ -5,7 +5,7 @@
     {
         die('ACCESS DENIED');
     }
-    if( $_SESSION['id'] != '0' )
+    if( $_SESSION['role'] != '0' )
     {
         die('ACCESS DENIED');
     }
@@ -28,7 +28,7 @@
         }
         else
         {
-            $_POST['date']=date('y-m-d',strtotime($_POST['date']));
+            //$_POST['date']=date('y-m-d',strtotime($_POST['date']));
             $stmt = $pdo->prepare('SELECT * FROM hardware WHERE hardware_id = :hid');
             $stmt->execute(array(':hid' => $_POST['hid']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,7 +49,7 @@
                     $stmt->execute(array(':hid' => $_POST['hid']));
 
                 $stmt = $pdo->prepare('UPDATE device_repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE hardware_id = :hid AND final_date = "0000-00-00"');
-                    $stmt->execute(array(':hid' => $_POST['hid'], ':fdate' => $_POST['date'], ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
+                    $stmt->execute(array(':hid' => $_POST['hid'], ':fdate' => date('y-m-d'), ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
 
                 $_SESSION['success'] = "Hardware returned from Repair Successfully";
                 header('Location: home.php');
@@ -84,7 +84,9 @@
 </head>
 <body>
                      <div class="wrapper">
-         <?php include "navbar.php" ;?>
+         <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="container">
     <div class="page-header">
     <h1>MACHINE REPAIRED</h1>
@@ -121,10 +123,10 @@
     </div><br/>
     <input type="text" name='hid' hidden required="" value="<?= $_GET['hid'] ?>">
 
-    <div class="input-group">
+    <!--<div class="input-group">
     <span class="input-group-addon">DATE </span>
     <input type="date" name="date"  required="" class="form-control" required> </div><br/>
-
+-->
     <div class="input-group">
     <span class="input-group-addon">Fault </span>
     <input type="text" name="fault" required="" class="form-control"> </div><br/>

@@ -58,11 +58,14 @@
 </head>
 <body>
                    <div class="wrapper">
-         <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+        <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>ISSUE HARDWARE REQUEST</h1>
     </div>
+     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
     if ( isset($_SESSION['error']) )
     {
@@ -80,11 +83,11 @@
 
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" required="" class="form-control"> </div><br/>
+    <input type="text" name="department" required="" class="form-control" placeholder="Department Name" id="deprt" onchange="Names('deprt')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" required="" class="form-control"> </div><br/>
+    <input type="text" name="purpose" required="" class="form-control" id="purp" onchange="Purpose('purp')"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Hardware Name</span>
     <select name="hardware_id" class="form-control">

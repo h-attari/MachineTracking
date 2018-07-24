@@ -7,7 +7,17 @@
         header("Location: index.php");
         return;
     }
-
+    if(!isset($_SESSION['id']))
+    {
+        die("Please Login First");
+    }
+    else
+    {
+        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE member_id = :id");
+        $stmt->execute(array(":id"=>$_SESSION['id']));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $name = $row['first_name'].' '.$row['last_name'];
+    }
     if(isset($_POST['name']) )
     {
         if ( strlen($_POST['name']) < 1 || strlen($_POST['department']) < 1 || strlen($_POST['purpose']) < 1|| strlen($_POST['quantity']) < 1)
@@ -60,7 +70,9 @@
 </head>
 <body>
                    <div class="wrapper">
-         <?php if ($_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+        <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
     <div class="container-fluid row" id="content">
     <div class="page-header">
     <h1>REQUEST COMPUTERS</h1>
@@ -83,15 +95,16 @@
 
     <div class="input-group">
     <span class="input-group-addon">Name </span>
-    <input type="text" name="name" required="" class="form-control" id="rname" onchange="Names('rname')"> </div><br/>
-
+    <input type="text" disabled="" required="" class="form-control" value="<?=$name?>" id="rname" onchange="Names('rname')"> </div><br/>
+    <input type="text" name="name" hidden value="<?=$name?>">
+    
     <div class="input-group">
     <span class="input-group-addon">Department </span>
-    <input type="text" name="department" required="" class="form-control" placeholder="Department Name"> </div><br/>
+    <input type="text" name="department" required="" class="form-control" placeholder="Department Name" id="deprt" onchange="Names('deprt')"> </div><br/>
 
     <div class="input-group">
     <span class="input-group-addon">Purpose</span>
-    <input type="text" name="purpose" required="" class="form-control"> </div><br/>
+    <input type="text" name="purpose" required="" class="form-control" id="purp" onchange="Purpose('purp')"> </div><br/>
 
     <p>Required Specifications</p>
     <div class="input-group">

@@ -11,6 +11,13 @@
     {
         die("ERROR 403 ACCESS DENIED");
     }
+    else
+    {
+        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE member_id = :id");
+        $stmt->execute(array(":id"=>$_SESSION['id']));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $namex = $row['first_name'].' '.$row['last_name'];
+    }
 
     if(isset($_POST['hardware_id']) )
     {
@@ -77,7 +84,9 @@
 </head>
 <body>
     <div class="wrapper">
-    <?php if (isset($_SESSION['id'])&&$_SESSION['id']=='0') include "navbar.php"; else include "navbar_index.php" ;?>
+    <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
+                else include "navbar_tech.php";?>
 
     <div class="container" id="content">
     <div class="page-header">
@@ -141,11 +150,12 @@
 
     <div class="input-group">
     <span class="input-group-addon">Priority</span>
-    <input type="text" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority" onchange="Number('priority')"> </div><br/>
+    <input type="number" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority" onchange="Number('priority')"> </div><br/>
     
     <div class="input-group">
     <span class="input-group-addon">Complaint By </span>
-    <input type="text" name="name" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
+    <input type="text" value = '<?= $namex ?>' disabled="" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
+    <input type="text" name="name" hidden="" value = '<?=$namex?>'>
     
 
     <input type="submit" value="Register Complaint" class="btn btn-info">
