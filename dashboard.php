@@ -24,16 +24,16 @@
         <h1>TO-DO...</h1>
         </div>
 
-        <?php
+       <?php
+            if ( isset($_SESSION['error']) )
+            {
+                echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+                unset($_SESSION['error']);
+            }
             if ( isset($_SESSION['success']))
             {
-                echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+                echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
-            }
-            if ( isset($_SESSION['error']))
-            {
-                echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-                unset($_SESSION['error']);
             }
 
             if($_SESSION['id']=='0')

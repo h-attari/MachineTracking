@@ -15,7 +15,7 @@
     {
         if ( strlen($_POST['id']) < 1 || strlen($_POST['first_name']) < 1 || strlen($_POST['last_name']) < 1 || strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1 || strlen($_POST['c_pass']) < 1 || strlen($_POST['supcd']) < 1|| strlen($_POST['contact_no']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: signup.php');
             return;
         }
@@ -26,7 +26,7 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row['COUNT(*)'] !== '0')
             {
-                $_SESSION['error'] = "This ID already exists";
+                $_SESSION['error'] = "This ID already exists<br>";
                 header('Location: signup.php');
                 return;
             }
@@ -35,7 +35,7 @@
             {
                 if(strlen($_POST['pass'])<8)
                 {
-                    $_SESSION['error'] = "Password must be atleast 8 character long";
+                    $_SESSION['error'] = "Password must be atleast 8 character long<br>";
                     header('Location: signup.php');
                     return;
                 }
@@ -43,7 +43,7 @@
                 {
                     if($_POST['supcd']!==$signupcode)
                     {
-                        $_SESSION['error'] = "Invalid Sign Up Code";
+                        $_SESSION['error'] = "Invalid Sign Up Code<br>";
                         header('Location: signup.php');
                         return;           
                     }
@@ -55,14 +55,14 @@
                       ':cn' => $_POST['contact_no']));
 
 
-                    $_SESSION['success'] = "Sign Up Successful";
+                    $_SESSION['success'] = "Sign Up Successful<br>";
                     header('Location: index.php');
                     return;
                 }
             }
             else
             {
-                $_SESSION['error'] = "Passwords do not match";
+                $_SESSION['error'] = "Passwords do not match<br>";
                 header('Location: signup.php');
                 return;
             }
@@ -134,11 +134,11 @@
     <h1 class="white align-center">Sign Up</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
+        if ( isset($_SESSION['error']) )
+        {
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
     ?>
     <div data-aos="flip-left" class=row>
       <form method="POST" action="signup.php" class="col-xs-6 col-xs-offset-3">

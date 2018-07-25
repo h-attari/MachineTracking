@@ -28,11 +28,11 @@
 
                         $stmt = $pdo->prepare('UPDATE hardware SET state = 0 where hardware_id = :hid');
                     $stmt->execute(array(':hid' => $_POST['dev_id']));
-                    $_SESSION['success'] ="Device unplaced Successfully\n";
+                    $_SESSION['success'] ="Device unplaced Successfully<br>";
                 }
                 else
                 {
-                    $_SESSION['error'] = "Device does not Exists\n";
+                    $_SESSION['error'] = "Device does not Exists<br>";
                 }
             
             header('Location: viewdev.php');
@@ -69,15 +69,15 @@
     <h1>Are You Sure?</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

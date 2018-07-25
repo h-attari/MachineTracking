@@ -20,7 +20,7 @@ X-UA-Compatible<?php
 
         if($row['COUNT(*)']==='0')
         {
-            $_SESSION['error'] = "This Machine does not exist";
+            $_SESSION['error'] = "This Machine does not exist<br>";
             header('Location: viewmchistory.php');
             return;
         }
@@ -45,16 +45,15 @@ X-UA-Compatible<?php
     <h1>MACHINE HISTORY</h1>
     </div>
     <?php
-
+        if ( isset($_SESSION['error']) )
+        {
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
         if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
-        }
-        if ( isset($_SESSION['error']))
-        {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-            unset($_SESSION['error']);
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
 
         //echo('<p><a href="logout.php">Logout</a></p>');
@@ -228,7 +227,7 @@ X-UA-Compatible<?php
         }
         else
         {
-            $_SESSION['error'] = "This Machine does not exist";
+            $_SESSION['error'] = "This Machine does not exist<br>";
             header('Location: viewmchis.php');
             return;
         }

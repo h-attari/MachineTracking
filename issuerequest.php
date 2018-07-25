@@ -21,7 +21,7 @@
     {
         if ( strlen($_POST['id']) < 1 || strlen($_POST['first_name']) < 1 || strlen($_POST['last_name']) < 1 || strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1 || strlen($_POST['c_pass']) < 1|| strlen($_POST['contact_no']) < 1)
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: add_member.php');
             return;
         }
@@ -32,7 +32,7 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if($row['COUNT(*)'] !== '0')
             {
-                $_SESSION['error'] = "This ID already exists";
+                $_SESSION['error'] = "This ID already exists<br>";
                 header('Location: add_member.php');
                 return;
             }
@@ -41,7 +41,7 @@
             {
                 if(strlen($_POST['pass'])<8)
                 {
-                    $_SESSION['error'] = "Password must be atleast 8 character long";
+                    $_SESSION['error'] = "Password must be atleast 8 character long<br>";
                     header('Location: add_member.php');
                     return;
                 }
@@ -51,14 +51,14 @@
                     $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,"2",:cn)');
                     $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check,':cn' => $_POST['contact_no']));
 
-                    $_SESSION['success'] = "Member Added Successfully";
+                    $_SESSION['success'] = "Member Added Successfully<br>";
                     header('Location: home.php');
                     return;
                 }
             }
             else
             {
-                $_SESSION['error'] = "Passwords do not match";
+                $_SESSION['error'] = "Passwords do not match<br>";
                 header('Location: add_member.php');
                 return;
             }
@@ -92,15 +92,15 @@
     </div>
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

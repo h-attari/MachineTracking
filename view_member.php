@@ -36,12 +36,12 @@
 
         if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
         }
         if ( isset($_SESSION['error']))
         {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
             unset($_SESSION['error']);
         }
         //echo('<p><a href="logout.php">Logout</a></p>');
@@ -53,13 +53,16 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM member WHERE role=0 ORDER BY id");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
+                <tr> <th>S.no.</th><th>I.D.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 echo ("<tr>");
                 echo ("<td>");
                 echo($i);
                 echo("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['id']));
+                echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['first_name']));
                 echo ("</td>");
@@ -80,12 +83,12 @@
 
         if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
         }
         if ( isset($_SESSION['error']))
         {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
             unset($_SESSION['error']);
         }
         //echo('<p><a href="logout.php">Logout</a></p>');
@@ -97,13 +100,16 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM member WHERE role=1 ORDER BY id");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
+                <tr> <th>S.no.</th><th>I.D.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 echo ("<tr>");
                 echo ("<td>");
                 echo($i);
                 echo("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['id']));
+                echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['first_name']));
                 echo ("</td>");
@@ -124,12 +130,12 @@
 
         if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
         }
         if ( isset($_SESSION['error']))
         {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
             unset($_SESSION['error']);
         }
         //echo('<p><a href="logout.php">Logout</a></p>');
@@ -141,13 +147,16 @@
             $i=1;
             $stmtread = $pdo->query("SELECT * FROM member WHERE role=2 ORDER BY id");
             echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
+                <tr> <th>S.no.</th><th>I.D.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
             while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
             {
                 echo ("<tr>");
                 echo ("<td>");
                 echo($i);
                 echo("</td>");
+                echo ("<td>");
+                echo(htmlentities($row['id']));
+                echo ("</td>");
                 echo ("<td>");
                 echo(htmlentities($row['first_name']));
                 echo ("</td>");

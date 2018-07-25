@@ -22,7 +22,7 @@
     {
         if ( strlen($_POST['hid']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: fromrepairmc.php');
             return;
         }
@@ -51,13 +51,13 @@
                 $stmt = $pdo->prepare('UPDATE device_repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE hardware_id = :hid AND final_date = "0000-00-00"');
                     $stmt->execute(array(':hid' => $_POST['hid'], ':fdate' => date('y-m-d'), ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
 
-                $_SESSION['success'] = "Hardware returned from Repair Successfully";
+                $_SESSION['success'] = "Hardware returned from Repair Successfully<br>";
                 header('Location: home.php');
                 return;
             }
             else
             {
-                $_SESSION['error'] = "Hardware does not Exist in Repair House";
+                $_SESSION['error'] = "Hardware does not Exist in Repair House<br>";
                     header('Location: fromrepairmc.php');
                     return;
             }
@@ -94,22 +94,22 @@
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
         </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
 
          $checkinactive=$pdo ->query("SELECT count(*) from machine where state='INACTIVE'");
         $rowcheck=$checkinactive->fetch(PDO::FETCH_ASSOC);
         if($rowcheck['count(*)']==0)
         {
-            $_SESSION['error']="None of the machines are sent for repairing";
+            $_SESSION['error']="None of the machines are sent for repairing<br>";
             header('Location: home.php');
             return;
         }

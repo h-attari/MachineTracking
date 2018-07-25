@@ -18,7 +18,7 @@
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['lab']) < 1 || strlen($_POST['from']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: posmc.php');
             return;
         }
@@ -40,7 +40,7 @@
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($row['COUNT(*)'] === '0')
                 {
-                    $_SESSION['error'] = "This Lab does not exist";
+                    $_SESSION['error'] = "This Lab does not exist<br>";
                     header('Location: posmc.php');
                     return;
                 }
@@ -64,11 +64,11 @@
                         $fdate="0000-00-00";
                     $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
                         $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => date('y-m-d',strtotime($_POST['from'])), ':fdate' => $fdate));
-                    $_SESSION['success'] .= $i."Machine Positioned Successfully";
+                    $_SESSION['success'] .= $i."Machine Positioned Successfully<br>";
                 }
                 else
                 {
-                    $_SESSION['error']="Machine ".$i." is already placed";
+                    $_SESSION['error']="Machine ".$i." is already placed<br>";
                 }
             }
         }
@@ -104,15 +104,15 @@
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

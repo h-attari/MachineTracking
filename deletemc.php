@@ -18,7 +18,7 @@
     {
         if ( strlen($_POST['mac_addr']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: deletemc.php');
             return;
         }
@@ -48,11 +48,11 @@
 
                      $stmt = $pdo->prepare('DELETE FROM machine WHERE mac_addr = :mac_addr');
                         $stmt->execute(array(':mac_addr' => $i));
-                    $_SESSION['success'].="Machine".$i." deleted Successfully\n";
+                    $_SESSION['success'].="Machine".$i." deleted Successfully<br>";
                 }
                 else
                 {
-                    $_SESSION['error'] = "Other Machines does not Exists\n";
+                    $_SESSION['error'] = "Other Machines does not Exists<br>";
                     $flag++;
                 }
             }
@@ -92,15 +92,15 @@
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
         </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 
@@ -112,7 +112,7 @@
 
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS (to)</span>
-    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id" id="mce" onchange="Number('mce')"> </div><br/>
+    <input type="text" name="mac_addr2" class="form-control" placeholder="Ending machine id" id="mce" onchange="check('mce')"> </div><br/>
 
 
     <input type="submit" value="Delete Machine" class="btn btn-info">

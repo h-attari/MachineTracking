@@ -7,12 +7,16 @@
         header("Location: index.php");
         return;
     }
+    if(!isset($_SESSION['id']))
+    {
+        die("ACCESS DENIED");
+    }
 
     if(isset($_POST['department']) )
     {
         if ( strlen($_POST['department']) < 1 || strlen($_POST['purpose']) < 1)
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: issue_request.php');
             return;
         }
@@ -21,21 +25,26 @@
                  
                 
                 $date=date('y-m-d');
+                $stmt=$pdo->prepare("SELECT name_id from name WHERE name =:name");
+                $stmt->execute(array(":name"=>$_POST['hardware']));
+                $rowname=$stmt->fetch(PDO::FETCH_ASSOC);
                 $stmt = $pdo->prepare('INSERT INTO `issue_request`( `department`, `id`, `purpose`, `date_of_request`, `name_of_hardware`) VALUES (:department,:id,:purpose, :dat,:hardware)');
                     $stmt->execute(array(':dat' => date('y-m-d'),
                       ':department' => $_POST['department'],
                        ':purpose' => $_POST['purpose'],
                        ':id'=>$_SESSION['id'],
-                       ':hardware'=>$_POST['hardware_id']
+                       ':hardware'=>$rowname['name_id']
                    ));
-                $_SESSION['success'] = "Issue Request Sent Successfully";
+                    echo $rowname['name_id'].$_POST['hardware'];
+                $_SESSION['success'] = "Issue Request Sent Successfully<br>";
+
                     if(isset($_SESSION['id']))
                         header("Location:home.php");
                     else
                         header('Location: index.php');
                         
                     return;
-            
+          
 
         }
     }
@@ -67,15 +76,15 @@
     </div>
      <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 
@@ -90,7 +99,7 @@
     <input type="text" name="purpose" required="" class="form-control" id="purp" onchange="Purpose('purp')"> </div><br/>
     <div class="input-group">
     <span class="input-group-addon">Hardware Name</span>
-    <select name="hardware_id" class="form-control">
+    <select name="hardware" class="form-control">
            <?php
                 $qr=$pdo->query("SELECT * FROM hardware WHERE state=0 GROUP BY description");
                 while($row=$qr->fetch(PDO::FETCH_ASSOC))
@@ -101,7 +110,7 @@
                     $name->execute(array(":name"=>$row['name']));
                     $namer=$name->fetch(PDO::FETCH_ASSOC);
                     $pron = $pro->fetch(PDO::FETCH_ASSOC);
-                    echo "<option value=".$row['hardware_id'].">".$namer['name'].' '.$pron['spec']."</option>";
+                    echo "<option value ='". $namer['name']."'>".$namer['name'].' '.$pron['spec']."</option>";
                 }
             ?>   
     </select>

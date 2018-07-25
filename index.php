@@ -15,7 +15,7 @@
         unset($_SESSION['id']);
         if ( strlen($_POST['id']) < 1 || strlen($_POST['pass']) < 1 )
         {
-            $_SESSION['error'] = "User name and password are required";
+            $_SESSION['error'] = "User name and password are required<br>";
             header('Location: index.php');
             return;
         }
@@ -35,7 +35,7 @@
                 }
                 else
                 {
-                    $_SESSION['error'] = "Incorrect ID or Password";
+                    $_SESSION['error'] = "Incorrect ID or Password<br>";
                     header("Location: index.php");
                     return;
                 }
@@ -69,15 +69,15 @@
     <h1>Machine Tracking</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
     <div class="row">

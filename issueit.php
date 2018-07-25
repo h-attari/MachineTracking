@@ -30,12 +30,38 @@
         header("Location:home.php");
         return;
     }
+    $stmt ->execute(array(":id"=> $_GET['id']));
+    $stmt=$pdo->prepare("SELECT * FROM issue_request where issue_report_id = :id");
+    $stmt->execute(array(":id"=>$_GET['id']));
+    $request=$stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT state FROM hardware WHERE hardware_id = :hid");
+    $stmt ->execute(array(":hid"=>$_GET['dev_id']));
+    $rowr=$stmt->fetch(PDO::FETCH_ASSOC);
+    if($rowr['state']!=0)
+    {
+        $_SESSION['error']="Unable to Issue hardware ".$_GET['dev_id'].". This is either issue to someone or placed in a lab<br>".
+        header("Location:home.php");
+        return;
+    }
+    $stmt=$pdo->prepare("INSERT INTO hardware_position
+        (hardware_id,member_id,initial_date,final_date)
+        VALUES
+        (:hid,:memberid,:idate,:fdate)
+        ");
+    $dat=date('y-m-d');
+    $stmt->execute(array(
+        ":hid" => $_GET['dev_id'],
+        ":memberid" => $request['id'],
+        ":idate" => $dat,
+        ":fdate" => '0-0-0'
+    ));
+    $stmt=$pdo->prepare("UPDATE hardware SET state = '2' WHERE hardware_id = :id");
+    $stmt->execute(array(":id"=>$_GET['dev_id']));
     $stmt=$pdo->prepare("DELETE FROM issue_request WHERE issue_report_id = :id");
     $stmt->execute(array(":id"=>$_GET['id']));
-    $_SESSION['success'].="Request Successfully Deleted<br>";
+    $_SESSION['success'].="Hardware Issued";
     header("Location:home.php");
     return;
-    
 ?>
 <html>
 <head>
@@ -60,6 +86,7 @@
                 else include "navbar_tech.php";?>
       <div class="container-fluid row" id="content">
         <div class="page-header">
+   
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

@@ -43,7 +43,8 @@
     if(isset($_POST['mac_addr']) )
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['price']) < 1 || strlen($_POST['dop']) < 1)
-        {
+        {echo ("<table class=\"table table-striped\">
+                <tr> <th>S.no.</th><th>I.D.</th><th>First Name</th><th>Last Name</th><th>Email</th> </tr>");
             $_SESSION['error'] = "All Fields are required";
             header('Location: addmc.php');
             return;
@@ -133,7 +134,7 @@
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     if($row['COUNT(*)'] !== '0')
                     {
-                        $_SESSION['error'] = "Other Machines already exists";
+                        $_SESSION['error'] = "Other Machines already exists<br>";
                         $mcid++;
                         continue;
                     }
@@ -175,8 +176,7 @@
                     $stmt = $pdo->prepare('INSERT INTO machine (MAC_ADDR, processor, ram, memory, dop, price, state, os, monitor, keyboard, mouse, grn) VALUES (:mac_addr, :processorid, :ramid, :hdid, :dop, :price, :state, :os, :monitorid, :keyboardid, :mouseid, :grn)');
                         $stmt->execute(array(':mac_addr' => $mcid, ':grn' => $_POST['grn'], ':dop' => $_POST['dop'], ':price' => $_POST['price'], ':state' => "ACTIVE", ':os' => $_POST['os'], ':processorid' => $processorid, ':ramid' => $ramid, ':hdid' => $hdid, ':monitorid' => $monitorid, ':keyboardid' => $keyboardid, ':mouseid' => $mouseid));
                     
-                    $_SESSION['success'] .= "Machine ".$mcid." Added Successfully";
-                        
+                    $_SESSION['success'] .= "Machine ".$mcid." Added Successfully <br>";
                         $mcid++;
                 }
                 header('Location: home.php');
@@ -217,12 +217,12 @@
     <?php
     if ( isset($_SESSION['error']) )
     {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+        echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
         unset($_SESSION['error']);
     }
     if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
         }
     ?>
@@ -347,18 +347,18 @@
        <option value="osx">OS X</option>
    </select>
      </div><br/>
+    <div class="input-group">
+    <span class="input-group-addon">Other Details</span>
+    <input type="text" name="other" class="form-control"> </div><br/>   
     
     <div class="input-group">
     <span class="input-group-addon">Price of Purchase  &#8377 </span>
-    <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')" placeholder="0000000"> </div><br/>
+    <input type="text" name="price" required="" class="form-control" id="price" onchange="Number('price')" placeholder="Individaul PC Cost"> </div><br/>
     
     <!--div class="input-group">
     <span class="input-group-addon">Date of Purchase</span-->
     <input type="text"  name="dop" hidden="" id="date" value = '<?= date('y-m-d') ?>'> <!--/div><br/-->
     
-    <div class="input-group">
-    <span class="input-group-addon">Other Details</span>
-    <input type="text" name="other" class="form-control"> </div><br/>   
 
     <div class="input-group">
         <span class="input-group-addon">Company Name</span>

@@ -30,12 +30,12 @@
         <?php
             if ( isset($_SESSION['success']))
             {
-                echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+                echo('<p style="color: green;">'.$_SESSION['success']."</p>");
                 unset($_SESSION['success']);
             }
             if ( isset($_SESSION['error']))
             {
-                echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+                echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
                 unset($_SESSION['error']);
             }
 
@@ -271,15 +271,13 @@
                     $stmtcnt2 = $pdo->prepare("SELECT COUNT(*) FROM system_transfer_report where trid =:trid");
                     $stmtcnt2->execute(array(':trid' => $row['transfer_request_id']));
                     $row2 = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-                    if(!is_null($row2))
+                    if($row2==True)
                     {
                         $flag++;    
                     }
                 }
                 if($flag==0)
                 {
-                    if($row['COUNT(*)']!=='0')
-                    {
                     echo "<h2>Computer Transfer Requests</h2>";
                     $i=1;
                     $stmtread = $pdo->query("SELECT * FROM transfer_request");
@@ -345,8 +343,7 @@
                     }
                     echo('</table>');
                 }
-            }
-
+                //ISSUE BEGINS
                 $stmt=$pdo->query("SELECT COUNT(*) FROM issue_request");
                 $row=$stmt->fetch(PDO::FETCH_ASSOC);
                 if($row['COUNT(*)']>0)
@@ -361,21 +358,22 @@
                         echo "<tr>";
                             echo "<td>".$i++."</td>";
                             echo "<td>";
-                                $stmtname=$pdo->prepare("SELECT first_name,last_name FROM member where id = :id");
-                                $stmtname->execute(array(":id"=>$_SESSION['id']));
+                                $stmtname=$pdo->prepare("SELECT first_name,last_name FROM member where member_id = :id");
+                                $stmtname->execute(array(":id"=>$row2['id']));
                                 $name=$stmtname->fetch(PDO::FETCH_ASSOC);
                                 echo $name['first_name'].' '.$name['last_name'];
                             echo "</td>";
                             echo "<td>";
+                            /*
                                 $stmtname=$pdo->prepare("SELECT description from hardware where hardware_id = :name");
                                 $stmtname->execute(array(":name"=>$row2['name_of_hardware']));
                                 $name=$stmtname->fetch(PDO::FETCH_ASSOC);
-                               // echo $name['description'];
-
-                                $stmtname1=$pdo->prepare("SELECT spec from specification where spec_id = :name");
-                                $stmtname1->execute(array(":name"=>$name['description']));
-                                $name1=$stmtname1->fetch(PDO::FETCH_ASSOC);
-                                echo $name1['spec'];
+                                echo $name['description'];
+                            */
+                            $stmtname=$pdo->prepare("SELECT name from name WHERE name_id = :name");
+                            $stmtname->execute(array(":name"=>$row2['name_of_hardware']));
+                            $rowname=$stmtname->fetch(PDO::FETCH_ASSOC);
+                            echo $rowname['name'];
                             echo "</td>";
                             echo "<td>";
                                 echo $row2['purpose'];
@@ -384,7 +382,7 @@
                                 echo $row2['date_of_request'];
                             echo "</td>";
                             echo "<td>";
-                                echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."'>Issue</a>/
+                                echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."&name_id=".$row2['name_of_hardware']."'>Issue</a>/
                                 <a class='link-red' href='delete_issue_request.php?id=".$row2['issue_report_id']."'>Delete</a>";
                             echo "</td>";
                         echo "</tr>";

@@ -23,7 +23,7 @@
     {
         if ( strlen($_POST['hardware_id']) < 1 || strlen($_POST['details']) < 1 || strlen($_POST['priority']) < 1 || strlen($_POST['name']) < 1)
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             die("awf");
             header('Location: device_complaint_form.php');
             return;
@@ -37,7 +37,7 @@
                 {
                     $stmt = $pdo->prepare('INSERT INTO hardware_complaint_book (date_of_complaint, hardware_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
                     $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $_POST['hardware_id'], ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
-                    $_SESSION['success'] = "Complaint Registered Successfully";
+                    $_SESSION['success'] = "Complaint Registered Successfully<br>";
                     if(isset($_SESSION['id']))
                     {
                         header('Location: home.php');
@@ -51,7 +51,7 @@
                 }
                 else
                 {
-                    $_SESSION['success'] = "Machine is already in Repair";
+                    $_SESSION['success'] = "Machine is already in Repair<br>";
                     if(isset($_SESSION['id']))
                     {
                         header('Location: home.php');
@@ -94,15 +94,15 @@
     </div>
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

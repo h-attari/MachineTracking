@@ -69,7 +69,6 @@ function Supplier()
 {
 
 	val = document.getElementById('drop-supplier').value;
-	alert(val);
 	if(val=="Other")
 	{
 		document.getElementById('other-supplier').disabled=false;
@@ -253,5 +252,29 @@ function Purpose(val)
 	{
 		document.getElementById('error').innerHTML=null;
 		return true;
+	}
+}
+function check(val)
+{
+	var m=/^[0-9]+$/;
+	if(m.test(document.getElementById(val).value))
+	{
+		if(document.getElementById(val).value<document.getElementById('mcs').value)
+		{
+			document.getElementById('error').innerHTML="Computer No.(to) should not be less than Computer No.(from)";
+			document.getElementById(val).value="";
+			return false;
+		}
+		else
+		{
+			document.getElementById('error').innerHTML=null;
+			return true;
+		}
+	}
+	else
+	{
+		document.getElementById('error').innerHTML="Invalid Input";
+		document.getElementById(val).value="";
+		return false;
 	}
 }

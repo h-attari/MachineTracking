@@ -24,11 +24,13 @@
                 {
                      $stmt = $pdo->prepare('UPDATE hardware SET state=0 WHERE hardware_id = :hid');
                         $stmt->execute(array(':hid' => $_POST['dev_id']));
-                    $_SESSION['success'] ="Device Returned Successfully\n";
+                    $stmt = $pdo->prepare("UPDATE hardware_position SET final_date =:fdate WHERE hardware_id = :hid AND (final_date = '0000-00-00' OR final_date = '1970-01-01')");
+                    $stmt->execute(array(":hid"=>$_POST['dev_id'],":fdate"=>date('y-m-d')));
+                    $_SESSION['success'] ="Device Returned Successfully<br>";
                 }
                 else
                 {
-                    $_SESSION['error'] = "Device does not Exists\n";
+                    $_SESSION['error'] = "Device does not Exists<br>";
                 }
             
             header('Location: viewdev.php');
@@ -65,15 +67,15 @@
     <h1>Are You Sure?</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
     <?php
@@ -81,7 +83,7 @@
         $stmt->execute(array(":hid"=>$_GET['dev_id']));
         $member=$stmt->fetch(PDO::FETCH_ASSOC);
         $member=$member['member_id'];
-        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE id =:id");
+        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE member_id =:id");
         $stmt->execute(array(":id"=>$member));
         $name=$stmt->fetch(PDO::FETCH_ASSOC);
         $name=$name['first_name'].' '.$name['last_name'];

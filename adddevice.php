@@ -94,19 +94,23 @@
             {
                 //This will insert in company if alert server new is 1 it is alert that will be issued if other device is selected. First entry will be made then id will be selected
 
-
-                $req=$pdo->prepare('SELECT * from supplier where supname = :supname');
+                $req=$pdo->prepare('SELECT *,COUNT(*) from supplier where supname = :supname');
                 $req->execute(array(':supname'=>$_POST['supplier']));
                 $rowrr=$req->fetch(PDO::FETCH_ASSOC);
-                if($rowrr == false)
+                if($rowr['COUNT(*)']==0)
                 {
-                    $req=$pdo->prepare('INSERT INTO name(name) VALUES(:name)');
-                    $req->execute(array(':name'=>$_POST['supplier']));
-                    $supname=$_POST['supplier'];    
+                    $req=$pdo->prepare('INSERT INTO supplier(supname) VALUES(:name)');
+                    $req->execute(array(':name'=>$_POST['supplier2']));
+                    $supname=$_POST['supplier2'];    
+                    $stmt = $pdo->prepare("SELECT * FROM supplier WHERE supname = :name");
+                    $stmt->execute(array(":name" => $supname));
+                    $smn = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $smn = $_POST['supplier2'];
                 }
                 else
                 {
                     $supname=$_POST['supplier2'];
+                    $smn = $_POST['supplier2'];
                 }
 
             }
@@ -158,10 +162,10 @@
                  ':name' => $name_id,
                     ':smn' => $supplier_id,
                     ':dop' => $_POST['dop']));
+            }
                 $_SESSION['success'] = "Device Added Successfully";
                 header('Location: home.php');
                 return;
-            }
         }
     }
 ?>
@@ -195,12 +199,12 @@
         <?php
         if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
             unset($_SESSION['error']);
         }
         if ( isset($_SESSION['success']))
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
                 unset($_SESSION['success']);
         }
         ?>
@@ -306,7 +310,7 @@
 
         <div class="input-group">
         <span class="input-group-addon">Quantity </span>
-        <input type="text" name="qty" required class="form-control" id="qty" onchange="Number('qty')"placeholder="Total Quantity"> </div><br/>
+        <input type="number" name="qty" required class="form-control" id="qty" onchange="Number('qty')"placeholder="Total Quantity"> </div><br/>
 
         <input type="submit" value="Add Device" class="btn btn-info">
         <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>

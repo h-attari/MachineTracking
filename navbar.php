@@ -50,6 +50,9 @@
                     <li>
                         <a href="viewmchistory.php">Computer History</a>
                     </li>
+                    <li>
+                        <a href="viewsummary.php">Stock Table</a>
+                    </li>
                     <li class="">
                         <a href="#membermenu" data-toggle="collapse" aria-expanded="false">Members</a>
                         <ul class="collapse list-unstyled" id="membermenu">

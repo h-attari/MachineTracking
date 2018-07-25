@@ -37,7 +37,7 @@
 
                 if($rowq['state']!='0' || $rowname['name']!='processor')
                 {
-                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    $_SESSION['error'] = "Wrong Hardware ID selected<br>";
                     header("Location:home.php");
                     return;
                 }
@@ -61,7 +61,7 @@
 
                 if($rowq['state']!='0' || $rowname['name']!='ram')
                 {
-                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    $_SESSION['error'] = "Wrong Hardware ID selected<br>";
                     header("Location:home.php");
                     return;
                 }
@@ -85,7 +85,7 @@
 
                 if($rowq['state']!='0' || $rowname['name']!='harddisk')
                 {
-                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    $_SESSION['error'] = "Wrong Hardware ID selected<br>";
                     header("Location:home.php");
                     return;
                 }
@@ -109,7 +109,7 @@
 
                 if($rowq['state']!='0' || $rowname['name']!='monitor')
                 {
-                    $_SESSION['error'] = "Wrong Hardware ID selected";
+                    $_SESSION['error'] = "Wrong Hardware ID selected<br>";
                     header("Location:home.php");
                     return;
                 }
@@ -178,7 +178,7 @@
         else
         {
                  
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: home.php');
             return;
         }
@@ -209,15 +209,15 @@
     </div>
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

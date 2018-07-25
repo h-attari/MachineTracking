@@ -22,7 +22,7 @@
     {
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: fromrepairmc.php?mc_id='.$_GET['mc_id']);
             return;
         }
@@ -192,7 +192,7 @@
 
                 }
 
-                $_SESSION['success'] = "Machine returned from Repair Successfully";
+                $_SESSION['success'] = "Machine returned from Repair Successfully<br>";
                 header("Location: printcomprem.php?mc_id=$mid&date=$date");
                 echo("<script>
          window.open('printcomprem.php?mc_id=$mid&date=$date', '_blank'); 
@@ -202,7 +202,7 @@
             }
             else
             {
-                $_SESSION['error'] = "Machine does not Exist in Repair House";
+                $_SESSION['error'] = "Machine does not Exist in Repair House<br>";
                     header('Location: fromrepairmc.php');
                     return;
             }
@@ -239,22 +239,22 @@
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;">
         </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
 
          $checkinactive=$pdo ->query("SELECT count(*) from machine where state='INACTIVE'");
         $rowcheck=$checkinactive->fetch(PDO::FETCH_ASSOC);
         if($rowcheck['count(*)']==0)
         {
-            $_SESSION['error']="None of the machines are sent for repairing";
+            $_SESSION['error']="None of the machines are sent for repairing<br>";
             header('Location: home.php');
             return;
         }

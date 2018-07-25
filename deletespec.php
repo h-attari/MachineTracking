@@ -19,7 +19,7 @@
     {
         if ( strlen($_POST['spec']) < 1 )
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: deletespec.php');
             return;
         }
@@ -35,13 +35,13 @@
             {
                  $stmt = $pdo->prepare('DELETE FROM specification WHERE spec = :spec AND name_id= :hardware');
                     $stmt->execute(array(':spec' => $_POST['spec'],':hardware' => $hardware['name_id']));
-                $_SESSION['success'] = "The specification was Deleted Successfully";
+                $_SESSION['success'] = "The specification was Deleted Successfully<br>";
                 header('Location: home.php');
                 return;
             }
             else
             {
-                $_SESSION['error'] = "Specification does not Exists";
+                $_SESSION['error'] = "Specification does not Exists<br>";
                     header('Location: deletespec.php');
                     return;
             }
@@ -76,15 +76,15 @@
     <h1>DELETE SPECIFICATION</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 

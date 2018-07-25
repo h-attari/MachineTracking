@@ -29,7 +29,7 @@
     {
         if ( strlen($_POST['remarks']) < 1)
         {
-            $_SESSION['error'] = "All Fields are required";
+            $_SESSION['error'] = "All Fields are required<br>";
             header('Location: mcrepaired.php?hid='.$_GET['hid']);
             return;
         }
@@ -39,7 +39,7 @@
             $stmt = $pdo->prepare('UPDATE hardware_complaint_book SET remarks = :rem, completed = 1 WHERE hardware_complaint_book_id = :hid AND remarks IS NULL');
             $stmt->execute(array(':rem' => $_POST['remarks'], ':hid' => $_GET['hid']));
 
-            $_SESSION['success'] = "Machine Repaired";
+            $_SESSION['success'] = "Machine Repaired<br>";
                 header('Location: home.php');
                 return;
             
@@ -74,15 +74,15 @@
     <h1>MACHINE FIXED</h1>
     </div>
     <?php
-    if ( isset($_SESSION['error']) )
-    {
-        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-        unset($_SESSION['error']);
-    }
-    if ( isset($_SESSION['success']))
+        if ( isset($_SESSION['error']) )
         {
-            echo('<p style="color: green;">'.htmlentities($_SESSION['success'])."</p>\n");
-                unset($_SESSION['success']);
+            echo('<p style="color: red;">'.$_SESSION['error']."</p>\n");
+            unset($_SESSION['error']);
+        }
+        if ( isset($_SESSION['success']))
+        {
+            echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
+            unset($_SESSION['success']);
         }
     ?>
 
